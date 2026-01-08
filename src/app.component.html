@@ -1,0 +1,217 @@
+<app-navbar></app-navbar>
+
+<!-- HERO SECTION -->
+<!-- Added (click) handler here to restrict effect to this section only -->
+<section (click)="spawnCode($event)"
+  class="relative min-h-screen flex items-center justify-center pt-32 md:pt-20 overflow-hidden bg-grid z-10 cursor-crosshair">
+
+  <!-- PARTICLE CONTAINER (ABSOLUTE within HERO) -->
+  <!-- Z-20: Above background/gradient, below content. Pointer events none to allow clicks to pass through to section handler if needed, but section handles it now -->
+  <div #particleContainer class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
+
+  <!-- Radial Gradient Overlay - Z-10: Behind Particles -->
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/80 to-black pointer-events-none z-10"></div>
+
+  <!-- Content Container - Z-30: Above Particles -->
+  <div class="container mx-auto px-6 relative z-30 grid lg:grid-cols-2 gap-12 items-center pointer-events-none">
+    <!-- Note: Added pointer-events-auto to interactive children so they still work -->
+    <div #animateSection class="space-y-8 pointer-events-auto">
+
+      <h1 class="text-4xl md:text-7xl font-bold tracking-tighter text-white text-balance leading-tight">
+        Ingeniería Digital <br />
+        <!-- Rotating Text Container -->
+        <span class="relative inline-flex w-full h-[1.2em] overflow-hidden">
+          @for (word of rotatingWords; track $index) {
+          <span class="absolute left-0 top-0 transition-all duration-500 ease-spring text-neutral-500"
+            [class.opacity-100]="$index === currentWordIndex()" [class.opacity-0]="$index !== currentWordIndex()"
+            [style.transform]="$index === currentWordIndex() ? 'translateY(0)' : ($index < currentWordIndex() ? 'translateY(-100%)' : 'translateY(100%)')">
+            {{ word }}
+          </span>
+          }
+        </span>
+      </h1>
+      <p class="text-lg md:text-xl text-neutral-400 max-w-lg leading-relaxed">
+        Desarrollo web a medida, contacto constante y rendimiento extremo. Transformamos ideas en código eficiente.
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <!-- Replaced standard CTA with TextScramble -->
+        <a href="#contacto" class="inline-flex">
+          <app-text-scramble text="PEDIR PRESUPUESTO"
+            className="text-white text-sm font-semibold px-4 py-2"></app-text-scramble>
+        </a>
+
+        <a href="#servicios"
+          class="border border-white/20 text-white px-8 py-3 rounded text-sm font-semibold hover:bg-white/5 transition-colors bg-black/50 backdrop-blur-sm">
+          Ver Servicios
+        </a>
+      </div>
+    </div>
+
+    <!-- Terminal (Desktop only) -->
+    <div #animateSection class="hidden lg:flex justify-end mt-0 pointer-events-auto">
+      <app-terminal></app-terminal>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK MARQUEE (Simple CSS) -->
+<div class="py-8 bg-black border-y border-white/10 overflow-hidden relative z-30">
+  <div class="flex space-x-12 animate-pulse justify-center opacity-50">
+    @for (tech of techStack; track $index) {
+    <span class="text-neutral-500 font-mono text-sm tracking-widest uppercase">{{ tech }}</span>
+    }
+  </div>
+</div>
+
+<!-- SERVICES SECTION -->
+<section id="servicios" class="py-32 bg-black relative z-30">
+  <div class="container mx-auto px-6">
+    <div #animateSection class="mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Soluciones de Ingeniería</h2>
+      <p class="text-neutral-400 max-w-xl">Desde landing pages ultrarrápidas hasta sistemas complejos de automatización.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      @for (service of services; track $index) {
+      <div #animateSection class="glass-panel p-8 rounded-lg hover:border-white/20 transition-colors group bg-black/80">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-semibold text-white group-hover:text-neutral-200 transition">{{ service.title }}</h3>
+          <span class="text-sm font-mono text-neutral-500 border border-white/10 px-2 py-1 rounded">{{ service.price
+            }}</span>
+        </div>
+        <p class="text-neutral-400 text-sm mb-6 leading-relaxed">{{ service.description }}</p>
+        <ul class="space-y-2">
+          @for (feature of service.features; track $index) {
+          <li class="text-xs text-neutral-500 flex items-center">
+            <span class="w-1.5 h-1.5 bg-neutral-700 rounded-full mr-2 group-hover:bg-white transition-colors"></span>
+            {{ feature }}
+          </li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Spacer -->
+<div class="h-24 bg-black"></div>
+
+<!-- MAINTENANCE & HOSTING SECTION -->
+<app-maintenance-section class="relative z-30"></app-maintenance-section>
+
+<!-- Spacer -->
+<div class="h-24 bg-black"></div>
+
+<!-- SOLUTIONS SECTION -->
+<app-solutions-section class="relative z-30"></app-solutions-section>
+
+<!-- PROCESS / TIMELINE -->
+<section id="proceso" class="py-24 border-t border-white/10 bg-offblack relative z-30">
+  <div class="container mx-auto px-6">
+    <div class="mb-16 text-center">
+      <app-scroll-reveal preset="fade-up">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Metodología de Trabajo</h2>
+      </app-scroll-reveal>
+
+      <app-scroll-reveal preset="fade-up" [delay]="0.1">
+        <p class="text-neutral-400">Transparencia y velocidad en cada etapa.</p>
+      </app-scroll-reveal>
+    </div>
+
+    <div class="relative border-l border-white/10 ml-6 md:ml-12 space-y-12">
+      <!-- Step 1 -->
+      <app-scroll-reveal preset="slide-right" [delay]="0.2">
+        <div class="relative pl-8 md:pl-12">
+          <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-white rounded-full ring-4 ring-black"></span>
+          <h3 class="text-xl font-semibold text-white mb-2">Consulta y Diseño</h3>
+          <p class="text-neutral-400 max-w-2xl">Consultas siempre con el comprador sobre el diseño. Personalización
+            total al gusto del cliente.</p>
+        </div>
+      </app-scroll-reveal>
+
+      <!-- Step 2 -->
+      <app-scroll-reveal preset="slide-right" [delay]="0.3">
+        <div class="relative pl-8 md:pl-12">
+          <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-neutral-600 rounded-full ring-4 ring-black"></span>
+          <h3 class="text-xl font-semibold text-white mb-2">Desarrollo Ágil</h3>
+          <p class="text-neutral-400 max-w-2xl">Despliegue en <strong>menos de 2 semanas</strong> (normal) o
+            <strong>menos de 1 semana</strong> (express con ligero aumento).
+          </p>
+        </div>
+      </app-scroll-reveal>
+
+      <!-- Step 3 -->
+      <app-scroll-reveal preset="slide-right" [delay]="0.4">
+        <div class="relative pl-8 md:pl-12">
+          <span class="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-neutral-600 rounded-full ring-4 ring-black"></span>
+          <h3 class="text-xl font-semibold text-white mb-2">Mantenimiento y Entrega</h3>
+          <p class="text-neutral-400 max-w-2xl">Contacto constante. Webs alojadas en servidores de alta capacidad.</p>
+        </div>
+      </app-scroll-reveal>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- FAQ SECTION -->
+<app-faq-section class="relative z-30"></app-faq-section>
+
+<!-- CONTACT -->
+<section id="contacto" class="py-24 relative overflow-hidden z-30">
+  <div class="absolute inset-0 bg-neutral-900/20 skew-y-3 transform origin-bottom-left -z-10"></div>
+
+  <div class="container mx-auto px-6 max-w-2xl text-center">
+    <div #animateSection class="mb-12">
+      <h2 class="text-4xl font-bold mb-4">Empezar Proyecto</h2>
+      <p class="text-neutral-400">Cuéntanos tu idea. Te responderemos con una propuesta técnica en 24h.</p>
+    </div>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" #animateSection class="space-y-6 text-left">
+      <div>
+        <label class="block text-xs font-mono text-neutral-500 mb-2">EMAIL CORPORATIVO</label>
+        <input type="email" formControlName="email"
+          class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-white transition-colors"
+          placeholder="nombre@empresa.com">
+      </div>
+
+      <div>
+        <label class="block text-xs font-mono text-neutral-500 mb-2">DETALLES DEL PROYECTO</label>
+        <textarea formControlName="message" rows="4"
+          class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-white transition-colors resize-none"
+          placeholder="Necesito una web para..."></textarea>
+      </div>
+
+      <button type="submit" [disabled]="contactForm.invalid || formStatus === 'submitting'"
+        class="w-full bg-white text-black font-bold py-4 rounded-none border border-white hover:bg-neutral-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center font-mono tracking-widest text-xs uppercase">
+        @if (formStatus === 'submitting') {
+        <svg class="animate-spin h-5 w-5 mr-3 text-black" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        Procesando...
+        } @else if (formStatus === 'success') {
+        ¡Mensaje Enviado!
+        } @else {
+        Enviar Solicitud
+        }
+      </button>
+
+      <div class="mt-8 text-center">
+        <p class="text-neutral-500 text-sm">O contáctanos directamente:</p>
+        <a href="mailto:{{brand.email}}" class="text-white hover:underline mt-2 inline-block">{{brand.email}}</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-12 border-t border-white/10 bg-black text-center text-neutral-600 text-sm relative z-30">
+  <p>© 2024 {{ brand.name }}. Todos los derechos reservados.</p>
+  <p class="mt-2 text-xs font-mono">Diseñado con Precisión & Código.</p>
+</footer>
