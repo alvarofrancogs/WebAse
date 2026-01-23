@@ -1,6 +1,6 @@
 export const BRAND = {
-  name: 'OPTIMUR',
-  email: 'contacto@optimur.dev',
+  name: 'EmberCode Web Studio',
+  email: 'contacto@embercode.dev',
   tagline: 'Automatización. Rendimiento. Futuro.',
 };
 

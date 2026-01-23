@@ -27,7 +27,7 @@ import { BRAND } from '../app/content';
         </a>
 
         <!-- Desktop Menu -->
-        <div class="hidden md:flex space-x-8 text-sm font-medium text-neutral-400">
+        <div class="hidden md:flex space-x-8 items-center text-sm font-medium text-neutral-400">
           <a href="#servicios" class="hover:text-white transition">Servicios</a>
           <a href="#tarifas" class="hover:text-white transition">Tarifas</a>
           <a href="#proceso" class="hover:text-white transition">Proceso</a>

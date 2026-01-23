@@ -8,13 +8,14 @@ import { MaintenanceSectionComponent } from './components/sections/maintenance-s
 import { FaqSectionComponent } from './components/sections/faq-section.component';
 import { TextScrambleComponent } from './components/ui/text-scramble.component';
 import { ScrollRevealComponent } from './components/ui/scroll-reveal.component';
+import { NotFoundComponent } from './components/pages/not-found.component';
 import { MotionService } from './services/motion.service';
 import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from './app/content';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, TerminalComponent, SolutionsSectionComponent, MaintenanceSectionComponent, FaqSectionComponent, TextScrambleComponent, ScrollRevealComponent, NgOptimizedImage],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, TerminalComponent, SolutionsSectionComponent, MaintenanceSectionComponent, FaqSectionComponent, TextScrambleComponent, ScrollRevealComponent, NgOptimizedImage, NotFoundComponent],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
   styles: [`
@@ -38,6 +39,9 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   services = SERVICES;
   techStack = TECH_STACK;
 
+  // Check if we're on 404 page
+  is404Page = false;
+
   // Floating Code Logic
   snippets = CODE_SNIPPETS;
 
@@ -58,14 +62,22 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   particleContainer = viewChild<ElementRef>('particleContainer');
 
   ngOnInit() {
-    this.startRotation();
+    // Check if URL contains /404
+    this.is404Page = window.location.pathname.includes('/404') ||
+      window.location.hash.includes('404');
+
+    if (!this.is404Page) {
+      this.startRotation();
+    }
   }
 
   ngAfterViewInit() {
-    // Initialize Scroll Animations for all sections tagged with #animateSection
-    this.sectionRefs().forEach((ref) => {
-      this.motion.animateReveal(ref.nativeElement);
-    });
+    if (!this.is404Page) {
+      // Initialize Scroll Animations for all sections tagged with #animateSection
+      this.sectionRefs().forEach((ref) => {
+        this.motion.animateReveal(ref.nativeElement);
+      });
+    }
   }
 
   ngOnDestroy() {
