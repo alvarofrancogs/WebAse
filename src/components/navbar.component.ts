@@ -75,7 +75,7 @@ import { BRAND } from '../app/content';
             </a>
             
             <div class="mt-8 flex justify-between text-xs font-mono text-neutral-600">
-               <span>{{ brand.location || 'Madrid, ES' }}</span>
+               <span>{{ brand.location || 'Murcia, ES' }}</span>
                <span>{{ brand.email }}</span>
             </div>
           </div>
