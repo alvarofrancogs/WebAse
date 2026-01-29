@@ -26,7 +26,7 @@ export const SERVICES = [
 ];
 
 export const TECH_STACK = [
-  'Angular v21', 'Next.js', 'TypeScript', 'Node.js', 'Tailwind', 'GSAP', 'MySQL', 'Docker'
+  'JavaScript', 'TypeScript', 'React', 'Angular', 'Next.js', 'Node.js', 'Java', 'Tailwind', 'GSAP', 'MySQL', 'PostgreSQL', 'Docker', 'AWS'
 ];
 
 export const EDITOR_VARIANTS = [
@@ -73,18 +73,96 @@ export const EDITOR_VARIANTS = [
       '',
       '// Sin complicaciones, sin letra pequeña'
     ]
+  },
+  {
+    filename: 'seguridad.ts',
+    language: 'typescript',
+    lines: [
+      '// Protección blindada',
+      '',
+      'const firewall = new SecurityGuard({',
+      '  protection: "DDOS_SHIELD",',
+      '  encryption: "AES-256",',
+      '  status: "ACTIVE"',
+      '});',
+      '',
+      '// Duerme tranquilo 🛡️'
+    ]
+  },
+  {
+    filename: 'crecimiento.py',
+    language: 'python',
+    lines: [
+      '# Escalamos tu éxito',
+      '',
+      'def scale_business(metrics):',
+      '    if metrics.growth > EXPECTED:',
+      '        deploy_resources()',
+      '        print("Récords batidos!")',
+      '',
+      '# Preparados para todo'
+    ]
+  },
+  {
+    filename: 'analitica.sql',
+    language: 'sql',
+    lines: [
+      '-- Tus datos seguros',
+      '',
+      'SELECT revenue, happiness',
+      'FROM clients',
+      'WHERE service = "EmberCode"',
+      'ORDER BY profit DESC;',
+      '',
+      '-- 100% Satisfacción'
+    ]
+  },
+  {
+    filename: 'estilo.css',
+    language: 'css',
+    lines: [
+      '/* Diseño que enamora */',
+      '',
+      '.brand {',
+      '  appearance: "premium";',
+      '  impact: "maximum";',
+      '  animation: glow 2s infinite;',
+      '}',
+      '',
+      '/* Simplemente perfecto */'
+    ]
   }
 ];
 
 export const CODE_SNIPPETS = [
-  'export class AppComponent {}',
-  'const data = effect(() => console.log(val()));',
-  'import { provideRouter } from "@angular/router";',
-  'grid-template-columns: repeat(3, 1fr);',
-  'npm run dev',
-  'const { signal } = @angular/core;',
-  'await fetch("/api/data");',
-  'display: flex; align-items: center;',
-  'git commit -m "feat: add terminal"',
-  'interface User { id: string; }'
+  'npm run build',
+  'git commit -am "fix"',
+  'display: grid',
+  'place-items: center',
+  'const { id } = data',
+  'await fetch(url)',
+  'export default () =>',
+  'useEffect(() => {}, [])',
+  'useState<User>(null)',
+  '[...array, newItems]',
+  'data?.user?.name',
+  'z-index: 9999',
+  'color: #0f172a',
+  '@tailwind base',
+  'type ID = string | number',
+  'readonly props: Props',
+  'Subject<void>()',
+  'signal(initialValue)',
+  'computed(() => a() + b())',
+  'localStorage.clear()',
+  'sessionStorage.setItem()',
+  'document.cookie',
+  'navigator.userAgent',
+  'history.pushState()',
+  'window.scrollTo(0,0)',
+  'chmod +x script.sh',
+  'docker build -t app .',
+  'k8s apply -f pod.yaml',
+  '404 Not Found',
+  '200 OK',
 ];

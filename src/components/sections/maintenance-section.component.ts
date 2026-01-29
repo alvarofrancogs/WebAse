@@ -3,19 +3,19 @@ import { CommonModule } from '@angular/common';
 import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
 interface MaintenancePlan {
-    name: string;
-    price: string;
-    period: string;
-    description: string;
-    features: string[];
-    highlighted?: boolean;
+  name: string;
+  price: string;
+  period: string;
+  description: string;
+  features: string[];
+  highlighted?: boolean;
 }
 
 @Component({
-    selector: 'app-maintenance-section',
-    standalone: true,
-    imports: [CommonModule, ScrollRevealComponent],
-    template: `
+  selector: 'app-maintenance-section',
+  standalone: true,
+  imports: [CommonModule, ScrollRevealComponent],
+  template: `
     <section id="mantenimiento" class="py-24 bg-black relative z-30 overflow-hidden">
       <!-- Animated background gradient -->
       <div class="absolute inset-0 pointer-events-none">
@@ -46,11 +46,13 @@ interface MaintenancePlan {
         </div>
 
         <!-- Plans Grid -->
-        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto group/cards">
           @for (plan of plans; track plan.name) {
             <app-scroll-reveal [preset]="$index === 0 ? 'slide-right' : 'slide-left'" [delay]="0.3 + ($index * 0.1)">
               <div 
-                class="relative group h-full"
+                class="relative group h-full transition-all duration-500 ease-out
+                       group-hover/cards:blur-[2px] group-hover/cards:opacity-40
+                       hover:!blur-0 hover:!opacity-100 hover:-translate-y-2 hover:scale-[1.02] hover:z-10"
                 [class.md:-translate-y-4]="plan.highlighted"
               >
                 <!-- Card with terminal header -->
@@ -105,7 +107,7 @@ interface MaintenancePlan {
                     <div class="mt-8">
                       <a 
                         href="#contacto"
-                        class="block w-full py-3 px-6 text-center text-sm font-medium rounded-lg transition-all duration-300"
+                        class="block w-full py-3 px-6 text-center text-xs font-mono tracking-widest uppercase font-medium rounded-none transition-all duration-300 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         [class.bg-white]="plan.highlighted"
                         [class.text-black]="plan.highlighted"
                         [class.hover:bg-neutral-200]="plan.highlighted"
@@ -154,36 +156,36 @@ interface MaintenancePlan {
   `
 })
 export class MaintenanceSectionComponent {
-    plans: MaintenancePlan[] = [
-        {
-            name: 'Básico',
-            price: '30€',
-            period: '/mes',
-            description: 'Para webs que solo necesitan estar online.',
-            features: [
-                'Hosting incluido',
-                'Dominio .com o .es',
-                'Certificado SSL (https)',
-                'Backups automáticos',
-                '1 modificación mensual',
-                'Soporte en menos de 24h'
-            ],
-            highlighted: false
-        },
-        {
-            name: 'Estándar',
-            price: '50€',
-            period: '/mes',
-            description: 'Para negocios que necesitan cambios frecuentes.',
-            features: [
-                'Todo lo del plan Básico',
-                '3 modificaciones mensuales',
-                'Optimización SEO continua',
-                'Monitorización 24/7',
-                'Soporte en menos de 24h',
-                'Reportes de rendimiento'
-            ],
-            highlighted: true
-        }
-    ];
+  plans: MaintenancePlan[] = [
+    {
+      name: 'Básico',
+      price: '30€',
+      period: '/mes',
+      description: 'Para webs que solo necesitan estar online.',
+      features: [
+        'Hosting incluido',
+        'Dominio .com o .es',
+        'Certificado SSL (https)',
+        'Backups automáticos',
+        '1 modificación mensual',
+        'Soporte en menos de 24h'
+      ],
+      highlighted: false
+    },
+    {
+      name: 'Estándar',
+      price: '50€',
+      period: '/mes',
+      description: 'Para negocios que necesitan cambios frecuentes.',
+      features: [
+        'Todo lo del plan Básico',
+        '3 modificaciones mensuales',
+        'Optimización SEO continua',
+        'Monitorización 24/7',
+        'Soporte en menos de 24h',
+        'Reportes de rendimiento'
+      ],
+      highlighted: true
+    }
+  ];
 }

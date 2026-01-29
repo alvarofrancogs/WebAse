@@ -1,116 +1,126 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-not-found',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
-    <div class="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden font-mono">
+  selector: 'app-not-found',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="relative w-full h-screen overflow-hidden bg-black font-mono">
+      <canvas #matrixCanvas class="absolute inset-0 w-full h-full opacity-40"></canvas>
       
-      <!-- Static Noise Background (Optional subtle texture) -->
-      <div class="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiLz4KPC9zdmc+');">
-      </div>
-
-      <!-- Content -->
-      <div class="relative z-10 text-center px-6">
-        
-        <!-- Glitch 404 -->
-        <div class="relative mb-6 select-none">
-          <h1 class="text-[8rem] md:text-[15rem] font-bold leading-none tracking-tighter text-white mix-blend-difference relative glitch-layer" data-text="404">
-            404
-          </h1>
+      <div class="relative z-10 flex flex-col items-center justify-center h-full pointer-events-none">
+        <h1 class="text-[12rem] md:text-[20rem] font-bold text-white tracking-tighter leading-none select-none mix-blend-overlay">404</h1>
+        <div class="mt-8 text-neutral-400 tracking-[0.5em] text-sm md:text-base uppercase animate-pulse">
+          Señal Perdida
         </div>
-
-        <!-- Terminal Error Box -->
-        <div class="border border-white/20 bg-neutral-900/50 backdrop-blur-sm p-6 max-w-lg mx-auto mb-10 overflow-hidden relative">
-          <!-- Decorative corners -->
-          <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white"></div>
-          <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-white"></div>
-          <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white"></div>
-          <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white"></div>
-
-          <div class="text-left space-y-2 font-mono text-xs md:text-sm text-neutral-400">
-            <p><span class="text-neutral-600">></span> ERROR_CODE: <span class="text-white">NOT_FOUND</span></p>
-            <p><span class="text-neutral-600">></span> SYSTEM_STATUS: <span class="text-white">SIGNAL_LOST</span></p>
-            <p><span class="text-neutral-600">></span> LOCATION: <span class="text-red-500 line-through decoration-red-500/50">UNKNOWN_SECTOR</span></p>
-            <p class="animate-pulse mt-4"><span class="text-white">_</span></p>
-          </div>
-        </div>
-
-        <!-- Message -->
-        <h2 class="text-xl md:text-2xl font-light text-white mb-8 tracking-wide">
-          Página no encontrada
-        </h2>
-
-        <!-- CTA Button -->
-        <a href="/" 
-           class="inline-block border border-white px-8 py-3 text-white text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 uppercase">
-          Volver al sistema
+        <a href="/" class="mt-12 pointer-events-auto border border-white/20 hover:bg-white hover:text-black hover:border-white px-8 py-3 text-xs tracking-widest transition-all duration-300 uppercase text-white/60">
+          Volver al Origen
         </a>
-
       </div>
-
-      <!-- Scanline effect -->
-      <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-white/[0.02] to-transparent animate-scan"></div>
     </div>
   `,
-    styles: [`
-    .glitch-layer {
-      position: relative;
-    }
-    
-    .glitch-layer::before,
-    .glitch-layer::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .glitch-layer::before {
-      left: 2px;
-      text-shadow: -1px 0 #fff;
-      clip-path: inset(24% 0 13% 0);
-      animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
-    }
-
-    .glitch-layer::after {
-      left: -2px;
-      text-shadow: -1px 0 #fff;
-      clip-path: inset(85% 0 1% 0);
-      animation: glitch-anim-2 3s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch-anim-1 {
-      0% { clip-path: inset(20% 0 80% 0); }
-      20% { clip-path: inset(60% 0 10% 0); }
-      40% { clip-path: inset(40% 0 50% 0); }
-      60% { clip-path: inset(80% 0 5% 0); }
-      80% { clip-path: inset(10% 0 60% 0); }
-      100% { clip-path: inset(30% 0 30% 0); }
-    }
-
-    @keyframes glitch-anim-2 {
-      0% { clip-path: inset(10% 0 60% 0); }
-      20% { clip-path: inset(30% 0 10% 0); }
-      40% { clip-path: inset(70% 0 20% 0); }
-      60% { clip-path: inset(20% 0 50% 0); }
-      80% { clip-path: inset(50% 0 30% 0); }
-      100% { clip-path: inset(10% 0 80% 0); }
-    }
-
-    @keyframes scan {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-
-    .animate-scan {
-      animation: scan 4s linear infinite;
-    }
-  `]
+  styles: []
 })
-export class NotFoundComponent { }
+export class NotFoundComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('matrixCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
+  private ctx!: CanvasRenderingContext2D;
+  private animationFrameId!: number;
+  private columns: number[] = [];
+  private drops: number[] = [];
+
+  // "Techy" characters for the rain
+  private chars = '{ } [ ] ( ) ; : < > / \\ | ! @ # $ % ^ & * + - = 0 1 _'.split('');
+  private fontSize = 14;
+
+  constructor(private ngZone: NgZone) { }
+
+  ngAfterViewInit() {
+    this.initCanvas();
+
+    // Handle resize
+    window.addEventListener('resize', this.resizeCanvas.bind(this));
+
+    // Run animation outside Angular zone for performance
+    this.ngZone.runOutsideAngular(() => {
+      this.animate();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+    window.removeEventListener('resize', this.resizeCanvas.bind(this));
+  }
+
+  private initCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    this.ctx = canvas.getContext('2d')!;
+
+    this.resizeCanvas();
+
+    // Initialize drops
+    const columns = Math.floor(canvas.width / this.fontSize);
+    this.drops = new Array(columns).fill(1);
+  }
+
+  private resizeCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Re-initialize drops if width changes significantly to avoid gaps
+    const newColumns = Math.floor(canvas.width / this.fontSize);
+    if (this.drops.length !== newColumns) {
+      this.drops = new Array(newColumns).fill(1).map(() => Math.random() * -100); // Random start Y
+    }
+  }
+
+  private lastTime = 0;
+  private dropInterval = 50; // Controls speed (higher = slower)
+  private timer = 0;
+
+  private animate(timeStamp: number = 0) {
+    const deltaTime = timeStamp - this.lastTime;
+    this.lastTime = timeStamp;
+
+    this.timer += deltaTime;
+
+    // Only update drops if enough time has passed (speed control)
+    if (this.timer > this.dropInterval) {
+      // Semi-transparent black to create trail effect
+      this.ctx.fillStyle = 'rgba(5, 5, 5, 0.08)';
+      this.ctx.fillRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+
+      this.ctx.font = `${this.fontSize}px 'JetBrains Mono', monospace`;
+
+      for (let i = 0; i < this.drops.length; i++) {
+        const text = this.chars[Math.floor(Math.random() * this.chars.length)];
+
+        // Professional Palette: Subtle Emerald/Slate selection
+        const isHighlight = Math.random() > 0.98;
+
+        if (isHighlight) {
+          this.ctx.fillStyle = '#f0fdf4'; // Very light green/white for highlights
+        } else {
+          // A more sophisticated, deeper green (Tailwind emerald-500 equivalent)
+          this.ctx.fillStyle = Math.random() > 0.5 ? '#10b981' : '#059669';
+        }
+
+        this.ctx.fillText(text, i * this.fontSize, this.drops[i] * this.fontSize);
+
+        // Reset drop to top randomly after it crosses screen
+        if (this.drops[i] * this.fontSize > this.canvasRef.nativeElement.height && Math.random() > 0.985) {
+          this.drops[i] = 0;
+        }
+
+        this.drops[i]++;
+      }
+      this.timer = 0;
+    }
+
+    this.animationFrameId = requestAnimationFrame((t) => this.animate(t));
+  }
+}

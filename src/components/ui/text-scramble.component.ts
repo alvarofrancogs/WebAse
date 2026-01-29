@@ -1,4 +1,4 @@
-import { Component, Input, signal, OnDestroy, computed } from '@angular/core';
+import { Component, Input, signal, OnDestroy, computed, ElementRef, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
@@ -47,7 +47,9 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
     </div>
   `
 })
-export class TextScrambleComponent implements OnDestroy {
+export class TextScrambleComponent implements AfterViewInit, OnDestroy {
+  @Input() autoScramble = false;
+  private elementRef = inject(ElementRef);
   @Input() set text(value: string) {
     this.originalText = value;
     this.displayText.set(value);
@@ -58,7 +60,7 @@ export class TextScrambleComponent implements OnDestroy {
   displayText = signal('');
   isHovering = signal(false);
   isScrambling = signal(false);
-  
+
   displayChars = computed(() => this.displayText().split(''));
 
   private intervalId: any;
@@ -82,7 +84,7 @@ export class TextScrambleComponent implements OnDestroy {
 
     this.intervalId = setInterval(() => {
       this.frame++;
-      
+
       const progress = this.frame / duration;
       const revealedLength = Math.floor(progress * this.originalText.length);
 
@@ -103,6 +105,20 @@ export class TextScrambleComponent implements OnDestroy {
         this.isScrambling.set(false);
       }
     }, 30);
+  }
+
+  ngAfterViewInit() {
+    if (this.autoScramble) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            this.scramble();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(this.elementRef.nativeElement);
+    }
   }
 
   ngOnDestroy() {

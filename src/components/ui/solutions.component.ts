@@ -121,10 +121,10 @@ export interface SolutionItem {
         </div>
 
         <!-- Bottom Ticker -->
-        <div class="absolute -bottom-10 md:-bottom-16 left-0 right-0 overflow-hidden opacity-[0.06] pointer-events-none select-none hidden md:block">
+        <div class="absolute -bottom-10 md:-bottom-16 left-0 right-0 overflow-hidden opacity-[0.06] pointer-events-none select-none">
           <div class="flex whitespace-nowrap animate-scroll">
             @for (item of tickerItems(); track $index) {
-               <span class="mx-8 text-5xl md:text-6xl font-bold tracking-tight">{{ item }}</span>
+               <span class="mx-8 text-3xl md:text-6xl font-bold tracking-tight">{{ item }}</span>
             }
           </div>
         </div>

@@ -1,21 +1,24 @@
-import { Component, ElementRef, inject, viewChildren, viewChild, AfterViewInit, ViewEncapsulation, OnInit, OnDestroy, signal, HostListener, Renderer2 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, ElementRef, inject, viewChildren, viewChild, AfterViewInit, ViewEncapsulation, OnInit, OnDestroy, signal, Renderer2 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { NavbarComponent } from './components/navbar.component';
 import { TerminalComponent } from './components/terminal.component';
 import { SolutionsSectionComponent } from './components/sections/solutions-section.component';
 import { MaintenanceSectionComponent } from './components/sections/maintenance-section.component';
+import { ProcessSectionComponent } from './components/sections/process-section.component';
 import { FaqSectionComponent } from './components/sections/faq-section.component';
 import { TextScrambleComponent } from './components/ui/text-scramble.component';
-import { ScrollRevealComponent } from './components/ui/scroll-reveal.component';
+
 import { NotFoundComponent } from './components/pages/not-found.component';
 import { MotionService } from './services/motion.service';
+import { MailerService } from './services/mailer.service';
+import { RecaptchaService } from './services/recaptcha.service';
 import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from './app/content';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, TerminalComponent, SolutionsSectionComponent, MaintenanceSectionComponent, FaqSectionComponent, TextScrambleComponent, ScrollRevealComponent, NgOptimizedImage, NotFoundComponent],
+  imports: [CommonModule, ReactiveFormsModule, NavbarComponent, TerminalComponent, SolutionsSectionComponent, MaintenanceSectionComponent, ProcessSectionComponent, FaqSectionComponent, TextScrambleComponent, NotFoundComponent],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './app.component.html',
   styles: [`
@@ -28,12 +31,33 @@ import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from './app/content';
       user-select: none;
       z-index: 0;
     }
+
+    /* Infinite Marquee - Mobile Only */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee-mobile {
+      animation: marquee 20s linear infinite;
+    }
+    @media (min-width: 768px) {
+      .animate-marquee-mobile {
+        animation: none;
+        justify-content: center;
+      }
+    }
+
+    /* Hide scrollbar but allow scrolling */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
   `]
 })
 export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   private motion = inject(MotionService);
   private fb: FormBuilder = inject(FormBuilder);
   private renderer = inject(Renderer2);
+  private mailer = inject(MailerService);
+  private recaptcha = inject(RecaptchaService);
 
   brand = BRAND;
   services = SERVICES;
@@ -55,15 +79,19 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     message: ['', Validators.required]
   });
 
-  formStatus = 'idle'; // idle, submitting, success
+  formStatus = 'idle'; // idle, submitting, success, error
+  recaptchaResolved = false;
 
   // Using viewChildren to get references for animations
   sectionRefs = viewChildren<ElementRef>('animateSection');
   particleContainer = viewChild<ElementRef>('particleContainer');
 
   ngOnInit() {
-    // Check if URL contains /404
-    this.is404Page = window.location.pathname.includes('/404') ||
+    // Check if URL is not root (handling potential trailing slashes or index.html)
+    const path = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash
+
+    // Explicit 404 check or any unknown path
+    this.is404Page = (path !== '' && path !== '/index.html') ||
       window.location.hash.includes('404');
 
     if (!this.is404Page) {
@@ -77,7 +105,18 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
       this.sectionRefs().forEach((ref) => {
         this.motion.animateReveal(ref.nativeElement);
       });
+
+      // Renderizar reCAPTCHA v2 widget
+      setTimeout(() => this.initRecaptcha(), 500);
     }
+  }
+
+  initRecaptcha() {
+    this.recaptcha.render(
+      'recaptcha-container',
+      (token: string) => { this.recaptchaResolved = !!token; },
+      () => { this.recaptchaResolved = false; }
+    );
   }
 
   ngOnDestroy() {
@@ -125,13 +164,34 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.contactForm.valid) {
+    if (this.contactForm.valid && this.recaptchaResolved) {
       this.formStatus = 'submitting';
-      // Simulate API call
-      setTimeout(() => {
-        this.formStatus = 'success';
-        this.contactForm.reset();
-      }, 1500);
+
+      const recaptchaToken = this.recaptcha.getResponse();
+
+      const formData = {
+        email: this.contactForm.get('email')?.value || '',
+        message: this.contactForm.get('message')?.value || '',
+        recaptchaToken
+      };
+
+      this.mailer.sendContactEmail(formData).subscribe({
+        next: (success) => {
+          if (success) {
+            this.formStatus = 'success';
+            this.contactForm.reset();
+          } else {
+            this.formStatus = 'error';
+          }
+          this.recaptcha.reset();
+          this.recaptchaResolved = false;
+        },
+        error: () => {
+          this.formStatus = 'error';
+          this.recaptcha.reset();
+          this.recaptchaResolved = false;
+        }
+      });
     }
   }
 }

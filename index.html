@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
-  <title>OPTIMUR | Consultora Web Premium</title>
+  <title>EmberCode Web Studio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Desarrollo web a medida, automatización y SEO de alto rendimiento.">
-  
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,7 +18,7 @@
             offblack: '#0a0a0a',
             white: '#ffffff',
             glass: 'rgba(255, 255, 255, 0.03)',
-            
+
             // Shadcn-like tokens (Dark Theme)
             background: '#000000',
             foreground: '#ffffff',
@@ -73,7 +74,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
   <!-- GSAP & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -83,7 +86,7 @@
     :root {
       /* Using a bright electric green to match the terminal vibe, 
          replacing the orange suggestion to fit the brand better */
-      --primary: #22c55e; 
+      --primary: #22c55e;
     }
 
     body {
@@ -92,18 +95,21 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
     }
+
     ::-webkit-scrollbar-track {
       background: #000;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #333;
       border-radius: 4px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
@@ -114,7 +120,7 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
-    
+
     .text-balance {
       text-wrap: balance;
     }
@@ -123,10 +129,10 @@
     .bg-grid {
       background-size: 40px 40px;
       background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
   </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "rxjs": "https://esm.sh/rxjs@^7.8.2?conditions=es2015",
@@ -143,9 +149,13 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+
+  <!-- Google reCAPTCHA v2 -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
+
 <body>
   <app-root></app-root>
 </body>
+
 </html>

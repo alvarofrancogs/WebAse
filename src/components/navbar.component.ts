@@ -52,18 +52,18 @@ import { BRAND } from '../app/content';
 
       <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
       @if (mobileOpen()) {
-        <div class="md:hidden fixed inset-0 top-[60px] bg-black/95 backdrop-blur-xl z-40 flex flex-col p-8 border-t border-white/10 h-[calc(100vh-60px)] animate-fade-in">
+        <div class="md:hidden fixed inset-0 top-[60px] bg-gradient-to-b from-neutral-900/95 to-black/95 backdrop-blur-xl z-40 flex flex-col p-8 border-t border-white/10 h-[calc(100vh-60px)] animate-fade-in">
           
           <div class="flex flex-col space-y-8 mt-8">
-            <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group">
+            <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
               <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
               Servicios
             </a>
-            <a href="#tarifas" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group">
+            <a href="#tarifas" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
               <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">02</span>
               Tarifas
             </a>
-            <a href="#proceso" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group">
+            <a href="#proceso" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
               <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">03</span>
               Proceso
             </a>
@@ -82,7 +82,17 @@ import { BRAND } from '../app/content';
         </div>
       }
     </nav>
-  `
+  `,
+  styles: [`
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up {
+      animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+  `]
 })
 export class NavbarComponent {
   brand = BRAND;
