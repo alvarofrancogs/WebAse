@@ -2,7 +2,6 @@ export const BRAND = {
   name: 'EmberCode Web Studio',
   email: 'contacto@embercode.dev',
   tagline: 'Automatización. Rendimiento. Futuro.',
-  location: 'Murcia, ES',
 };
 
 export const SERVICES = [

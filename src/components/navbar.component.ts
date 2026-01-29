@@ -52,9 +52,21 @@ import { BRAND } from '../app/content';
 
       <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
       @if (mobileOpen()) {
-        <div class="md:hidden fixed inset-0 top-[60px] bg-gradient-to-b from-neutral-900/95 to-black/95 backdrop-blur-xl z-40 flex flex-col p-8 border-t border-white/10 h-[calc(100vh-60px)] animate-fade-in">
+        <div 
+          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-30 flex flex-col p-8 pt-6 h-screen overflow-hidden transition-opacity duration-500"
+          [class.opacity-0]="isOpening() || isClosing()"
+          [class.opacity-100]="!isOpening() && !isClosing()"
+        >
           
-          <div class="flex flex-col space-y-8 mt-8">
+          <!-- Botón Atrás -->
+          <button (click)="closeMobile()" class="group self-start flex items-center gap-2 text-neutral-400 hover:text-white transition-all duration-300 mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            <span class="text-sm font-mono">Atrás</span>
+          </button>
+
+          <div class="flex flex-col space-y-8">
             <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
               <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
               Servicios
@@ -68,13 +80,13 @@ import { BRAND } from '../app/content';
               Proceso
             </a>
           </div>
-
-          <div class="mt-auto mb-8">
-            <a href="#contacto" (click)="toggleMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
+          <!-- Bloque inferior fijo abajo -->
+          <div class="absolute bottom-8 left-8 right-8">
+            <a href="#contacto" (click)="closeMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
               Iniciar Proyecto
             </a>
             
-            <div class="mt-8 flex justify-between text-xs font-mono text-neutral-600">
+            <div class="mt-6 flex justify-between text-xs font-mono text-neutral-600">
                <span>{{ brand.location || 'Murcia, ES' }}</span>
                <span>{{ brand.email }}</span>
             </div>
@@ -99,6 +111,8 @@ export class NavbarComponent {
   isScrolled = signal(false);
   isHidden = signal(false);
   mobileOpen = signal(false);
+  isClosing = signal(false);
+  isOpening = signal(false);
 
   private lastScrollY = 0;
 
@@ -121,6 +135,24 @@ export class NavbarComponent {
   }
 
   toggleMobile() {
-    this.mobileOpen.update(v => !v);
+    if (!this.mobileOpen()) {
+      // Abriendo
+      this.isOpening.set(true);
+      this.mobileOpen.set(true);
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => this.isOpening.set(false), 50);
+    } else {
+      // Cerrando
+      this.closeMobile();
+    }
+  }
+
+  closeMobile() {
+    this.isClosing.set(true);
+    setTimeout(() => {
+      this.mobileOpen.set(false);
+      this.isClosing.set(false);
+      document.body.style.overflow = '';
+    }, 500);
   }
 }
