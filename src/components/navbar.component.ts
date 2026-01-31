@@ -53,7 +53,7 @@ import { BRAND } from '../app/content';
       <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
       @if (mobileOpen()) {
         <div 
-          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-30 flex flex-col p-8 pt-6 h-screen overflow-hidden transition-opacity duration-500"
+          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-30 flex flex-col px-8 pt-6 pb-[calc(2rem+env(safe-area-inset-bottom))] min-h-[100svh] max-h-[100svh] overflow-y-auto transition-opacity duration-500"
           [class.opacity-0]="isOpening() || isClosing()"
           [class.opacity-100]="!isOpening() && !isClosing()"
         >
@@ -81,7 +81,7 @@ import { BRAND } from '../app/content';
             </a>
           </div>
           <!-- Bloque inferior fijo abajo -->
-          <div class="absolute bottom-8 left-8 right-8">
+          <div class="mt-auto pt-10">
             <a href="#contacto" (click)="closeMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
               Iniciar Proyecto
             </a>
