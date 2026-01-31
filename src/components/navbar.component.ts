@@ -53,7 +53,7 @@ import { BRAND } from '../app/content';
       <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
       @if (mobileOpen()) {
         <div 
-          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-30 flex flex-col px-8 pt-6 pb-[calc(2rem+env(safe-area-inset-bottom))] min-h-[100svh] max-h-[100svh] overflow-y-auto transition-opacity duration-500"
+          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] h-[100dvh] overflow-y-auto transition-opacity duration-500"
           [class.opacity-0]="isOpening() || isClosing()"
           [class.opacity-100]="!isOpening() && !isClosing()"
         >
