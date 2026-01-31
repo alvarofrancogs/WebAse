@@ -53,7 +53,7 @@ import { BRAND } from '../app/content';
       <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
       @if (mobileOpen()) {
         <div 
-          class="md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] h-[100dvh] overflow-y-auto transition-opacity duration-500"
+          class="mobile-menu-overlay md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
           [class.opacity-0]="isOpening() || isClosing()"
           [class.opacity-100]="!isOpening() && !isClosing()"
         >
@@ -103,6 +103,12 @@ import { BRAND } from '../app/content';
     .animate-slide-up {
       animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
+    }
+    .mobile-menu-overlay {
+      height: 100vh;
+      height: 100dvh;
+      height: -webkit-fill-available;
+      min-height: -webkit-fill-available;
     }
   `]
 })
