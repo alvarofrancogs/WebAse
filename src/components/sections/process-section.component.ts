@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, AfterViewInit, signal } from '@angular/core';
+﻿import { Component, ElementRef, HostListener, ViewChild, AfterViewInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 

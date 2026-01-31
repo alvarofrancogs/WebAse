@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>EmberCode Web Studio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="description" content="Desarrollo web a medida, automatización y SEO de alto rendimiento.">
 
   <!-- Tailwind CSS -->
@@ -94,6 +94,11 @@
       color: #fff;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body {
+      touch-action: manipulation;
     }
 
     /* Custom Scrollbar */
