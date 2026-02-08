@@ -50,50 +50,51 @@ import { BRAND } from '../app/content';
         </button>
       </div>
 
-      <!-- Mobile Menu Dropdown (Full Screen Overlay) -->
-      @if (mobileOpen()) {
-        <div 
-          class="mobile-menu-overlay md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
-          [class.opacity-0]="isOpening() || isClosing()"
-          [class.opacity-100]="!isOpening() && !isClosing()"
-        >
-          
-          <!-- Botón Atrás -->
-          <button (click)="closeMobile()" class="group self-start flex items-center gap-2 text-neutral-400 hover:text-white transition-all duration-300 mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            <span class="text-sm font-mono">Atrás</span>
-          </button>
+    </nav>
 
-          <div class="flex flex-col space-y-8">
-            <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
-              <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
-              Servicios
-            </a>
-            <a href="#tarifas" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
-              <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">02</span>
-              Tarifas
-            </a>
-            <a href="#proceso" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
-              <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">03</span>
-              Proceso
-            </a>
-          </div>
-          <!-- Bloque inferior fijo abajo -->
-          <div class="mt-auto pt-10">
-            <a href="#contacto" (click)="closeMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
-              Iniciar Proyecto
-            </a>
-            
-            <div class="mt-6 flex justify-between text-xs font-mono text-neutral-600">
-               <span>{{ brand.location || 'Murcia, ES' }}</span>
-               <span>{{ brand.email }}</span>
-            </div>
+    <!-- Mobile Menu Dropdown (Outside nav to avoid transform containing block issue) -->
+    @if (mobileOpen()) {
+      <div 
+        class="mobile-menu-overlay md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
+        [class.opacity-0]="isOpening() || isClosing()"
+        [class.opacity-100]="!isOpening() && !isClosing()"
+      >
+        
+        <!-- Botón Atrás -->
+        <button (click)="closeMobile()" class="group self-start flex items-center gap-2 text-neutral-400 hover:text-white transition-all duration-300 mb-8">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          <span class="text-sm font-mono">Atrás</span>
+        </button>
+
+        <div class="flex flex-col space-y-8">
+          <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
+            <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
+            Servicios
+          </a>
+          <a href="#tarifas" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
+            <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">02</span>
+            Tarifas
+          </a>
+          <a href="#proceso" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
+            <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">03</span>
+            Proceso
+          </a>
+        </div>
+        <!-- Bloque inferior fijo abajo -->
+        <div class="mt-auto pt-10">
+          <a href="#contacto" (click)="closeMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
+            Iniciar Proyecto
+          </a>
+          
+          <div class="mt-6 flex justify-between text-xs font-mono text-neutral-600">
+             <span>{{ brand.location || 'Murcia, ES' }}</span>
+             <span>{{ brand.email }}</span>
           </div>
         </div>
-      }
-    </nav>
+      </div>
+    }
   `,
   styles: [`
     @keyframes slideUpFade {
