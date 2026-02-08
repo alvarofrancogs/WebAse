@@ -5,7 +5,8 @@ import { BRAND } from '../app/content';
   selector: 'app-navbar',
   standalone: true,
   host: {
-    '(window:scroll)': 'onScroll()'
+    '(window:scroll)': 'onScroll()',
+    'style': 'display: contents'
   },
   template: `
     <nav 
@@ -55,7 +56,7 @@ import { BRAND } from '../app/content';
     <!-- Mobile Menu Dropdown (Outside nav to avoid transform containing block issue) -->
     @if (mobileOpen()) {
       <div 
-        class="mobile-menu-overlay md:hidden fixed inset-0 bg-black/[0.97] backdrop-blur-xl z-40 flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
+        class="mobile-menu-overlay md:hidden fixed top-0 left-0 w-full bg-black/[0.97] backdrop-blur-xl z-[60] flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
         [class.opacity-0]="isOpening() || isClosing()"
         [class.opacity-100]="!isOpening() && !isClosing()"
       >
@@ -108,7 +109,8 @@ import { BRAND } from '../app/content';
     .mobile-menu-overlay {
       height: 100vh;
       height: 100dvh;
-      height: -webkit-fill-available;
+      min-height: 100vh;
+      min-height: 100dvh;
       min-height: -webkit-fill-available;
     }
   `]
