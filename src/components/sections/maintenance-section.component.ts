@@ -16,7 +16,7 @@ interface MaintenancePlan {
   standalone: true,
   imports: [CommonModule, ScrollRevealComponent],
   template: `
-    <section id="mantenimiento" class="py-24 bg-black relative z-30 overflow-hidden">
+    <section id="tarifas" class="py-24 bg-black relative z-30 overflow-hidden">
       <!-- Animated background gradient -->
       <div class="absolute inset-0 pointer-events-none">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-white/[0.02] rounded-full blur-3xl animate-pulse"></div>

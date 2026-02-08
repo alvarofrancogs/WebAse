@@ -126,6 +126,7 @@ export class NavbarComponent {
 
   private lastScrollY = 0;
   private savedScrollY = 0;
+  private closeTimer?: ReturnType<typeof setTimeout>;
 
   onScroll() {
     if (this.mobileOpen()) return;
@@ -184,27 +185,47 @@ export class NavbarComponent {
   }
 
   closeMobile() {
+    if (this.closeTimer) {
+      clearTimeout(this.closeTimer);
+      this.closeTimer = undefined;
+    }
+
     this.isClosing.set(true);
-    setTimeout(() => {
+    this.closeTimer = setTimeout(() => {
       this.mobileOpen.set(false);
       this.isClosing.set(false);
       this.unlockScroll();
+      this.closeTimer = undefined;
     }, 500);
   }
 
   navigateTo(event: Event, fragment: string) {
     event.preventDefault();
-    // Immediately unlock scroll and close menu
+    // Close instantly on mobile links to avoid keeping body locked.
+    if (this.closeTimer) {
+      clearTimeout(this.closeTimer);
+      this.closeTimer = undefined;
+    }
     this.mobileOpen.set(false);
     this.isClosing.set(false);
     this.isOpening.set(false);
     this.unlockScroll();
-    // Scroll to the target element
-    setTimeout(() => {
+
+    // Wait one frame after unlocking to ensure scrolling works reliably on mobile.
+    requestAnimationFrame(() => {
       const el = document.getElementById(fragment);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+
+      if (!el) {
+        window.location.hash = fragment;
+        return;
       }
-    }, 50);
+
+      const navEl = document.querySelector('nav.fixed');
+      const navOffset = navEl instanceof HTMLElement ? navEl.offsetHeight : 72;
+      const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - navOffset - 8);
+
+      history.replaceState(null, '', `#${fragment}`);
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
   }
 }
