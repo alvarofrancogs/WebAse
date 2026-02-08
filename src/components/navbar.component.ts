@@ -57,6 +57,7 @@ import { BRAND } from '../app/content';
     @if (mobileOpen()) {
       <div 
         class="mobile-menu-overlay md:hidden fixed top-0 left-0 w-full bg-black/[0.97] backdrop-blur-xl z-[60] flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
+        style="overscroll-behavior: contain; touch-action: pan-y;"
         [class.opacity-0]="isOpening() || isClosing()"
         [class.opacity-100]="!isOpening() && !isClosing()"
       >
@@ -124,8 +125,11 @@ export class NavbarComponent {
   isOpening = signal(false);
 
   private lastScrollY = 0;
+  private savedScrollY = 0;
 
   onScroll() {
+    if (this.mobileOpen()) return;
+
     const currentScrollY = window.scrollY;
 
     // Update scrolled state for background
@@ -143,12 +147,35 @@ export class NavbarComponent {
     this.lastScrollY = currentScrollY;
   }
 
+  private lockScroll() {
+    this.savedScrollY = window.scrollY;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${this.savedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+  }
+
+  private unlockScroll() {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.paddingRight = '';
+    window.scrollTo(0, this.savedScrollY);
+  }
+
   toggleMobile() {
     if (!this.mobileOpen()) {
       // Abriendo
       this.isOpening.set(true);
       this.mobileOpen.set(true);
-      document.body.style.overflow = 'hidden';
+      this.lockScroll();
       setTimeout(() => this.isOpening.set(false), 50);
     } else {
       // Cerrando
@@ -161,7 +188,7 @@ export class NavbarComponent {
     setTimeout(() => {
       this.mobileOpen.set(false);
       this.isClosing.set(false);
-      document.body.style.overflow = '';
+      this.unlockScroll();
     }, 500);
   }
 }
