@@ -71,22 +71,22 @@ import { BRAND } from '../app/content';
         </button>
 
         <div class="flex flex-col space-y-8">
-          <a href="#servicios" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
+          <a href="#servicios" (click)="navigateTo($event, 'servicios')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
             Servicios
           </a>
-          <a href="#tarifas" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
+          <a href="#tarifas" (click)="navigateTo($event, 'tarifas')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">02</span>
             Tarifas
           </a>
-          <a href="#proceso" (click)="toggleMobile()" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
+          <a href="#proceso" (click)="navigateTo($event, 'proceso')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">03</span>
             Proceso
           </a>
         </div>
         <!-- Bloque inferior fijo abajo -->
         <div class="mt-auto pt-10">
-          <a href="#contacto" (click)="closeMobile()" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
+          <a href="#contacto" (click)="navigateTo($event, 'contacto')" class="block w-full text-center border border-white/20 text-white py-4 rounded-none font-mono text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
             Iniciar Proyecto
           </a>
           
@@ -190,5 +190,21 @@ export class NavbarComponent {
       this.isClosing.set(false);
       this.unlockScroll();
     }, 500);
+  }
+
+  navigateTo(event: Event, fragment: string) {
+    event.preventDefault();
+    // Immediately unlock scroll and close menu
+    this.mobileOpen.set(false);
+    this.isClosing.set(false);
+    this.isOpening.set(false);
+    this.unlockScroll();
+    // Scroll to the target element
+    setTimeout(() => {
+      const el = document.getElementById(fragment);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
   }
 }
