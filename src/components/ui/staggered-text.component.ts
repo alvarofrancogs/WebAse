@@ -1,8 +1,7 @@
 import { Component, Input, ElementRef, AfterViewInit, inject, signal, computed, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-declare var gsap: any;
-declare var ScrollTrigger: any;
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-staggered-text',
@@ -57,9 +56,16 @@ export class StaggeredTextComponent implements AfterViewInit {
 
   private element = inject(ElementRef);
   private isReducedMotion = signal(false);
+  private animationsReady = false;
 
   constructor() {
     this.checkReducedMotion();
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+      this.animationsReady = true;
+    } catch {
+      this.animationsReady = false;
+    }
   }
 
   checkReducedMotion() {
@@ -70,7 +76,20 @@ export class StaggeredTextComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (!this.animationsReady) {
+      setTimeout(() => {
+        const container = this.element.nativeElement.querySelector('.relative');
+        if (!container) return;
+
+        const spans = container.querySelectorAll('.word-span') as NodeListOf<HTMLElement>;
+        spans.forEach((span) => {
+          span.style.opacity = '1';
+          span.style.transform = 'none';
+          span.style.filter = 'none';
+        });
+      }, 0);
+      return;
+    }
 
     // Use a small timeout to ensure DOM is ready and layout is stable
     setTimeout(() => {

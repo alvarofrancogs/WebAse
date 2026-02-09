@@ -157,8 +157,20 @@
 
       <!-- reCAPTCHA v2 Widget -->
       <div id="recaptcha-container" class="flex justify-center my-4"></div>
+      @if (!recaptchaReady && !recaptchaLoadError) {
+      <p class="text-xs text-neutral-500 text-center">Cargando verificacion...</p>
+      }
+      @if (recaptchaLoadError) {
+      <div class="text-center space-y-2">
+        <p class="text-xs text-red-400">No se pudo cargar reCAPTCHA. Revisa tu conexion y vuelve a intentar.</p>
+        <button type="button" (click)="initRecaptcha()"
+          class="text-xs font-mono uppercase tracking-widest border border-white/20 px-4 py-2 text-white hover:bg-white/10 transition-colors">
+          Reintentar reCAPTCHA
+        </button>
+      </div>
+      }
 
-      <button type="submit" [disabled]="contactForm.invalid || formStatus === 'submitting' || !recaptchaResolved"
+      <button type="submit" [disabled]="contactForm.invalid || formStatus === 'submitting' || !recaptchaReady || !recaptchaResolved"
         class="w-full bg-white text-black font-bold py-4 rounded-none border border-white hover:bg-neutral-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center font-mono tracking-widest text-xs uppercase">
         @if (formStatus === 'submitting') {
         <svg class="animate-spin h-5 w-5 mr-3 text-black" viewBox="0 0 24 24">

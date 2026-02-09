@@ -25,6 +25,7 @@ export class MailerService {
             template_id: this.EMAILJS_TEMPLATE_ID,
             user_id: this.EMAILJS_PUBLIC_KEY,
             template_params: {
+                to_email: 'contacto@embercode.es',
                 from_email: data.email,
                 message: data.message,
                 'g-recaptcha-response': data.recaptchaToken || ''

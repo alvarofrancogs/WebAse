@@ -1,18 +1,21 @@
 import { Injectable, signal } from '@angular/core';
-
-declare var gsap: any;
-declare var ScrollTrigger: any;
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MotionService {
   isReducedMotion = signal(false);
+  private animationsReady = false;
 
   constructor() {
     this.checkReducedMotion();
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    try {
       gsap.registerPlugin(ScrollTrigger);
+      this.animationsReady = true;
+    } catch {
+      this.animationsReady = false;
     }
   }
 
@@ -28,8 +31,9 @@ export class MotionService {
 
   // Animate element from bottom with opacity fade
   animateReveal(element: HTMLElement, delay: number = 0) {
-    if (this.isReducedMotion()) {
+    if (this.isReducedMotion() || !this.animationsReady) {
       element.style.opacity = '1';
+      element.style.transform = 'none';
       return;
     }
 
@@ -54,7 +58,7 @@ export class MotionService {
 
   // Staggered animation for lists
   animateStagger(elements: HTMLElement[], staggerTime: number = 0.1) {
-    if (this.isReducedMotion()) {
+    if (this.isReducedMotion() || !this.animationsReady) {
       elements.forEach(el => el.style.opacity = '1');
       return;
     }

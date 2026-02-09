@@ -1,6 +1,6 @@
 export const BRAND = {
   name: 'EmberCode Web Studio',
-  email: 'contacto@embercode.dev',
+  email: 'contacto@embercode.es',
   tagline: 'Automatización. Rendimiento. Futuro.',
 };
 

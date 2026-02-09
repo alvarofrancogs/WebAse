@@ -33,6 +33,7 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
   // "Techy" characters for the rain
   private chars = '{ } [ ] ( ) ; : < > / \\ | ! @ # $ % ^ & * + - = 0 1 _'.split('');
   private fontSize = 14;
+  private readonly resizeHandler = () => this.resizeCanvas();
 
   constructor(private ngZone: NgZone) { }
 
@@ -40,7 +41,7 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
     this.initCanvas();
 
     // Handle resize
-    window.addEventListener('resize', this.resizeCanvas.bind(this));
+    window.addEventListener('resize', this.resizeHandler);
 
     // Run animation outside Angular zone for performance
     this.ngZone.runOutsideAngular(() => {
@@ -52,7 +53,7 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }
-    window.removeEventListener('resize', this.resizeCanvas.bind(this));
+    window.removeEventListener('resize', this.resizeHandler);
   }
 
   private initCanvas() {

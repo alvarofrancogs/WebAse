@@ -63,7 +63,6 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   services = SERVICES;
   techStack = TECH_STACK;
 
-  // Check if we're on 404 page
   is404Page = false;
 
   // Floating Code Logic
@@ -79,20 +78,18 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     message: ['', Validators.required]
   });
 
-  formStatus = 'idle'; // idle, submitting, success, error
+  formStatus: 'idle' | 'submitting' | 'success' | 'error' = 'idle';
   recaptchaResolved = false;
+  recaptchaReady = false;
+  recaptchaLoadError = false;
 
   // Using viewChildren to get references for animations
   sectionRefs = viewChildren<ElementRef>('animateSection');
   particleContainer = viewChild<ElementRef>('particleContainer');
 
   ngOnInit() {
-    // Check if URL is not root (handling potential trailing slashes or index.html)
-    const path = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash
-
-    // Explicit 404 check or any unknown path
-    this.is404Page = (path !== '' && path !== '/index.html') ||
-      window.location.hash.includes('404');
+    const path = this.normalizePath(window.location.pathname);
+    this.is404Page = !this.isKnownHomePath(path) || window.location.hash.includes('404');
 
     if (!this.is404Page) {
       this.startRotation();
@@ -101,22 +98,28 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngAfterViewInit() {
     if (!this.is404Page) {
-      // Initialize Scroll Animations for all sections tagged with #animateSection
       this.sectionRefs().forEach((ref) => {
         this.motion.animateReveal(ref.nativeElement);
       });
 
-      // Renderizar reCAPTCHA v2 widget
-      setTimeout(() => this.initRecaptcha(), 500);
+      void this.initRecaptcha();
     }
   }
 
-  initRecaptcha() {
-    this.recaptcha.render(
+  async initRecaptcha() {
+    this.recaptchaLoadError = false;
+    this.recaptchaReady = false;
+
+    const rendered = await this.recaptcha.render(
       'recaptcha-container',
       (token: string) => { this.recaptchaResolved = !!token; },
-      () => { this.recaptchaResolved = false; }
+      () => { this.recaptchaResolved = false; },
+      () => { this.recaptchaResolved = false; this.recaptchaLoadError = true; },
+      { timeoutMs: 12000, retryIntervalMs: 250, maxRetries: 2 }
     );
+
+    this.recaptchaReady = rendered;
+    this.recaptchaLoadError = !rendered;
   }
 
   ngOnDestroy() {
@@ -164,34 +167,65 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.contactForm.valid && this.recaptchaResolved) {
-      this.formStatus = 'submitting';
-
-      const recaptchaToken = this.recaptcha.getResponse();
-
-      const formData = {
-        email: this.contactForm.get('email')?.value || '',
-        message: this.contactForm.get('message')?.value || '',
-        recaptchaToken
-      };
-
-      this.mailer.sendContactEmail(formData).subscribe({
-        next: (success) => {
-          if (success) {
-            this.formStatus = 'success';
-            this.contactForm.reset();
-          } else {
-            this.formStatus = 'error';
-          }
-          this.recaptcha.reset();
-          this.recaptchaResolved = false;
-        },
-        error: () => {
-          this.formStatus = 'error';
-          this.recaptcha.reset();
-          this.recaptchaResolved = false;
-        }
-      });
+    if (!this.contactForm.valid || !this.recaptchaResolved || !this.recaptchaReady) {
+      return;
     }
+
+    this.formStatus = 'submitting';
+
+    const recaptchaToken = this.recaptcha.getResponse();
+    if (!recaptchaToken) {
+      this.formStatus = 'error';
+      this.recaptchaResolved = false;
+      this.recaptcha.reset();
+      return;
+    }
+
+    const formData = {
+      email: this.contactForm.get('email')?.value || '',
+      message: this.contactForm.get('message')?.value || '',
+      recaptchaToken
+    };
+
+    this.mailer.sendContactEmail(formData).subscribe({
+      next: (success) => {
+        if (success) {
+          this.formStatus = 'success';
+          this.contactForm.reset();
+        } else {
+          this.formStatus = 'error';
+        }
+        this.recaptcha.reset();
+        this.recaptchaResolved = false;
+      },
+      error: () => {
+        this.formStatus = 'error';
+        this.recaptcha.reset();
+        this.recaptchaResolved = false;
+      }
+    });
+  }
+
+  private isKnownHomePath(pathname: string): boolean {
+    const basePath = this.resolveBasePath();
+    const indexPath = this.normalizePath(`${basePath}/index.html`);
+    const knownPaths = new Set([basePath, indexPath]);
+    return knownPaths.has(pathname);
+  }
+
+  private resolveBasePath(): string {
+    const baseHref = document.querySelector('base')?.getAttribute('href') ?? '/';
+
+    try {
+      const absolute = new URL(baseHref, window.location.origin);
+      return this.normalizePath(absolute.pathname);
+    } catch {
+      return '/';
+    }
+  }
+
+  private normalizePath(path: string): string {
+    const trimmed = path.replace(/\/+$/, '');
+    return trimmed === '' ? '/' : trimmed;
   }
 }

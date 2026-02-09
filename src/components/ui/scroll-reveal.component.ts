@@ -1,8 +1,7 @@
 import { Component, Input, ElementRef, AfterViewInit, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-declare var gsap: any;
-declare var ScrollTrigger: any;
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export type RevealPreset = 
   | 'fade-up' 
@@ -34,9 +33,16 @@ export class ScrollRevealComponent implements AfterViewInit {
 
   private element = inject(ElementRef);
   private isReducedMotion = signal(false);
+  private animationsReady = false;
 
   constructor() {
     this.checkReducedMotion();
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+      this.animationsReady = true;
+    } catch {
+      this.animationsReady = false;
+    }
   }
 
   checkReducedMotion() {
@@ -47,17 +53,13 @@ export class ScrollRevealComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.isReducedMotion()) {
-      gsap.to(this.element.nativeElement, { opacity: 1, duration: 0.5 });
+    if (this.isReducedMotion() || !this.animationsReady) {
+      const el = this.element.nativeElement as HTMLElement;
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.filter = 'none';
       return;
     }
-
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      console.warn('GSAP or ScrollTrigger not loaded');
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
 
     const el = this.element.nativeElement;
     const settings = this.getPresetSettings();

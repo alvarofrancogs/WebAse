@@ -1,7 +1,6 @@
 import { Component, signal, computed, effect, input, ElementRef, viewChild, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-declare var gsap: any;
+import { gsap } from 'gsap';
 
 export interface SolutionItem {
   title: string;
@@ -164,10 +163,11 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
   descElement = viewChild<ElementRef>('descElement');
 
   private intervalId: any;
+  private readonly resizeHandler = () => this.checkMobile();
 
   constructor() {
     this.checkMobile();
-    window.addEventListener('resize', () => this.checkMobile());
+    window.addEventListener('resize', this.resizeHandler);
 
     // Effect for Title Animation
     effect(() => {
@@ -197,7 +197,7 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopAutoPlay();
-    window.removeEventListener('resize', () => this.checkMobile());
+    window.removeEventListener('resize', this.resizeHandler);
   }
 
   onMouseMove(e: MouseEvent) {
@@ -230,66 +230,77 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
 
   private animateTextChange(container: HTMLElement, newText: string) {
     this.animating.set(true);
-
-    const tl = gsap.timeline({
-      onComplete: () => this.animating.set(false)
-    });
-
-    const currentChars = container.querySelectorAll('.quote-word');
-    if (currentChars.length > 0) {
-      tl.to(currentChars, {
-        y: -20,
-        opacity: 0,
-        rotateX: 90,
-        stagger: 0.02,
-        duration: 0.3,
-        ease: 'power2.in'
+    try {
+      const tl = gsap.timeline({
+        onComplete: () => this.animating.set(false)
       });
+
+      const currentChars = container.querySelectorAll('.quote-word');
+      if (currentChars.length > 0) {
+        tl.to(currentChars, {
+          y: -20,
+          opacity: 0,
+          rotateX: 90,
+          stagger: 0.02,
+          duration: 0.3,
+          ease: 'power2.in'
+        });
+      }
+
+      tl.add(() => {
+        container.innerHTML = '';
+        const words = newText.split(' ');
+        words.forEach((word, i) => {
+          const wordSpan = document.createElement('span');
+          wordSpan.className = 'inline-block quote-word';
+          wordSpan.textContent = word;
+          wordSpan.style.opacity = '0';
+          wordSpan.style.transform = 'translateY(18px) rotateX(90deg)';
+          container.appendChild(wordSpan);
+          if (i < words.length - 1) {
+            container.appendChild(document.createTextNode(' '));
+          }
+        });
+      });
+
+      tl.to(container.querySelectorAll('.quote-word'), {
+        y: 0,
+        opacity: 1,
+        rotateX: 0,
+        stagger: 0.06,
+        duration: 0.45,
+        ease: 'back.out(1.7)'
+      });
+    } catch {
+      container.textContent = newText;
+      this.animating.set(false);
     }
-
-    tl.add(() => {
-      container.innerHTML = '';
-      const words = newText.split(' ');
-      words.forEach((word, i) => {
-        const wordSpan = document.createElement('span');
-        wordSpan.className = 'inline-block quote-word';
-        wordSpan.textContent = word;
-        wordSpan.style.opacity = '0';
-        wordSpan.style.transform = 'translateY(18px) rotateX(90deg)';
-        container.appendChild(wordSpan);
-        // Add space after word (except last)
-        if (i < words.length - 1) {
-          container.appendChild(document.createTextNode(' '));
-        }
-      });
-    });
-
-    tl.to(container.querySelectorAll('.quote-word'), {
-      y: 0,
-      opacity: 1,
-      rotateX: 0,
-      stagger: 0.06,
-      duration: 0.45,
-      ease: 'back.out(1.7)'
-    });
   }
 
   private animateContent(desc: HTMLElement) {
-    // Animate Description
-    gsap.fromTo(desc,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, delay: 0.1 }
-    );
+    try {
+      gsap.fromTo(desc,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.4, delay: 0.1 }
+      );
 
-    // Animate Bullets
-    setTimeout(() => {
-      const bullets = document.querySelectorAll('.bullet-item');
-      if (bullets.length) {
-        gsap.fromTo(bullets,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, stagger: 0.05, duration: 0.3 }
-        );
-      }
-    }, 100);
+      setTimeout(() => {
+        const bullets = document.querySelectorAll('.bullet-item');
+        if (bullets.length) {
+          gsap.fromTo(bullets,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, stagger: 0.05, duration: 0.3 }
+          );
+        }
+      }, 100);
+    } catch {
+      desc.style.opacity = '1';
+      desc.style.transform = 'none';
+      const bullets = document.querySelectorAll<HTMLElement>('.bullet-item');
+      bullets.forEach((bullet) => {
+        bullet.style.opacity = '1';
+        bullet.style.transform = 'none';
+      });
+    }
   }
 }
