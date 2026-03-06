@@ -1,27 +1,30 @@
 export const BRAND = {
   name: 'EmberCode Web Studio',
   email: 'contacto@embercode.es',
+  phone: '+34601102877',
+  phoneDisplay: '601 102 877',
+  location: 'Murcia, España',
   tagline: 'Automatización. Rendimiento. Futuro.',
 };
 
 export const SERVICES = [
   {
     title: 'Sitio Web',
-    price: 'Desde 500€',
     description: 'Tu escaparate online. Diseño profesional que transmite confianza y convierte visitas en clientes.',
-    features: ['Diseño responsive (móvil y PC)', 'Optimizado para Google', 'Entrega en menos de 2 semanas']
+    features: ['Diseño responsive (móvil y PC)', 'Optimizado para Google', 'Entrega en menos de 2 semanas'],
+    link: '/diseno-web-murcia'
   },
   {
     title: 'Backend & CRM',
-    price: 'Desde 1500€',
     description: 'Control total de tu negocio. Paneles de gestión, bases de datos y herramientas internas a medida.',
-    features: ['Dashboard personalizado', 'Gestión de clientes y pedidos', 'Acceso desde cualquier dispositivo']
+    features: ['Dashboard personalizado', 'Gestión de clientes y pedidos', 'Acceso desde cualquier dispositivo'],
+    link: '/desarrollo-web-murcia'
   },
   {
     title: 'Automatizaciones',
-    price: 'Desde 300€',
     description: 'Tu negocio trabaja mientras tú descansas. Bots, alertas y procesos automáticos 24/7.',
-    features: ['Respuestas automáticas', 'Seguimiento de clientes', 'Integración con tus herramientas']
+    features: ['Respuestas automáticas', 'Seguimiento de clientes', 'Integración con tus herramientas'],
+    link: '/desarrollo-web-murcia'
   }
 ];
 

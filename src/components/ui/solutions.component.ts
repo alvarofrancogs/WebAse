@@ -8,6 +8,7 @@ export interface SolutionItem {
   description: string;
   bullets?: string[];
   tag?: string;
+  link?: string;
 }
 
 @Component({

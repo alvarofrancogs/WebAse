@@ -3,11 +3,18 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './src/app.component';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
+import { routes } from './src/app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideZonelessChangeDetection(),
-    provideHttpClient()
+    provideHttpClient(),
+    provideRouter(
+      routes,
+      withViewTransitions(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' })
+    )
   ]
 }).catch(err => console.error(err));
 

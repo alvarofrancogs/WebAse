@@ -66,6 +66,7 @@ export class SolutionsSectionComponent {
       description: "Configuramos respuestas automáticas, seguimiento de clientes y notificaciones para que no pierdas ninguna oportunidad. Mientras duermes, tu negocio sigue captando.",
       bullets: ["Respuestas automáticas en WhatsApp", "Seguimiento de clientes potenciales", "Recordatorios y alertas", "Integración con tu email"],
       tag: "Productividad",
+      link: "/desarrollo-web-murcia",
     },
     {
       title: "Tu mejor vendedor online",
@@ -73,6 +74,7 @@ export class SolutionsSectionComponent {
       description: "Diseñamos páginas pensadas para generar confianza y hacer que el visitante contacte contigo. Rápidas, bonitas y optimizadas para móvil.",
       bullets: ["Diseño profesional a medida", "Optimizada para Google", "Carga en menos de 2 segundos", "Adaptada a móvil"],
       tag: "Presencia Online",
+      link: "/diseno-web-murcia",
     },
     {
       title: "Control total de tu negocio",
@@ -80,6 +82,7 @@ export class SolutionsSectionComponent {
       description: "Creamos herramientas internas para que veas todo lo que pasa en tu negocio: clientes, pedidos, empleados, métricas. Todo en un solo lugar.",
       bullets: ["Dashboard con tus datos clave", "Gestión de clientes y pedidos", "Control de empleados o equipo", "Acceso desde cualquier dispositivo"],
       tag: "Gestión",
+      link: "/desarrollo-web-murcia",
     },
     {
       title: "Primero en Google, primero en ventas",
@@ -87,6 +90,7 @@ export class SolutionsSectionComponent {
       description: "Optimizamos tu web para que aparezca en los primeros resultados cuando tus clientes buscan lo que ofreces. Más visibilidad = más contactos.",
       bullets: ["Análisis de palabras clave", "Optimización técnica completa", "Velocidad de carga garantizada", "Seguimiento de posiciones"],
       tag: "Crecimiento",
+      link: "/precios-diseno-web-murcia",
     },
   ];
 }

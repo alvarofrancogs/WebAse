@@ -1,10 +1,11 @@
 import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="relative w-full h-screen overflow-hidden bg-black font-mono">
       <canvas #matrixCanvas class="absolute inset-0 w-full h-full opacity-40"></canvas>
@@ -14,9 +15,18 @@ import { CommonModule } from '@angular/common';
         <div class="mt-8 text-neutral-400 tracking-[0.5em] text-sm md:text-base uppercase animate-pulse">
           Señal Perdida
         </div>
-        <a href="/" class="mt-12 pointer-events-auto border border-white/20 hover:bg-white hover:text-black hover:border-white px-8 py-3 text-xs tracking-widest transition-all duration-300 uppercase text-white/60">
+        <a routerLink="/" class="mt-12 pointer-events-auto border border-white/20 hover:bg-white hover:text-black hover:border-white px-8 py-3 text-xs tracking-widest transition-all duration-300 uppercase text-white/60">
           Volver al Origen
         </a>
+        <div class="mt-8 pointer-events-auto flex flex-wrap justify-center gap-3">
+          <a routerLink="/diseno-web-murcia" class="text-neutral-500 text-xs hover:text-white transition-colors">Diseño Web</a>
+          <span class="text-neutral-700">·</span>
+          <a routerLink="/desarrollo-web-murcia" class="text-neutral-500 text-xs hover:text-white transition-colors">Desarrollo Web</a>
+          <span class="text-neutral-700">·</span>
+          <a routerLink="/tienda-online-murcia" class="text-neutral-500 text-xs hover:text-white transition-colors">Tienda Online</a>
+          <span class="text-neutral-700">·</span>
+          <a routerLink="/mantenimiento-web-murcia" class="text-neutral-500 text-xs hover:text-white transition-colors">Mantenimiento</a>
+        </div>
       </div>
     </div>
   `,
