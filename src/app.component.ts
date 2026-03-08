@@ -12,7 +12,9 @@ import { BRAND } from './app/content';
   encapsulation: ViewEncapsulation.None,
   template: `
     <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
+    <main class="min-h-screen">
+      <router-outlet></router-outlet>
+    </main>
     <app-floating-cta></app-floating-cta>
 
     <!-- FOOTER -->

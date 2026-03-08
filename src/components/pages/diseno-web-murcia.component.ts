@@ -10,131 +10,119 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
   imports: [CommonModule, RouterLink, ScrollRevealComponent],
   template: `
     <section class="min-h-screen pt-28 pb-20 bg-black relative z-30">
-      <div class="container mx-auto px-6 max-w-4xl">
+      <div class="container mx-auto px-6 max-w-5xl">
 
-        <!-- Breadcrumb -->
-        <nav class="mb-8 text-xs font-mono text-neutral-500">
+        <nav class="mb-8 text-xs font-mono text-white/40">
           <a routerLink="/" class="hover:text-white transition-colors">Inicio</a>
           <span class="mx-2">/</span>
-          <span class="text-neutral-400">Diseño Web Murcia</span>
+          <span class="text-white/70">Diseño Web Murcia</span>
         </nav>
 
-        <app-scroll-reveal preset="fade-up">
-          <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
-            Diseño Web en Murcia
-          </h1>
-          <p class="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mb-12">
-            Diseño web profesional para empresas y autónomos en Murcia. Webs modernas, rápidas y optimizadas que convierten visitas en clientes.
-          </p>
-        </app-scroll-reveal>
+        <!-- Hero -->
+        <div class="relative py-20 md:py-32">
+          <app-scroll-reveal preset="fade-up-blur" [delay]="0">
+            <p class="text-xs font-mono tracking-[0.3em] uppercase text-white/50 mb-6">Diseño Web Profesional</p>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tight text-white mb-8 leading-[0.95]">
+              Diseño que<br>convierte.
+            </h1>
+            <p class="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed mb-10">
+              Webs rápidas, modernas y optimizadas para SEO. Diseño a medida para tu negocio en Murcia. Sin plantillas, sin límites.
+            </p>
+            <a href="/#contacto" class="inline-flex items-center gap-3 group">
+              <span class="bg-white text-black font-bold px-8 py-4 text-sm tracking-widest uppercase group-hover:bg-white/90 transition-colors">Pedir presupuesto</span>
+              <span class="w-12 h-12 border border-white/30 flex items-center justify-center group-hover:border-white transition-colors">
+                <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </span>
+            </a>
+          </app-scroll-reveal>
+          <div class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        </div>
 
-        <!-- What we offer -->
-        <app-scroll-reveal preset="fade-up" [delay]="0.1">
-          <div class="grid md:grid-cols-2 gap-8 mb-16">
-            <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h2 class="text-xl font-semibold text-white mb-3">Diseño a medida</h2>
-              <p class="text-neutral-400 text-sm leading-relaxed">
-                Cada web se diseña desde cero para tu negocio. Sin plantillas genéricas. Tu marca, tu estilo, tu mensaje.
-              </p>
-            </div>
-            <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h2 class="text-xl font-semibold text-white mb-3">Optimizado para móvil</h2>
-              <p class="text-neutral-400 text-sm leading-relaxed">
-                Responsive design que se ve perfecto en móvil, tablet y escritorio. Más del 70% del tráfico es móvil.
-              </p>
-            </div>
-            <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h2 class="text-xl font-semibold text-white mb-3">Velocidad extrema</h2>
-              <p class="text-neutral-400 text-sm leading-relaxed">
-                Carga en menos de 2 segundos. Optimización de imágenes, código limpio y hosting de alto rendimiento.
-              </p>
-            </div>
-            <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h2 class="text-xl font-semibold text-white mb-3">SEO incluido</h2>
-              <p class="text-neutral-400 text-sm leading-relaxed">
-                Base SEO técnica para que Google te encuentre: estructura, velocidad, metadatos y contenido optimizado.
-              </p>
-            </div>
-          </div>
-        </app-scroll-reveal>
-
-        <!-- Process -->
-        <app-scroll-reveal preset="fade-up" [delay]="0.2">
-          <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">¿Cómo trabajamos el diseño web en Murcia?</h2>
-          <div class="space-y-6 mb-16">
-            <div class="flex gap-4 items-start">
-              <span class="text-white font-mono text-sm bg-white/10 w-8 h-8 flex items-center justify-center rounded shrink-0">1</span>
-              <div>
-                <h3 class="text-white font-semibold mb-1">Escuchamos tu idea</h3>
-                <p class="text-neutral-400 text-sm">Reunión inicial para entender tu negocio, tus objetivos y tu público en Murcia.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 items-start">
-              <span class="text-white font-mono text-sm bg-white/10 w-8 h-8 flex items-center justify-center rounded shrink-0">2</span>
-              <div>
-                <h3 class="text-white font-semibold mb-1">Diseñamos y validamos</h3>
-                <p class="text-neutral-400 text-sm">Prototipo visual que apruebas antes de avanzar. Sin sorpresas.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 items-start">
-              <span class="text-white font-mono text-sm bg-white/10 w-8 h-8 flex items-center justify-center rounded shrink-0">3</span>
-              <div>
-                <h3 class="text-white font-semibold mb-1">Desarrollamos y lanzamos</h3>
-                <p class="text-neutral-400 text-sm">Código limpio, optimizado y listo para publicar. Entrega en 1-2 semanas.</p>
-              </div>
-            </div>
-          </div>
-        </app-scroll-reveal>
-
-        <!-- FAQ -->
-        <app-scroll-reveal preset="fade-up" [delay]="0.3">
-          <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">Preguntas frecuentes sobre diseño web en Murcia</h2>
-          <div class="space-y-4 mb-16">
-            @for (faq of faqs; track faq.q) {
-              <div class="border border-white/10 rounded-lg p-5">
-                <h3 class="text-white font-semibold text-sm mb-2">{{ faq.q }}</h3>
-                <p class="text-neutral-400 text-sm leading-relaxed">{{ faq.a }}</p>
-              </div>
+        <!-- Process Timeline -->
+        <div class="mb-32">
+          <app-scroll-reveal preset="fade-up-blur" [delay]="0.1">
+            <p class="text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-4">Proceso</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-16">De la idea al pixel perfecto</h2>
+          </app-scroll-reveal>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @for (step of processSteps; track step.num; let i = $index) {
+              <app-scroll-reveal preset="fade-up" [delay]="i * 0.15">
+                <div class="h-full border border-white/10 bg-black p-8 hover:bg-white/[0.03] transition-colors duration-500 group flex flex-col relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-white/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <span class="text-sm font-mono tracking-widest text-white/40 mb-6 block border-b border-white/10 pb-4">Paso {{ step.num }}</span>
+                  <h3 class="text-xl font-bold text-white mb-4">{{ step.title }}</h3>
+                  <p class="text-white/50 text-sm leading-relaxed flex-1">{{ step.desc }}</p>
+                </div>
+              </app-scroll-reveal>
             }
+          </div>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <app-scroll-reveal preset="fade-up-blur" [delay]="0.1">
+          <div class="mb-32">
+            <p class="text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-4">FAQ</p>
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-12">Preguntas frecuentes</h2>
+            <div class="space-y-4">
+              @for (faq of faqs; track faq.q; let i = $index) {
+                <div class="border border-white/10 bg-black overflow-hidden">
+                  <button (click)="openFaq = openFaq === i ? -1 : i" class="w-full flex justify-between items-center p-6 text-left text-white font-bold hover:bg-white/[0.03] transition-colors">
+                    {{ faq.q }}
+                    <div class="relative w-4 h-4 shrink-0 pointer-events-none">
+                      <div class="absolute inset-0 bg-white w-[1.5px] h-full left-1/2 -translate-x-1/2 transition-transform duration-300" [class.rotate-90]="openFaq === i"></div>
+                      <div class="absolute inset-0 bg-white h-[1.5px] w-full top-1/2 -translate-y-1/2"></div>
+                    </div>
+                  </button>
+                  <div class="grid transition-all duration-300 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
+                    <div class="overflow-hidden">
+                      <div class="text-white/70 text-sm leading-relaxed px-6 pb-6">
+                        {{ faq.a }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
         </app-scroll-reveal>
 
         <!-- CTA -->
-        <app-scroll-reveal preset="fade-up" [delay]="0.4">
-          <div class="text-center bg-neutral-900/50 border border-white/10 rounded-xl p-8 md:p-12">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">¿Necesitas una web profesional en Murcia?</h2>
-            <p class="text-neutral-400 mb-6">Cuéntanos tu proyecto y te enviamos presupuesto sin compromiso en 24h.</p>
-            <a href="/#contacto"
-              class="inline-flex items-center justify-center bg-white text-black font-mono text-xs tracking-widest uppercase font-bold px-8 py-4 hover:bg-neutral-200 transition-colors">
-              PEDIR PRESUPUESTO
-            </a>
-            <p class="text-neutral-500 text-xs mt-4">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
+        <app-scroll-reveal preset="lift" [delay]="0.2">
+          <div class="relative border border-white/10 p-12 md:p-20 text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Necesitas un diseño web profesional?</h2>
+            <p class="text-white/50 mb-8 max-w-lg mx-auto">Te enviamos presupuesto cerrado en 24h. Sin compromiso.</p>
+            <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">PEDIR PRESUPUESTO</a>
+            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
           </div>
         </app-scroll-reveal>
 
-        <!-- Internal links -->
-        <div class="mt-12 text-center">
-          <p class="text-neutral-500 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
+        <!-- Related -->
+        <div class="text-center">
+          <p class="text-white/40 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
           <div class="flex flex-wrap justify-center gap-3">
-            <a routerLink="/desarrollo-web-murcia" class="text-neutral-400 text-sm border border-white/10 px-4 py-2 rounded hover:text-white hover:border-white/30 transition-colors">Desarrollo Web</a>
-            <a routerLink="/tienda-online-murcia" class="text-neutral-400 text-sm border border-white/10 px-4 py-2 rounded hover:text-white hover:border-white/30 transition-colors">Tienda Online</a>
-            <a routerLink="/mantenimiento-web-murcia" class="text-neutral-400 text-sm border border-white/10 px-4 py-2 rounded hover:text-white hover:border-white/30 transition-colors">Mantenimiento Web</a>
-            <a routerLink="/precios-diseno-web-murcia" class="text-neutral-400 text-sm border border-white/10 px-4 py-2 rounded hover:text-white hover:border-white/30 transition-colors">Precios</a>
+            <a routerLink="/desarrollo-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Desarrollo Web</a>
+            <a routerLink="/tienda-online-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Tienda Online</a>
+            <a routerLink="/seo-local-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">SEO Local</a>
           </div>
         </div>
-
       </div>
     </section>
   `
 })
 export class DisenoWebMurciaComponent implements OnInit {
   private seo = inject(SeoService);
+  openFaq: number = -1;
 
   faqs = [
     { q: '¿Cuánto tarda un diseño web en Murcia?', a: 'Normalmente entre 1 y 2 semanas, dependiendo de la complejidad del proyecto. Proyectos urgentes pueden acelerarse.' },
-    { q: '¿El diseño incluye SEO?', a: 'Sí. Todas nuestras webs incluyen base SEO técnica: estructura optimizada, velocidad de carga, metadatos y contenido preparado para posicionar en Google.' },
-    { q: '¿Puedo ver el diseño antes de la entrega?', a: 'Por supuesto. Te enviamos un prototipo visual que apruebas antes de empezar el desarrollo. Sin sorpresas ni costes extra.' },
-    { q: '¿Qué pasa después de la entrega?', a: 'Ofrecemos planes de mantenimiento desde 30€/mes que incluyen hosting, dominio, SSL, backups y soporte. Tu web siempre actualizada y segura.' },
+    { q: '¿Qué incluye el diseño web?', a: 'Diseño UI/UX personalizado, maquetación responsive, optimización SEO técnica, formulario de contacto y entrega del código fuente.' },
+    { q: '¿Es responsive?', a: 'Sí. Todas nuestras webs se adaptan a móvil, tablet y desktop. Diseñamos mobile-first para garantizar la mejor experiencia en cualquier dispositivo.' },
+  ];
+
+  processSteps = [
+    { num: '01', title: 'Briefing', desc: 'Consultoría para entender tu negocio, tu marca y tus referentes estéticos.' },
+    { num: '02', title: 'Wireframe & UI', desc: 'Prototipo visual que validas antes de escribir una sola línea de código.' },
+    { num: '03', title: 'Desarrollo', desc: 'Código pixel-perfect con animaciones fluidas, optimizado para producción.' },
   ];
 
   ngOnInit() {
@@ -147,12 +135,8 @@ export class DisenoWebMurciaComponent implements OnInit {
           '@context': 'https://schema.org',
           '@type': 'Service',
           'name': 'Diseño Web en Murcia',
-          'description': 'Servicio profesional de diseño web a medida para empresas y autónomos en Murcia.',
-          'provider': {
-            '@type': 'ProfessionalService',
-            'name': 'EmberCode Web Studio',
-            'url': 'https://www.embercode.es'
-          },
+          'description': 'Servicio de diseño web profesional a medida para negocios en Murcia.',
+          'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' },
           'areaServed': { '@type': 'City', 'name': 'Murcia' },
           'serviceType': 'Diseño web'
         },

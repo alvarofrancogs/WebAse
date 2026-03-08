@@ -1,14 +1,14 @@
-import { Component, Input, ElementRef, AfterViewInit, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ElementRef, AfterViewInit, OnDestroy, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export type RevealPreset = 
-  | 'fade-up' 
-  | 'fade-up-blur' 
-  | 'slide-left' 
-  | 'slide-right' 
-  | 'mask' 
+export type RevealPreset =
+  | 'fade-up'
+  | 'fade-up-blur'
+  | 'slide-left'
+  | 'slide-right'
+  | 'mask'
   | 'lift';
 
 @Component({
@@ -21,19 +21,17 @@ export type RevealPreset =
     app-scroll-reveal { display: block; }
   `]
 })
-export class ScrollRevealComponent implements AfterViewInit {
+export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
   @Input() preset: RevealPreset = 'fade-up-blur';
   @Input() delay: number = 0;
   @Input() duration: number = 0.65;
-  // Even if 'once' is false, we generally don't want to hide it on scroll down (leave), so we force 'play none none none' mostly.
-  // But strictly speaking, the user complained about "hiding when going down". 
-  // To be safe, we will force permanent reveal.
-  @Input() once: boolean = true; 
-  @Input() amount: number = 0.15; // Trigger earlier (15% from bottom instead of 25%)
+  @Input() once: boolean = true;
+  @Input() amount: number = 0.15;
 
   private element = inject(ElementRef);
   private isReducedMotion = signal(false);
   private animationsReady = false;
+  private scrollTriggerInstance: ScrollTrigger | null = null;
 
   constructor() {
     this.checkReducedMotion();
@@ -53,36 +51,51 @@ export class ScrollRevealComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    const el = this.element.nativeElement as HTMLElement;
+
     if (this.isReducedMotion() || !this.animationsReady) {
-      const el = this.element.nativeElement as HTMLElement;
       el.style.opacity = '1';
       el.style.transform = 'none';
       el.style.filter = 'none';
       return;
     }
 
-    const el = this.element.nativeElement;
     const settings = this.getPresetSettings();
 
-    // Initial state
+    // Set the initial (hidden) state immediately via GSAP
     gsap.set(el, settings.from);
 
-    // Animation
-    gsap.to(el, {
-      ...settings.to,
-      duration: this.duration,
-      delay: this.delay,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: el,
-        // 'top 85%' means when the top of the element hits 85% down the viewport
-        // We use 'top 90%' to trigger it sooner when scrolling down
-        start: 'top 90%',
-        // toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack
-        // 'play none none none' ensures it plays once and NEVER hides again.
-        toggleActions: 'play none none none'
-      }
+    // Use requestAnimationFrame to ensure layout is stable before creating ScrollTrigger
+    requestAnimationFrame(() => {
+      const tween = gsap.to(el, {
+        ...settings.to,
+        duration: this.duration,
+        delay: this.delay,
+        ease: 'power3.out',
+        paused: true, // We'll let ScrollTrigger control playback
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 92%',
+          toggleActions: 'play none none none',
+          onEnter: () => {
+            tween.play();
+          }
+        }
+      });
+
+      // Store reference for cleanup
+      this.scrollTriggerInstance = tween.scrollTrigger as ScrollTrigger;
+
+      // Force a refresh so elements already in view trigger immediately
+      ScrollTrigger.refresh();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.scrollTriggerInstance) {
+      this.scrollTriggerInstance.kill();
+      this.scrollTriggerInstance = null;
+    }
   }
 
   private getPresetSettings() {

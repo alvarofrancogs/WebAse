@@ -45,6 +45,30 @@ body {
   text-wrap: balance;
 }
 
+/* Prevent layout collapse and FOUC: make custom elements block level and hide scroll-reveals */
+app-root,
+app-home,
+app-pagina-web-empresas-murcia,
+app-desarrollo-web-murcia,
+app-diseno-web-murcia,
+app-seo-local-murcia,
+app-tienda-online-murcia,
+app-mantenimiento-web-murcia,
+app-scroll-reveal,
+app-solutions-section,
+app-process-section,
+app-maintenance-section,
+app-faq-section,
+app-terminal {
+  display: block;
+}
+
+app-scroll-reveal {
+  display: block;
+  opacity: 0;
+  will-change: transform, opacity, filter;
+}
+
 .bg-grid {
   background-size: 40px 40px;
   background-image:
