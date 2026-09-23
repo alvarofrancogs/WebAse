@@ -150,7 +150,17 @@ export class SeoLocalMurciaComponent implements OnInit {
             '@id': 'https://www.embercode.es/#business',
             'name': 'EmberCode Web Studio',
             'url': 'https://www.embercode.es',
-            'telephone': '+34601423840'
+            'telephone': '+34601423840',
+            'image': 'https://www.embercode.es/og-image.png',
+            'priceRange': '€€',
+            'address': {
+              '@type': 'PostalAddress',
+              'streetAddress': 'Centro',
+              'addressLocality': 'Murcia',
+              'postalCode': '30001',
+              'addressRegion': 'Región de Murcia',
+              'addressCountry': 'ES'
+            }
           },
           'areaServed': {
             '@type': 'City',

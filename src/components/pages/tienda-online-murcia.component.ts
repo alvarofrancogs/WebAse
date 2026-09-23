@@ -45,7 +45,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <h2 class="text-3xl md:text-4xl font-black text-white mb-16">Todo lo que necesitas para vender</h2>
           </app-scroll-reveal>
           @for (feat of features; track feat.title; let i = $index) {
-            <app-scroll-reveal [preset]="i % 2 === 0 ? 'slide-left' : 'slide-right'" [delay]="i * 0.08">
+            <app-scroll-reveal preset="fade-up" [delay]="i * 0.06">
               <div class="flex gap-8 items-start py-10 border-t border-white/10 group hover:bg-white/[0.02] transition-colors -mx-6 px-6">
                 <span class="text-5xl font-black text-white/[0.06] group-hover:text-white/20 transition-colors shrink-0 w-20 leading-none">{{ feat.num }}</span>
                 <div>
@@ -144,7 +144,17 @@ export class TiendaOnlineMurciaComponent implements OnInit {
             '@id': 'https://www.embercode.es/#business',
             'name': 'EmberCode Web Studio',
             'url': 'https://www.embercode.es',
-            'telephone': '+34601423840'
+            'telephone': '+34601423840',
+            'image': 'https://www.embercode.es/og-image.png',
+            'priceRange': '€€',
+            'address': {
+              '@type': 'PostalAddress',
+              'streetAddress': 'Centro',
+              'addressLocality': 'Murcia',
+              'postalCode': '30001',
+              'addressRegion': 'Región de Murcia',
+              'addressCountry': 'ES'
+            }
           },
           'areaServed': {
             '@type': 'City',

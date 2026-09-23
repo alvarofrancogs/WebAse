@@ -28,7 +28,7 @@ export type RevealPreset =
 export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
   @Input() preset: RevealPreset = 'fade-up-blur';
   @Input() delay: number = 0;
-  @Input() duration: number = 0.65;
+  @Input() duration: number = 0.6;
   @Input() once: boolean = true;
   @Input() amount: number = 0.15;
 
@@ -38,7 +38,7 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
   private tween: gsap.core.Tween | null = null;
 
   constructor() {
-    // Immediately hide element to prevent FOUC (CSS global no longer does this)
+    // Only hide if animations are ready and not reduced motion
     const el = this.element.nativeElement as HTMLElement;
     if (!this.motion.isReducedMotion() && this.motion.animationsReady) {
       el.style.opacity = '0';
@@ -56,8 +56,21 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
     }
 
     const settings = this.getPresetSettings();
+    const rect = typeof window !== 'undefined' ? el.getBoundingClientRect() : null;
+    const inInitialView = rect ? (rect.top < window.innerHeight && rect.bottom > 0) : false;
 
-    // Set the initial (hidden) state immediately via GSAP
+    if (inInitialView) {
+      // Element is already in viewport on page load: reveal smoothly without waiting for ScrollTrigger
+      this.tween = gsap.fromTo(el, settings.from, {
+        ...settings.to,
+        duration: this.duration,
+        delay: this.delay,
+        ease: 'power2.out'
+      });
+      return;
+    }
+
+    // Set the initial (hidden) state immediately via GSAP for elements below fold
     gsap.set(el, settings.from);
 
     // Use requestAnimationFrame to ensure layout is stable before creating ScrollTrigger
@@ -66,7 +79,7 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
         ...settings.to,
         duration: this.duration,
         delay: this.delay,
-        ease: 'power3.out',
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
           start: 'top 92%',
@@ -95,33 +108,29 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
     switch (this.preset) {
       case 'fade-up':
         return {
-          from: { opacity: 0, y: 30 },
+          from: { opacity: 0, y: 20 },
           to: { opacity: 1, y: 0 }
         };
       case 'fade-up-blur':
         return {
-          from: { opacity: 0, y: 30, filter: 'blur(10px)' },
+          from: { opacity: 0, y: 20, filter: 'blur(4px)' },
           to: { opacity: 1, y: 0, filter: 'blur(0px)' }
         };
       case 'slide-left':
-        return {
-          from: { opacity: 0, x: 30, filter: 'blur(8px)' },
-          to: { opacity: 1, x: 0, filter: 'blur(0px)' }
-        };
       case 'slide-right':
         return {
-          from: { opacity: 0, x: -30, filter: 'blur(8px)' },
-          to: { opacity: 1, x: 0, filter: 'blur(0px)' }
+          from: { opacity: 0, y: 16 },
+          to: { opacity: 1, y: 0 }
         };
       case 'mask':
         return {
-          from: { opacity: 0, y: 20, filter: 'blur(10px)', clipPath: 'inset(0 0 100% 0 round 10px)' },
-          to: { opacity: 1, y: 0, filter: 'blur(0px)', clipPath: 'inset(0 0 0% 0 round 10px)' }
+          from: { opacity: 0, y: 16 },
+          to: { opacity: 1, y: 0 }
         };
       case 'lift':
         return {
-          from: { opacity: 0, y: 30, rotateX: 10, filter: 'blur(10px)', transformPerspective: 900 },
-          to: { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }
+          from: { opacity: 0, y: 20, scale: 0.98 },
+          to: { opacity: 1, y: 0, scale: 1 }
         };
       default:
         return {

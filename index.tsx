@@ -3,7 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './src/app.component';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter, withInMemoryScrolling, withViewTransitions } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './src/app/app.routes';
 
 bootstrapApplication(AppComponent, {
@@ -12,7 +12,6 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideRouter(
       routes,
-      withViewTransitions(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' })
     )
   ]

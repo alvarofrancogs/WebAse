@@ -342,7 +342,9 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
                     'description': 'Diseño y desarrollo web profesional en Murcia. Webs a medida, tiendas online, automatización y mantenimiento para pymes y negocios locales.',
                     'address': {
                         '@type': 'PostalAddress',
+                        'streetAddress': 'Centro',
                         'addressLocality': 'Murcia',
+                        'postalCode': '30001',
                         'addressRegion': 'Región de Murcia',
                         'addressCountry': 'ES'
                     },

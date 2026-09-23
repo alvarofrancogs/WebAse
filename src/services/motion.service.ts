@@ -39,20 +39,29 @@ export class MotionService {
       return;
     }
 
-    // Set initial state
-    gsap.set(element, { opacity: 0, y: 30 });
+    const rect = typeof window !== 'undefined' ? element.getBoundingClientRect() : null;
+    const inInitialView = rect ? (rect.top < window.innerHeight && rect.bottom > 0) : false;
+
+    if (inInitialView) {
+      gsap.fromTo(element,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6, delay: delay, ease: 'power2.out' }
+      );
+      return;
+    }
+
+    // Set initial state for elements below viewport
+    gsap.set(element, { opacity: 0, y: 20 });
 
     gsap.to(element, {
       opacity: 1,
       y: 0,
-      duration: 0.8,
+      duration: 0.6,
       delay: delay,
-      ease: 'power3.out',
+      ease: 'power2.out',
       scrollTrigger: {
         trigger: element,
-        // Start slightly earlier (90%) so users see it happening as they scroll down
-        start: 'top 90%', 
-        // STRICT: Play on enter. Do NOTHING on leave, enterBack, or leaveBack.
+        start: 'top 92%', 
         toggleActions: 'play none none none' 
       }
     });

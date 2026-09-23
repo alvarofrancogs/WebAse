@@ -34,10 +34,6 @@ export const routes: Routes = [
         loadComponent: () => import('../components/pages/seo-local-murcia.component').then(m => m.SeoLocalMurciaComponent),
     },
     {
-        path: 'portfolio',
-        loadComponent: () => import('../components/pages/portfolio.component').then(m => m.PortfolioComponent),
-    },
-    {
         path: 'diseno-web-cartagena',
         loadComponent: () => import('../components/pages/geo/diseno-web-cartagena.component').then(m => m.DisenoWebCartagenaComponent),
     },

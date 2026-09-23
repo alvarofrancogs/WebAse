@@ -184,17 +184,11 @@ export class NavbarComponent {
 
   private lockScroll() {
     this.savedScrollY = window.scrollY;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${this.savedScrollY}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    document.body.style.paddingRight = `${scrollbarWidth}px`;
   }
 
-  private unlockScroll() {
+  private unlockScroll(restoreScroll: boolean = false) {
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.body.style.position = '';
@@ -202,7 +196,10 @@ export class NavbarComponent {
     document.body.style.left = '';
     document.body.style.right = '';
     document.body.style.paddingRight = '';
-    window.scrollTo(0, this.savedScrollY);
+
+    if (restoreScroll && this.savedScrollY > 0) {
+      window.scrollTo({ top: this.savedScrollY, behavior: 'instant' as ScrollBehavior });
+    }
   }
 
   toggleMobile() {
@@ -226,9 +223,9 @@ export class NavbarComponent {
     this.closeTimer = setTimeout(() => {
       this.mobileOpen.set(false);
       this.isClosing.set(false);
-      this.unlockScroll();
+      this.unlockScroll(false);
       this.closeTimer = undefined;
-    }, 500);
+    }, 400);
   }
 
   /** Navigate to home page and scroll to a section */
@@ -256,28 +253,29 @@ export class NavbarComponent {
   /** Navigate to a service page via Router */
   navigateToPage(event: Event, path: string) {
     event.preventDefault();
-    this.closeMobileInstant();
-    this.router.navigateByUrl(path);
-    window.scrollTo({ top: 0 });
+    this.closeMobileInstant(false);
+    this.router.navigateByUrl(path).then(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    });
   }
 
   /** Mobile navigation to home section */
   navigateToMobile(event: Event, fragment: string) {
     event.preventDefault();
-    this.closeMobileInstant();
+    this.closeMobileInstant(false);
 
     const isHome = this.router.url === '/' || this.router.url.startsWith('/#');
 
     if (isHome) {
-      requestAnimationFrame(() => this.scrollToFragment(fragment));
+      setTimeout(() => this.scrollToFragment(fragment), 50);
     } else {
       this.router.navigateByUrl('/').then(() => {
-        setTimeout(() => this.scrollToFragment(fragment), 100);
+        setTimeout(() => this.scrollToFragment(fragment), 150);
       });
     }
   }
 
-  private closeMobileInstant() {
+  private closeMobileInstant(restoreScroll: boolean = false) {
     if (this.closeTimer) {
       clearTimeout(this.closeTimer);
       this.closeTimer = undefined;
@@ -285,7 +283,7 @@ export class NavbarComponent {
     this.mobileOpen.set(false);
     this.isClosing.set(false);
     this.isOpening.set(false);
-    this.unlockScroll();
+    this.unlockScroll(restoreScroll);
   }
 
   private scrollToFragment(fragment: string) {
