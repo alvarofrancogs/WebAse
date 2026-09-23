@@ -46,40 +46,35 @@ interface MaintenancePlan {
         </div>
 
         <!-- Plans Grid -->
-        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto group/cards">
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
           @for (plan of plans; track plan.name) {
-            <app-scroll-reveal [preset]="$index === 0 ? 'slide-right' : 'slide-left'" [delay]="0.3 + ($index * 0.1)">
+            <app-scroll-reveal preset="fade-up" [delay]="0.2 + ($index * 0.1)">
               <div 
-                class="relative group h-full transition-all duration-500 ease-out
-                       group-hover/cards:blur-[2px] group-hover/cards:opacity-40
-                       hover:!blur-0 hover:!opacity-100 hover:-translate-y-2 hover:scale-[1.02] hover:z-10"
-                [class.md:-translate-y-4]="plan.highlighted"
+                class="relative h-full rounded-lg border overflow-hidden transition-all duration-300 flex flex-col justify-between bg-neutral-950"
+                [class.border-white/30]="plan.highlighted"
+                [class.border-white/10]="!plan.highlighted"
+                [class.shadow-[0_0_30px_rgba(255,255,255,0.04)]]="plan.highlighted"
+                [class.hover:border-white/40]="true"
               >
-                <!-- Card with terminal header -->
-                <div 
-                  class="relative h-full rounded-xl border overflow-hidden transition-all duration-300"
-                  [class.border-white/20]="plan.highlighted"
-                  [class.border-white/10]="!plan.highlighted"
-                  [class.bg-neutral-950]="true"
-                >
-                  <!-- Terminal-style Header Bar -->
-                  <div class="flex items-center gap-2 px-5 py-3 border-b border-white/10 bg-neutral-900/80">
-                    <div class="flex gap-1.5">
-                      <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/40]="!plan.highlighted" [class.bg-white/60]="plan.highlighted"></span>
-                      <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/20]="!plan.highlighted" [class.bg-white/40]="plan.highlighted"></span>
-                      <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/10]="!plan.highlighted" [class.bg-white/20]="plan.highlighted"></span>
-                    </div>
-                    @if (plan.highlighted) {
-                      <span class="ml-auto text-[10px] font-mono tracking-widest uppercase text-white/60 bg-white/10 px-2 py-0.5 rounded">Recomendado</span>
-                    }
+                <!-- Terminal-style Header Bar -->
+                <div class="flex items-center justify-between px-5 py-3 h-12 border-b border-white/10 bg-neutral-900/80 shrink-0">
+                  <div class="flex gap-1.5 items-center">
+                    <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/40]="!plan.highlighted" [class.bg-white/60]="plan.highlighted"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/20]="!plan.highlighted" [class.bg-white/40]="plan.highlighted"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" [class.bg-white/10]="!plan.highlighted" [class.bg-white/20]="plan.highlighted"></span>
                   </div>
+                  @if (plan.highlighted) {
+                    <span class="text-[10px] font-mono tracking-widest uppercase text-white/70 bg-white/10 px-2 py-0.5 rounded border border-white/10">Recomendado</span>
+                  }
+                </div>
 
-                  <!-- Content -->
-                  <div class="p-6 md:p-8">
+                <!-- Content -->
+                <div class="p-6 md:p-8 flex flex-col flex-1 justify-between">
+                  <div>
                     <!-- Plan header -->
                     <div class="mb-6">
                       <h3 class="text-xl font-semibold text-white mb-1">{{ plan.name }}</h3>
-                      <p class="text-sm text-neutral-500">{{ plan.description }}</p>
+                      <p class="text-sm text-neutral-400 min-h-[40px]">{{ plan.description }}</p>
                     </div>
 
                     <!-- Price -->
@@ -88,37 +83,37 @@ interface MaintenancePlan {
                         <span class="text-4xl md:text-5xl font-bold text-white">{{ plan.price }}</span>
                         <span class="text-neutral-500 text-sm">{{ plan.period }}</span>
                       </div>
-                      <p class="text-xs text-neutral-600 mt-2">Facturación trimestral disponible</p>
+                      <p class="text-xs text-neutral-500 mt-2">Facturación trimestral disponible</p>
                     </div>
 
                     <!-- Features -->
-                    <ul class="space-y-3">
+                    <ul class="space-y-3 mb-8">
                       @for (feature of plan.features; track $index) {
                         <li class="flex items-start gap-3 text-sm">
                           <svg class="w-4 h-4 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                           </svg>
-                          <span class="text-neutral-400">{{ feature }}</span>
+                          <span class="text-neutral-300">{{ feature }}</span>
                         </li>
                       }
                     </ul>
+                  </div>
 
-                    <!-- CTA Button -->
-                    <div class="mt-8">
-                      <a 
-                        href="#contacto"
-                        class="block w-full py-3 px-6 text-center text-xs font-mono tracking-widest uppercase font-medium rounded-none transition-all duration-300 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        [class.bg-white]="plan.highlighted"
-                        [class.text-black]="plan.highlighted"
-                        [class.hover:bg-neutral-200]="plan.highlighted"
-                        [class.border]="!plan.highlighted"
-                        [class.border-white/20]="!plan.highlighted"
-                        [class.text-white]="!plan.highlighted"
-                        [class.hover:bg-white/5]="!plan.highlighted"
-                      >
-                        Empezar
-                      </a>
-                    </div>
+                  <!-- CTA Button -->
+                  <div class="mt-auto pt-2">
+                    <a 
+                      href="#contacto"
+                      class="block w-full py-3.5 px-6 text-center text-xs font-mono tracking-widest uppercase font-medium rounded-none transition-all duration-300 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      [class.bg-white]="plan.highlighted"
+                      [class.text-black]="plan.highlighted"
+                      [class.hover:bg-neutral-200]="plan.highlighted"
+                      [class.border]="!plan.highlighted"
+                      [class.border-white/20]="!plan.highlighted"
+                      [class.text-white]="!plan.highlighted"
+                      [class.hover:bg-white/10]="!plan.highlighted"
+                    >
+                      Empezar
+                    </a>
                   </div>
                 </div>
               </div>

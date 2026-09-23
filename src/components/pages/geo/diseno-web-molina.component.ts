@@ -53,7 +53,7 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
           <div class="text-center py-12 border border-white/10 rounded-lg bg-white/[0.02] mb-12">
             <h2 class="text-2xl font-bold text-white mb-3">¿Necesitas una web en Molina de Segura?</h2>
             <p class="text-neutral-400 text-sm mb-6">Te enviamos presupuesto personalizado en 24h.</p>
-            <a href="https://wa.me/34601102877?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Molina%20de%20Segura" target="_blank" rel="noopener"
+            <a href="https://wa.me/34601423840?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Molina%20de%20Segura" target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-neutral-200 transition-colors">
               PEDIR PRESUPUESTO
             </a>
@@ -79,9 +79,39 @@ export class DisenoWebMolinaComponent implements OnInit {
             title: 'Diseño Web en Molina de Segura | Páginas Web a Medida | EmberCode',
             description: 'Diseño web profesional en Molina de Segura. Webs modernas para empresas y autónomos con SEO local, adaptadas a móvil. Presupuesto sin compromiso.',
             canonicalPath: '/diseno-web-molina-de-segura',
+            geo: {
+                region: 'ES-MU',
+                placename: 'Molina de Segura',
+                position: '38.0536;-1.2132'
+            },
             jsonLd: [
-                { '@context': 'https://schema.org', '@type': 'Service', 'name': 'Diseño Web en Molina de Segura', 'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' }, 'areaServed': { '@type': 'City', 'name': 'Molina de Segura' } },
-                { '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [{ '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' }, { '@type': 'ListItem', 'position': 2, 'name': 'Diseño Web', 'item': 'https://www.embercode.es/diseno-web-murcia' }, { '@type': 'ListItem', 'position': 3, 'name': 'Molina de Segura', 'item': 'https://www.embercode.es/diseno-web-molina-de-segura' }] }
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'Service',
+                    'name': 'Diseño Web en Molina de Segura',
+                    'description': 'Diseño web profesional para empresas y autónomos en Molina de Segura.',
+                    'provider': {
+                        '@type': 'LocalBusiness',
+                        '@id': 'https://www.embercode.es/#business',
+                        'name': 'EmberCode Web Studio',
+                        'url': 'https://www.embercode.es',
+                        'telephone': '+34601423840'
+                    },
+                    'areaServed': {
+                        '@type': 'City',
+                        'name': 'Molina de Segura',
+                        'sameAs': 'https://es.wikipedia.org/wiki/Molina_de_Segura'
+                    }
+                },
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'BreadcrumbList',
+                    'itemListElement': [
+                        { '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' },
+                        { '@type': 'ListItem', 'position': 2, 'name': 'Diseño Web', 'item': 'https://www.embercode.es/diseno-web-murcia' },
+                        { '@type': 'ListItem', 'position': 3, 'name': 'Molina de Segura', 'item': 'https://www.embercode.es/diseno-web-molina-de-segura' }
+                    ]
+                }
             ]
         });
     }

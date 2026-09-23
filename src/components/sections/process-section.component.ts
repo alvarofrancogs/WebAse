@@ -1,4 +1,4 @@
-﻿import { Component, ElementRef, HostListener, ViewChild, AfterViewInit, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, AfterViewInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
@@ -55,17 +55,17 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
             <!-- Step 2 -->
             <app-scroll-reveal preset="fade-down" [delay]="0.4">
-              <div class="relative pl-10 md:pl-12 group">
+              <div class="relative pl-8 md:pl-12 group">
                 <h3 class="text-xl font-semibold transition-colors duration-300" [class.text-white]="step2Active()" [class.text-neutral-500]="!step2Active()">Desarrollo Ágil</h3>
                 <p class="text-neutral-400 max-w-2xl transition-opacity duration-300" [class.opacity-100]="step2Active()" [class.opacity-50]="!step2Active()">
-                  Despliegue en <strong>menos de 2 semanas</strong> (normal) o <strong>menos de 1 semana</strong> (express).
+                  Iteraciones rápidas y despliegue continuo con <strong>plazos cerrados y acordados</strong> según el alcance de tu proyecto.
                 </p>
               </div>
             </app-scroll-reveal>
 
             <!-- Step 3 -->
             <app-scroll-reveal preset="fade-down" [delay]="0.6">
-              <div class="relative pl-10 md:pl-12 group">
+              <div class="relative pl-8 md:pl-12 group">
                 <h3 class="text-xl font-semibold transition-colors duration-300" [class.text-white]="step3Active()" [class.text-neutral-500]="!step3Active()">Mantenimiento y Entrega</h3>
                 <p class="text-neutral-400 max-w-2xl transition-opacity duration-300" [class.opacity-100]="step3Active()" [class.opacity-50]="!step3Active()">
                   Contacto constante. Webs alojadas en servidores de alta capacidad.

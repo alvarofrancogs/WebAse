@@ -1,7 +1,8 @@
-import { Component, Input, ElementRef, AfterViewInit, OnDestroy, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ElementRef, AfterViewInit, OnDestroy, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MotionService } from '../../services/motion.service';
 
 export type RevealPreset =
   | 'fade-up'
@@ -18,7 +19,10 @@ export type RevealPreset =
   encapsulation: ViewEncapsulation.None,
   template: `<ng-content></ng-content>`,
   styles: [`
-    app-scroll-reveal { display: block; }
+    app-scroll-reveal {
+      display: block;
+      height: 100%;
+    }
   `]
 })
 export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
@@ -29,31 +33,22 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
   @Input() amount: number = 0.15;
 
   private element = inject(ElementRef);
-  private isReducedMotion = signal(false);
-  private animationsReady = false;
+  private motion = inject(MotionService);
   private scrollTriggerInstance: ScrollTrigger | null = null;
+  private tween: gsap.core.Tween | null = null;
 
   constructor() {
-    this.checkReducedMotion();
-    try {
-      gsap.registerPlugin(ScrollTrigger);
-      this.animationsReady = true;
-    } catch {
-      this.animationsReady = false;
-    }
-  }
-
-  checkReducedMotion() {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      this.isReducedMotion.set(mediaQuery.matches);
+    // Immediately hide element to prevent FOUC (CSS global no longer does this)
+    const el = this.element.nativeElement as HTMLElement;
+    if (!this.motion.isReducedMotion() && this.motion.animationsReady) {
+      el.style.opacity = '0';
     }
   }
 
   ngAfterViewInit() {
     const el = this.element.nativeElement as HTMLElement;
 
-    if (this.isReducedMotion() || !this.animationsReady) {
+    if (this.motion.isReducedMotion() || !this.motion.animationsReady) {
       el.style.opacity = '1';
       el.style.transform = 'none';
       el.style.filter = 'none';
@@ -67,27 +62,21 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
 
     // Use requestAnimationFrame to ensure layout is stable before creating ScrollTrigger
     requestAnimationFrame(() => {
-      const tween = gsap.to(el, {
+      this.tween = gsap.to(el, {
         ...settings.to,
         duration: this.duration,
         delay: this.delay,
         ease: 'power3.out',
-        paused: true, // We'll let ScrollTrigger control playback
         scrollTrigger: {
           trigger: el,
           start: 'top 92%',
           toggleActions: 'play none none none',
-          onEnter: () => {
-            tween.play();
-          }
+          once: this.once
         }
       });
 
       // Store reference for cleanup
-      this.scrollTriggerInstance = tween.scrollTrigger as ScrollTrigger;
-
-      // Force a refresh so elements already in view trigger immediately
-      ScrollTrigger.refresh();
+      this.scrollTriggerInstance = this.tween.scrollTrigger as ScrollTrigger;
     });
   }
 
@@ -95,6 +84,10 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
     if (this.scrollTriggerInstance) {
       this.scrollTriggerInstance.kill();
       this.scrollTriggerInstance = null;
+    }
+    if (this.tween) {
+      this.tween.kill();
+      this.tween = null;
     }
   }
 

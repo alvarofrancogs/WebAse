@@ -20,7 +20,7 @@ import { BRAND } from './app/content';
     <!-- FOOTER -->
     <footer class="py-12 border-t border-white/10 bg-black relative z-30">
       <div class="container mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center sm:text-left">
           <!-- Brand -->
           <div>
             <p class="text-white font-semibold mb-2">{{ brand.name }}</p>
@@ -28,14 +28,17 @@ import { BRAND } from './app/content';
           </div>
 
           <!-- Contact / NAP -->
-          <div>
+          <div itemscope itemtype="https://schema.org/LocalBusiness">
+            <meta itemprop="name" content="EmberCode Web Studio">
             <p class="text-neutral-400 text-sm mb-1">
-              <a href="mailto:{{brand.email}}" class="hover:text-white transition-colors">{{brand.email}}</a>
+              <a [attr.href]="'mailto:' + brand.email" class="hover:text-white transition-colors" itemprop="email">{{brand.email}}</a>
             </p>
             <p class="text-neutral-400 text-sm mb-1">
-              <a href="tel:+34601102877" class="hover:text-white transition-colors">+34 601 102 877</a>
+              <a [attr.href]="'tel:' + brand.phone" class="hover:text-white transition-colors" itemprop="telephone">+34 {{brand.phoneDisplay}}</a>
             </p>
-            <p class="text-neutral-500 text-xs mt-2">Murcia, Región de Murcia, España</p>
+            <p class="text-neutral-500 text-xs mt-2" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+              <span itemprop="addressLocality">Murcia</span>, <span itemprop="addressRegion">Región de Murcia</span>, <span itemprop="addressCountry">España</span>
+            </p>
           </div>
 
           <!-- Services links -->
@@ -48,6 +51,17 @@ import { BRAND } from './app/content';
               <a routerLink="/mantenimiento-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Mantenimiento</a>
               <a routerLink="/pagina-web-para-empresas-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Web para Empresas</a>
               <a routerLink="/seo-local-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">SEO Local</a>
+            </nav>
+          </div>
+
+          <!-- Geo / Zones links -->
+          <div>
+            <p class="text-neutral-500 text-xs font-mono tracking-widest uppercase mb-3">Zonas</p>
+            <nav class="flex flex-col gap-1">
+              <a routerLink="/diseno-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Murcia Capital</a>
+              <a routerLink="/diseno-web-cartagena" class="text-neutral-400 text-sm hover:text-white transition-colors">Cartagena</a>
+              <a routerLink="/diseno-web-lorca" class="text-neutral-400 text-sm hover:text-white transition-colors">Lorca</a>
+              <a routerLink="/diseno-web-molina-de-segura" class="text-neutral-400 text-sm hover:text-white transition-colors">Molina de Segura</a>
             </nav>
           </div>
         </div>

@@ -11,10 +11,10 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
   template: `
     <section class="min-h-screen pt-28 pb-20 bg-black relative z-30">
       <div class="container mx-auto px-6 max-w-5xl">
-        <nav class="mb-8 text-xs font-mono text-white/40">
+        <nav class="mb-8 text-xs font-mono text-neutral-500">
           <a routerLink="/" class="hover:text-white transition-colors">Inicio</a>
           <span class="mx-2">/</span>
-          <span class="text-white/70">SEO Local Murcia</span>
+          <span class="text-neutral-400">SEO Local Murcia</span>
         </nav>
         <div class="relative py-20 md:py-32">
           <app-scroll-reveal preset="fade-up-blur" [delay]="0">
@@ -53,7 +53,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
         <!-- Stats -->
         <app-scroll-reveal preset="fade-up" [delay]="0.1">
-          <div class="grid grid-cols-3 gap-px bg-white/10 mb-32">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 mb-32">
             @for (stat of stats; track stat.label) {
               <div class="bg-black p-8 md:p-12 text-center group hover:bg-white/[0.03] transition-colors">
                 <div class="text-3xl md:text-5xl font-black text-white mb-2">{{ stat.value }}</div>
@@ -95,7 +95,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Quieres aparecer primero en Google?</h2>
             <p class="text-white/50 mb-8 max-w-lg mx-auto">Analizamos tu web gratuitamente y te proponemos un plan de posicionamiento.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">MEJORAR MI SEO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
+            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
@@ -135,8 +135,30 @@ export class SeoLocalMurciaComponent implements OnInit {
       title: 'SEO Local en Murcia | Posicionamiento Web para Negocios | EmberCode',
       description: 'Servicio de SEO local en Murcia para que tu negocio aparezca en los primeros resultados de Google.',
       canonicalPath: '/seo-local-murcia',
+      geo: {
+        region: 'ES-MU',
+        placename: 'Murcia',
+        position: '37.9922;-1.1307'
+      },
       jsonLd: [
-        { '@context': 'https://schema.org', '@type': 'Service', 'name': 'SEO Local en Murcia', 'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' }, 'areaServed': { '@type': 'City', 'name': 'Murcia' }, 'description': 'Posicionamiento SEO local para negocios en Murcia.' },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          'name': 'SEO Local en Murcia',
+          'provider': {
+            '@type': 'LocalBusiness',
+            '@id': 'https://www.embercode.es/#business',
+            'name': 'EmberCode Web Studio',
+            'url': 'https://www.embercode.es',
+            'telephone': '+34601423840'
+          },
+          'areaServed': {
+            '@type': 'City',
+            'name': 'Murcia',
+            'sameAs': 'https://es.wikipedia.org/wiki/Murcia'
+          },
+          'description': 'Posicionamiento SEO local para negocios en Murcia.'
+        },
         { '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [{ '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' }, { '@type': 'ListItem', 'position': 2, 'name': 'SEO Local Murcia', 'item': 'https://www.embercode.es/seo-local-murcia' }] },
         { '@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{ '@type': 'Question', 'name': '¿En cuánto tiempo veré resultados del SEO?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'El SEO local suele mostrar resultados iniciales en 1-3 meses.' } }, { '@type': 'Question', 'name': '¿Qué diferencia hay entre SEO local y SEO normal?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'El SEO local optimiza tu web para búsquedas en tu zona geográfica.' } }] }
       ]

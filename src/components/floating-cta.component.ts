@@ -10,7 +10,7 @@ import { BRAND } from '../app/content';
 
       <!-- Expanded panel -->
       @if (isOpen()) {
-        <div class="floating-panel bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg p-4 shadow-2xl w-64 animate-panel-in">
+        <div class="floating-panel bg-black/90 backdrop-blur-xl border border-white/10 rounded-lg p-4 shadow-2xl w-[calc(100vw-3rem)] max-w-64 animate-panel-in">
           <!-- Header -->
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
             <span class="text-[10px] font-mono tracking-[0.2em] uppercase text-neutral-500">Canal directo</span>
@@ -18,8 +18,8 @@ import { BRAND } from '../app/content';
           </div>
 
           <!-- WhatsApp -->
-          <a href="https://wa.me/34601102877?text=Hola%2C%20me%20interesa%20un%20presupuesto%20para%20mi%20web"
-            target="_blank" rel="noopener noreferrer"
+          <a href="https://wa.me/34601423840?text=Hola%2C%20me%20interesa%20un%20presupuesto%20para%20mi%20web"
+            target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp"
             class="group flex items-center gap-3 py-2.5 px-3 -mx-1 rounded hover:bg-white/5 transition-all">
             <span class="w-8 h-8 border border-emerald-500/30 rounded flex items-center justify-center group-hover:border-emerald-500/60 transition-colors">
               <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@ import { BRAND } from '../app/content';
           </a>
 
           <!-- Phone -->
-          <a href="tel:{{ brand.phone }}"
+          <a [attr.href]="'tel:' + brand.phone" aria-label="Llamar por teléfono"
             class="group flex items-center gap-3 py-2.5 px-3 -mx-1 rounded hover:bg-white/5 transition-all">
             <span class="w-8 h-8 border border-white/10 rounded flex items-center justify-center group-hover:border-white/30 transition-colors">
               <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,7 +47,7 @@ import { BRAND } from '../app/content';
           </a>
 
           <!-- Email -->
-          <a href="mailto:{{ brand.email }}"
+          <a [attr.href]="'mailto:' + brand.email" aria-label="Enviar correo electrónico"
             class="group flex items-center gap-3 py-2.5 px-3 -mx-1 rounded hover:bg-white/5 transition-all">
             <span class="w-8 h-8 border border-white/10 rounded flex items-center justify-center group-hover:border-white/30 transition-colors">
               <svg class="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

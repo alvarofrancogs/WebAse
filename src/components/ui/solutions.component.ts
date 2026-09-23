@@ -1,4 +1,4 @@
-import { Component, signal, computed, effect, input, ElementRef, viewChild, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, signal, computed, effect, input, ElementRef, viewChild, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 
@@ -151,8 +151,14 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
   isMobile = signal(false);
 
   // Parallax
-  numberX = computed(() => (this.mouseX() / window.innerWidth) * 40 - 20);
-  numberY = computed(() => (this.mouseY() / window.innerHeight) * 20 - 10);
+  numberX = computed(() => {
+    const width = typeof window !== 'undefined' ? window.innerWidth : 1000;
+    return (this.mouseX() / width) * 40 - 20;
+  });
+  numberY = computed(() => {
+    const height = typeof window !== 'undefined' ? window.innerHeight : 1000;
+    return (this.mouseY() / height) * 20 - 10;
+  });
 
   current = computed(() => this.solutions()[this.activeIndex()]);
 
@@ -163,6 +169,7 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
   textReveal = viewChild<ElementRef>('textReveal');
   descElement = viewChild<ElementRef>('descElement');
 
+  private hostEl = inject(ElementRef);
   private intervalId: any;
   private readonly resizeHandler = () => this.checkMobile();
 
@@ -286,7 +293,7 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
       );
 
       setTimeout(() => {
-        const bullets = document.querySelectorAll('.bullet-item');
+        const bullets = this.hostEl.nativeElement.querySelectorAll('.bullet-item');
         if (bullets.length) {
           gsap.fromTo(bullets,
             { opacity: 0, y: 10 },
@@ -297,8 +304,8 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
     } catch {
       desc.style.opacity = '1';
       desc.style.transform = 'none';
-      const bullets = document.querySelectorAll<HTMLElement>('.bullet-item');
-      bullets.forEach((bullet) => {
+      const bullets = (this.hostEl.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('.bullet-item');
+      bullets.forEach((bullet: HTMLElement) => {
         bullet.style.opacity = '1';
         bullet.style.transform = 'none';
       });

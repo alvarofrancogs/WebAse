@@ -12,10 +12,10 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
     <section class="min-h-screen pt-28 pb-20 bg-black relative z-30">
       <div class="container mx-auto px-6 max-w-5xl">
 
-        <nav class="mb-8 text-xs font-mono text-white/40">
+        <nav class="mb-8 text-xs font-mono text-neutral-500">
           <a routerLink="/" class="hover:text-white transition-colors">Inicio</a>
           <span class="mx-2">/</span>
-          <span class="text-white/70">Web para Empresas</span>
+          <span class="text-neutral-400">Web para Empresas</span>
         </nav>
 
         <!-- Hero -->
@@ -50,36 +50,20 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
           </div>
         </app-scroll-reveal>
 
-        <!-- Benefits Accordion -->
-        <div class="mb-32 max-w-4xl mx-auto">
+        <!-- Benefits Grid -->
+        <div class="mb-32 max-w-5xl mx-auto">
           <app-scroll-reveal preset="fade-up-blur" [delay]="0">
             <p class="text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-4 text-center">¿Por qué una web profesional?</p>
             <h2 class="text-3xl md:text-4xl font-black text-white mb-16 text-center">Lo que incluye tu web corporativa</h2>
           </app-scroll-reveal>
-          <div class="flex flex-col border-t border-white/10">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @for (benefit of benefits; track benefit.title; let i = $index) {
-              <app-scroll-reveal preset="fade-up" [delay]="i * 0.1">
-                <div class="border-b border-white/10 group overflow-hidden">
-                  <button (click)="openBenefit = openBenefit === i ? -1 : i" class="w-full flex items-center justify-between py-8 md:py-10 text-left hover:bg-white/[0.02] transition-colors duration-500 px-0">
-                    <div class="flex items-center gap-6 md:gap-12 transition-transform duration-500 ease-out group-hover:translate-x-4">
-                      <span class="text-2xl md:text-3xl font-mono text-white/20 transition-colors" [class.text-amber-400]="openBenefit === i">{{ benefit.num }}</span>
-                      <h3 class="text-xl md:text-3xl font-bold text-white/70 transition-colors" [class.text-white]="openBenefit === i">{{ benefit.title }}</h3>
-                    </div>
-                    <div class="relative w-8 h-8 rounded-full border border-white/20 flex items-center justify-center shrink-0 transition-all duration-500" [class.bg-white]="openBenefit === i" [class.border-white]="openBenefit === i">
-                      <div class="absolute w-3 h-[2px] bg-white transition-colors" [class.bg-black]="openBenefit === i"></div>
-                      <div class="absolute w-[2px] h-3 bg-white transition-all duration-500" [class.bg-black]="openBenefit === i" [class.rotate-90]="openBenefit === i"></div>
-                    </div>
-                  </button>
-                  <div class="grid transition-all duration-500 ease-in-out" 
-                       [class.grid-rows-[1fr]]="openBenefit === i" 
-                       [class.opacity-100]="openBenefit === i" 
-                       [class.grid-rows-[0fr]]="openBenefit !== i" 
-                       [class.opacity-0]="openBenefit !== i">
-                    <div class="overflow-hidden">
-                      <div class="pl-0 md:pl-24 pr-6 pb-10">
-                        <p class="text-white/60 text-lg leading-relaxed max-w-2xl">{{ benefit.desc }}</p>
-                      </div>
-                    </div>
+              <app-scroll-reveal preset="fade-up" [delay]="i * 0.08">
+                <div class="p-8 rounded-lg border border-white/10 bg-neutral-950 hover:border-white/20 transition-all duration-300 h-full flex flex-col justify-between">
+                  <div>
+                    <span class="text-2xl font-mono text-white/20 block mb-4">{{ benefit.num }}</span>
+                    <h3 class="text-lg font-bold text-white mb-2">{{ benefit.title }}</h3>
+                    <p class="text-white/60 text-sm leading-relaxed">{{ benefit.desc }}</p>
                   </div>
                 </div>
               </app-scroll-reveal>
@@ -89,7 +73,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
         <!-- FAQ Accordion -->
         <app-scroll-reveal preset="fade-up-blur" [delay]="0.1">
-          <div class="mb-32">
+          <div class="mb-32 max-w-3xl mx-auto">
             <p class="text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-4">FAQ</p>
             <h2 class="text-3xl md:text-4xl font-black text-white mb-12">Preguntas frecuentes</h2>
             <div class="flex flex-col gap-4">
@@ -120,7 +104,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Tu empresa necesita una web profesional?</h2>
             <p class="text-white/50 mb-8 max-w-lg mx-auto">Te enviamos presupuesto cerrado en 24h. Sin compromiso.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">SOLICITAR PRESUPUESTO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
+            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
@@ -140,7 +124,6 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 export class PaginaWebEmpresasMurciaComponent implements OnInit {
   private seo = inject(SeoService);
   openFaq: number = -1;
-  openBenefit: number = 0;
 
   stats = [
     { value: '100+', label: 'Webs entregadas' },
@@ -159,9 +142,7 @@ export class PaginaWebEmpresasMurciaComponent implements OnInit {
 
   faqs = [
     { q: '¿Cuánto cuesta una web para mi empresa en Murcia?', a: 'Cada proyecto es diferente. Una web corporativa básica parte de unos ~500€, pero el precio depende del número de páginas, funcionalidades y diseño. Te damos presupuesto cerrado desde el primer día.' },
-    { q: '¿Incluye el dominio y hosting?', a: 'Sí. Con nuestros planes de mantenimiento, dominio (.com, .es), hosting de alto rendimiento, SSL y backups están incluidos.' },
-    { q: '¿Cuánto tarda en estar lista?', a: 'Normalmente entre 1 y 3 semanas según el alcance del proyecto. Proyectos urgentes pueden acelerarse.' },
-    { q: '¿Y si necesito funcionalidades especiales?', a: 'Tenemos experiencia en formularios avanzados, zonas privadas, integración con APIs, CRMs, ERPs y mucho más.' },
+    { q: '¿Qué ocurre si mi empresa necesita integraciones o funcionalidades especiales?', a: 'Desarrollamos soluciones avanzadas a medida: integración con APIs, CRMs, ERPs, áreas privadas de clientes y formularios personalizados.' },
   ];
 
   ngOnInit() {
@@ -169,13 +150,28 @@ export class PaginaWebEmpresasMurciaComponent implements OnInit {
       title: 'Página Web para Empresas en Murcia | Diseño Profesional | EmberCode',
       description: 'Creamos páginas web profesionales para empresas en Murcia. Diseño a medida, optimización SEO, adaptada a móvil y enfocada en captar clientes. Presupuesto sin compromiso.',
       canonicalPath: '/pagina-web-para-empresas-murcia',
+      geo: {
+        region: 'ES-MU',
+        placename: 'Murcia',
+        position: '37.9922;-1.1307'
+      },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
           'name': 'Página Web para Empresas en Murcia',
-          'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' },
-          'areaServed': { '@type': 'City', 'name': 'Murcia' },
+          'provider': {
+            '@type': 'LocalBusiness',
+            '@id': 'https://www.embercode.es/#business',
+            'name': 'EmberCode Web Studio',
+            'url': 'https://www.embercode.es',
+            'telephone': '+34601423840'
+          },
+          'areaServed': {
+            '@type': 'City',
+            'name': 'Murcia',
+            'sameAs': 'https://es.wikipedia.org/wiki/Murcia'
+          },
           'description': 'Diseño y desarrollo de páginas web profesionales para empresas, autónomos y pymes en Murcia.'
         },
         {
@@ -190,8 +186,8 @@ export class PaginaWebEmpresasMurciaComponent implements OnInit {
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
           'mainEntity': [
-            { '@type': 'Question', 'name': '¿Cuánto cuesta una web para mi empresa en Murcia?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Cada proyecto es diferente. Una web corporativa básica parte de unos ~500€, pero el precio depende del número de páginas, funcionalidades y diseño.' } },
-            { '@type': 'Question', 'name': '¿Incluye el dominio y hosting?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Sí. Con nuestros planes de mantenimiento, dominio (.com, .es), hosting de alto rendimiento, SSL y backups están incluidos.' } }
+            { '@type': 'Question', 'name': '¿Cuánto cuesta una web para mi empresa en Murcia?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Cada proyecto es diferente. Una web corporativa básica parte de unos ~500€, pero el precio depende del número de páginas, funcionalidades y diseño. Te damos presupuesto cerrado desde el primer día.' } },
+            { '@type': 'Question', 'name': '¿Qué ocurre si mi empresa necesita integraciones o funcionalidades especiales?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Desarrollamos soluciones avanzadas a medida: integración con APIs, CRMs, ERPs, áreas privadas de clientes y formularios personalizados.' } }
           ]
         }
       ]

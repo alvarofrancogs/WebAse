@@ -48,7 +48,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
         <app-scroll-reveal preset="fade-up" [delay]="0.2">
           <h2 class="text-2xl md:text-3xl font-bold text-white mb-8">Mantenimiento mensual</h2>
           <div class="grid md:grid-cols-2 gap-6 mb-16">
-            <div class="border border-white/10 rounded-xl p-6 md:p-8 bg-neutral-950">
+            <div class="border border-white/10 rounded-lg p-6 md:p-8 bg-neutral-950">
               <h3 class="text-xl font-semibold text-white mb-1">Básico</h3>
               <p class="text-sm text-neutral-500 mb-4">Para webs que solo necesitan estar online.</p>
               <div class="flex items-baseline gap-1 mb-6">
@@ -62,7 +62,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
                 <li>✓ Soporte en menos de 24h</li>
               </ul>
             </div>
-            <div class="border border-white/20 rounded-xl p-6 md:p-8 bg-neutral-950">
+            <div class="border border-white/20 rounded-lg p-6 md:p-8 bg-neutral-950">
               <div class="flex items-center justify-between mb-1">
                 <h3 class="text-xl font-semibold text-white">Estándar</h3>
                 <span class="text-[10px] font-mono tracking-widest uppercase text-white/60 bg-white/10 px-2 py-0.5 rounded">Recomendado</span>
@@ -96,11 +96,11 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
         </app-scroll-reveal>
 
         <app-scroll-reveal preset="fade-up" [delay]="0.4">
-          <div class="text-center bg-neutral-900/50 border border-white/10 rounded-xl p-8 md:p-12">
+          <div class="text-center bg-neutral-900/50 border border-white/10 rounded-lg p-8 md:p-12">
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">¿Quieres un presupuesto personalizado?</h2>
             <p class="text-neutral-400 mb-6">Cuéntanos tu proyecto y te enviamos una propuesta detallada en 24h. Sin compromiso.</p>
             <a href="/#contacto" class="inline-flex items-center justify-center bg-white text-black font-mono text-xs tracking-widest uppercase font-bold px-8 py-4 hover:bg-neutral-200 transition-colors">PEDIR PRESUPUESTO</a>
-            <p class="text-neutral-500 text-xs mt-4">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
+            <p class="text-neutral-500 text-xs mt-4">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
@@ -124,7 +124,7 @@ export class PreciosDisenoWebMurciaComponent implements OnInit {
     {
       title: 'Sitio Web Profesional',
       desc: 'Diseño y desarrollo web a medida. Tu escaparate online optimizado para convertir visitas en clientes.',
-      tags: ['Diseño responsive', 'SEO base', 'Entrega 1-2 semanas', 'Código limpio']
+      tags: ['Diseño responsive', 'SEO base', 'Entrega ágil', 'Código limpio']
     },
     {
       title: 'Tienda Online',
@@ -150,14 +150,29 @@ export class PreciosDisenoWebMurciaComponent implements OnInit {
       title: 'Precios Diseño Web en Murcia | Presupuesto sin Compromiso | EmberCode',
       description: 'Precios orientativos de diseño web en Murcia. Mantenimiento desde 30€/mes. Presupuesto personalizado sin compromiso en 24h.',
       canonicalPath: '/precios-diseno-web-murcia',
+      geo: {
+        region: 'ES-MU',
+        placename: 'Murcia',
+        position: '37.9922;-1.1307'
+      },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
           'name': 'Precios Diseño Web en Murcia',
           'description': 'Precios orientativos y planes de mantenimiento web para empresas en Murcia.',
-          'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' },
-          'areaServed': { '@type': 'City', 'name': 'Murcia' },
+          'provider': {
+            '@type': 'LocalBusiness',
+            '@id': 'https://www.embercode.es/#business',
+            'name': 'EmberCode Web Studio',
+            'url': 'https://www.embercode.es',
+            'telephone': '+34601423840'
+          },
+          'areaServed': {
+            '@type': 'City',
+            'name': 'Murcia',
+            'sameAs': 'https://es.wikipedia.org/wiki/Murcia'
+          },
           'serviceType': 'Diseño web'
         },
         {

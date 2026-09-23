@@ -1,7 +1,8 @@
-import { Component, Input, ElementRef, AfterViewInit, inject, signal, computed, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ElementRef, AfterViewInit, inject, computed, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MotionService } from '../../services/motion.service';
 
 @Component({
   selector: 'app-staggered-text',
@@ -55,28 +56,10 @@ export class StaggeredTextComponent implements AfterViewInit {
   words = computed(() => this.text.split(' '));
 
   private element = inject(ElementRef);
-  private isReducedMotion = signal(false);
-  private animationsReady = false;
-
-  constructor() {
-    this.checkReducedMotion();
-    try {
-      gsap.registerPlugin(ScrollTrigger);
-      this.animationsReady = true;
-    } catch {
-      this.animationsReady = false;
-    }
-  }
-
-  checkReducedMotion() {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      this.isReducedMotion.set(mediaQuery.matches);
-    }
-  }
+  private motion = inject(MotionService);
 
   ngAfterViewInit() {
-    if (!this.animationsReady) {
+    if (!this.motion.animationsReady) {
       setTimeout(() => {
         const container = this.element.nativeElement.querySelector('.relative');
         if (!container) return;
@@ -99,7 +82,7 @@ export class StaggeredTextComponent implements AfterViewInit {
       const spans = container.querySelectorAll('.word-span');
       if (spans.length === 0) return;
 
-      if (this.isReducedMotion()) {
+      if (this.motion.isReducedMotion()) {
         gsap.to(spans, { opacity: 1, duration: 0.5 });
         return;
       }

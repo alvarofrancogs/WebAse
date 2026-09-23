@@ -1,8 +1,8 @@
 export const BRAND = {
   name: 'EmberCode Web Studio',
   email: 'contacto@embercode.es',
-  phone: '+34601102877',
-  phoneDisplay: '601 102 877',
+  phone: '+34601423840',
+  phoneDisplay: '601 423 840',
   location: 'Murcia, España',
   tagline: 'Automatización. Rendimiento. Futuro.',
 };
@@ -11,7 +11,7 @@ export const SERVICES = [
   {
     title: 'Sitio Web',
     description: 'Tu escaparate online. Diseño profesional que transmite confianza y convierte visitas en clientes.',
-    features: ['Diseño responsive (móvil y PC)', 'Optimizado para Google', 'Entrega en menos de 2 semanas'],
+    features: ['Diseño responsive (móvil y PC)', 'Optimizado para Google', 'Desarrollo ágil y plazos cerrados'],
     link: '/diseno-web-murcia'
   },
   {

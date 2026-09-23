@@ -7,6 +7,11 @@ export interface SeoData {
     canonicalPath: string;
     ogType?: string;
     jsonLd?: object | object[];
+    geo?: {
+        region?: string;
+        placename?: string;
+        position?: string;
+    };
 }
 
 const BASE_URL = 'https://www.embercode.es';
@@ -32,6 +37,18 @@ export class SeoService {
         this.setMeta('twitter:card', 'summary_large_image');
         this.setMeta('twitter:title', data.title);
         this.setMeta('twitter:description', data.description);
+
+        // Geo
+        if (data.geo) {
+            this.setMeta('geo.region', data.geo.region ?? 'ES-MU');
+            if (data.geo.placename) {
+                this.setMeta('geo.placename', data.geo.placename);
+            }
+            if (data.geo.position) {
+                this.setMeta('geo.position', data.geo.position);
+                this.setMeta('ICBM', data.geo.position.replace(';', ', '));
+            }
+        }
 
         // JSON-LD
         if (data.jsonLd) {

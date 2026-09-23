@@ -53,7 +53,7 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
           <div class="text-center py-12 border border-white/10 rounded-lg bg-white/[0.02] mb-12">
             <h2 class="text-2xl font-bold text-white mb-3">¿Necesitas una web en Cartagena?</h2>
             <p class="text-neutral-400 text-sm mb-6">Te enviamos presupuesto personalizado en 24h.</p>
-            <a href="https://wa.me/34601102877?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Cartagena" target="_blank" rel="noopener"
+            <a href="https://wa.me/34601423840?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Cartagena" target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-neutral-200 transition-colors">
               PEDIR PRESUPUESTO
             </a>
@@ -79,9 +79,39 @@ export class DisenoWebCartagenaComponent implements OnInit {
             title: 'Diseño Web en Cartagena | Páginas Web Profesionales | EmberCode',
             description: 'Diseño y desarrollo web profesional en Cartagena. Webs rápidas, modernas y optimizadas para Google. Presupuesto sin compromiso.',
             canonicalPath: '/diseno-web-cartagena',
+            geo: {
+                region: 'ES-MU',
+                placename: 'Cartagena',
+                position: '37.6051;-0.9862'
+            },
             jsonLd: [
-                { '@context': 'https://schema.org', '@type': 'Service', 'name': 'Diseño Web en Cartagena', 'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' }, 'areaServed': { '@type': 'City', 'name': 'Cartagena' } },
-                { '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [{ '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' }, { '@type': 'ListItem', 'position': 2, 'name': 'Diseño Web', 'item': 'https://www.embercode.es/diseno-web-murcia' }, { '@type': 'ListItem', 'position': 3, 'name': 'Cartagena', 'item': 'https://www.embercode.es/diseno-web-cartagena' }] }
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'Service',
+                    'name': 'Diseño Web en Cartagena',
+                    'description': 'Diseño y desarrollo web profesional para empresas y autónomos en Cartagena.',
+                    'provider': {
+                        '@type': 'LocalBusiness',
+                        '@id': 'https://www.embercode.es/#business',
+                        'name': 'EmberCode Web Studio',
+                        'url': 'https://www.embercode.es',
+                        'telephone': '+34601423840'
+                    },
+                    'areaServed': {
+                        '@type': 'City',
+                        'name': 'Cartagena',
+                        'sameAs': 'https://es.wikipedia.org/wiki/Cartagena_(Espa%C3%B1a)'
+                    }
+                },
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'BreadcrumbList',
+                    'itemListElement': [
+                        { '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' },
+                        { '@type': 'ListItem', 'position': 2, 'name': 'Diseño Web', 'item': 'https://www.embercode.es/diseno-web-murcia' },
+                        { '@type': 'ListItem', 'position': 3, 'name': 'Cartagena', 'item': 'https://www.embercode.es/diseno-web-cartagena' }
+                    ]
+                }
             ]
         });
     }

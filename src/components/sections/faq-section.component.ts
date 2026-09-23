@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionComponent, AccordionItemComponent, AccordionTriggerComponent, AccordionContentComponent } from '../ui/accordion.component';
 import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
@@ -34,44 +34,30 @@ import { StaggeredTextComponent } from '../ui/staggered-text.component';
             <app-accordion type="single" [collapsible]="true">
               
               <app-accordion-item value="faq-1">
-                <app-accordion-trigger>¿Cómo es el proceso de trabajo con vosotros?</app-accordion-trigger>
+                <app-accordion-trigger>¿Cómo es el proceso de trabajo desde el primer contacto?</app-accordion-trigger>
                 <app-accordion-content>
-                  Primero hablamos para entender tu proyecto. Luego te enviamos presupuesto cerrado y, si aceptas, empezamos. Durante el desarrollo hay contacto constante por WhatsApp o email, y siempre ves avances antes de la entrega final.
+                  Primero analizamos las necesidades de tu negocio. Te enviamos una propuesta técnica con presupuesto cerrado en 24h. Si decides avanzar, arrancamos el desarrollo con comunicación continua y revisiones antes del despliegue final.
                 </app-accordion-content>
               </app-accordion-item>
 
               <app-accordion-item value="faq-2">
-                <app-accordion-trigger>¿En cuánto tiempo tengo mi web lista?</app-accordion-trigger>
+                <app-accordion-trigger>¿Cómo se definen los plazos de entrega?</app-accordion-trigger>
                 <app-accordion-content>
-                  Normalmente entre 1 y 2 semanas, dependiendo de la complejidad. Proyectos urgentes se pueden acelerar con un ajuste de alcance y coste.
+                  Fijamos un cronograma cerrado desde el inicio en base a los requerimientos y alcance acordados, garantizando entregas ágiles y sin retrasos imprevistos.
                 </app-accordion-content>
               </app-accordion-item>
 
               <app-accordion-item value="faq-3">
-                <app-accordion-trigger>¿Qué incluye el mantenimiento mensual?</app-accordion-trigger>
+                <app-accordion-trigger>¿La web y el código serán de mi propiedad?</app-accordion-trigger>
                 <app-accordion-content>
-                  Ofrecemos dos planes: Básico (30€/mes) con hosting, dominio, SSL, backups y 1 modificación mensual. Estándar (50€/mes) añade 3 modificaciones, SEO continuo y monitorización 24/7. Ambos con soporte en menos de 24h.
+                  Sí, al 100%. Una vez entregado el proyecto, todo el código fuente, diseño y accesos son completamente tuyos. Sin ataduras ni plataformas cautivas.
                 </app-accordion-content>
               </app-accordion-item>
 
               <app-accordion-item value="faq-4">
-                <app-accordion-trigger>¿Puedo tener mi propio dominio (miempresa.com)?</app-accordion-trigger>
+                <app-accordion-trigger>¿Qué ocurre si necesito cambios o mantenimiento más adelante?</app-accordion-trigger>
                 <app-accordion-content>
-                  Sí, el dominio está incluido en los planes de mantenimiento. Puedes elegir .com, .es u otras extensiones. Si ya tienes uno, lo configuramos sin problema.
-                </app-accordion-content>
-              </app-accordion-item>
-
-              <app-accordion-item value="faq-5">
-                <app-accordion-trigger>¿Qué pasa si quiero hacer cambios después de la entrega?</app-accordion-trigger>
-                <app-accordion-content>
-                  Con el plan de mantenimiento puedes pedir cambios cada mes (1 o 3 según el plan). Si no tienes mantenimiento, cobramos por hora de trabajo. Siempre te avisamos antes de cualquier coste.
-                </app-accordion-content>
-              </app-accordion-item>
-
-              <app-accordion-item value="faq-6">
-                <app-accordion-trigger>¿Optimización SEO y hosting de alto rendimiento: vale la pena?</app-accordion-trigger>
-                <app-accordion-content>
-                  Sí, si quieres competir por visibilidad y velocidad: base SEO técnica + rendimiento real. También podemos alojar en servidores de alta capacidad para carga óptima.
+                  Dispones de nuestros planes de mantenimiento mensual con hosting, copias de seguridad, SSL y modificaciones incluidas, o bien soporte puntual bajo demanda según tus necesidades.
                 </app-accordion-content>
               </app-accordion-item>
 

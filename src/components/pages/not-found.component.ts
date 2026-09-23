@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
       <canvas #matrixCanvas class="absolute inset-0 w-full h-full opacity-40"></canvas>
       
       <div class="relative z-10 flex flex-col items-center justify-center h-full pointer-events-none">
-        <h1 class="text-[12rem] md:text-[20rem] font-bold text-white tracking-tighter leading-none select-none mix-blend-overlay">404</h1>
+        <h1 class="text-7xl md:text-[20rem] font-bold text-white tracking-tighter leading-none select-none mix-blend-overlay">404</h1>
         <div class="mt-8 text-neutral-400 tracking-[0.5em] text-sm md:text-base uppercase animate-pulse">
           Señal Perdida
         </div>

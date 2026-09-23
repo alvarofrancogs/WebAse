@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChildren, viewChild, AfterViewInit, OnInit, OnDestroy, signal, Renderer2 } from '@angular/core';
+import { Component, ElementRef, inject, viewChildren, viewChild, AfterViewInit, OnInit, OnDestroy, signal, Renderer2, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -29,9 +29,9 @@ import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from '../../app/content';
   <div class="container mx-auto px-6 relative z-30 grid lg:grid-cols-2 gap-12 items-center pointer-events-none">
     <div #animateSection class="space-y-8 pointer-events-auto">
 
-      <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white text-balance leading-tight">
+      <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-white text-balance leading-tight">
         Diseño y Desarrollo Web en Murcia <br />
-        <span class="relative inline-flex w-full h-[1.2em] overflow-hidden">
+        <span class="relative inline-flex w-full h-[1.2em] overflow-hidden whitespace-nowrap">
           @for (word of rotatingWords; track $index) {
           <span class="absolute left-0 top-0 transition-all duration-500 ease-spring text-neutral-500"
             [class.opacity-100]="$index === currentWordIndex()" [class.opacity-0]="$index !== currentWordIndex()"
@@ -145,6 +145,40 @@ import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from '../../app/content';
           placeholder="nombre@empresa.com">
       </div>
 
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-xs font-mono text-neutral-500 mb-2">TELÉFONO <span class="text-neutral-600">(opcional)</span></label>
+          <input type="tel" formControlName="phone"
+            class="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-white transition-colors"
+            placeholder="601 234 567">
+        </div>
+        <div class="relative">
+          <label class="block text-xs font-mono text-neutral-500 mb-2">¿QUÉ NECESITAS?</label>
+          <button type="button" (click)="toggleDropdown($event)" #serviceDropdown
+            class="w-full bg-transparent border-b py-3 text-left flex items-center justify-between transition-colors cursor-pointer"
+            [class.border-white]="dropdownOpen" [class.border-white/20]="!dropdownOpen">
+            <span [class.text-white]="contactForm.get('service')?.value" [class.text-neutral-500]="!contactForm.get('service')?.value">{{ selectedServiceLabel }}</span>
+            <svg class="w-4 h-4 text-neutral-500 transition-transform duration-300" [class.rotate-180]="dropdownOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          @if (dropdownOpen) {
+            <div class="absolute top-full left-0 right-0 mt-1 border border-white/10 bg-neutral-950/95 backdrop-blur-md z-50 overflow-hidden rounded-lg shadow-2xl shadow-black/50">
+              @for (opt of serviceOptions; track opt.value) {
+                <button type="button" (click)="selectService(opt.value)"
+                  class="w-full text-left px-4 py-3 text-sm transition-colors flex items-center gap-3"
+                  [class.bg-white/10]="contactForm.get('service')?.value === opt.value"
+                  [class.text-white]="contactForm.get('service')?.value === opt.value"
+                  [class.text-neutral-400]="contactForm.get('service')?.value !== opt.value"
+                  [class.hover:bg-white/5]="contactForm.get('service')?.value !== opt.value"
+                  [class.hover:text-white]="contactForm.get('service')?.value !== opt.value">
+                  <span class="w-1.5 h-1.5 rounded-full shrink-0 transition-colors" [class.bg-white]="contactForm.get('service')?.value === opt.value" [class.bg-neutral-700]="contactForm.get('service')?.value !== opt.value"></span>
+                  {{ opt.label }}
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
       <div>
         <label class="block text-xs font-mono text-neutral-500 mb-2">DETALLES DEL PROYECTO</label>
         <textarea formControlName="message" rows="4"
@@ -187,15 +221,15 @@ import { BRAND, SERVICES, TECH_STACK, CODE_SNIPPETS } from '../../app/content';
       <div class="mt-8 text-center space-y-3">
         <p class="text-neutral-500 text-sm">O contáctanos directamente:</p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="mailto:{{brand.email}}" class="text-white hover:underline inline-flex items-center gap-2 text-sm">
+          <a [attr.href]="'mailto:' + brand.email" class="text-white hover:underline inline-flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
             {{brand.email}}
           </a>
-          <a href="tel:{{brand.phone}}" class="text-white hover:underline inline-flex items-center gap-2 text-sm">
+          <a [attr.href]="'tel:' + brand.phone" class="text-white hover:underline inline-flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
             {{brand.phoneDisplay}}
           </a>
-          <a href="https://wa.me/34601102877?text=Hola%2C%20me%20interesa%20un%20presupuesto%20para%20mi%20web" target="_blank" rel="noopener" class="text-[#25D366] hover:underline inline-flex items-center gap-2 text-sm">
+          <a href="https://wa.me/34601423840?text=Hola%2C%20me%20interesa%20un%20presupuesto%20para%20mi%20web" target="_blank" rel="noopener" class="text-[#25D366] hover:underline inline-flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             WhatsApp
           </a>
@@ -254,6 +288,8 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
     contactForm = this.fb.group({
         email: ['', [Validators.required, Validators.email]],
+        phone: [''],
+        service: [''],
         message: ['', Validators.required]
     });
 
@@ -261,6 +297,21 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     recaptchaResolved = false;
     recaptchaReady = false;
     recaptchaLoadError = false;
+    dropdownOpen = false;
+
+    serviceOptions = [
+        { value: 'diseno', label: 'Diseño Web' },
+        { value: 'desarrollo', label: 'Desarrollo / Backend' },
+        { value: 'tienda', label: 'Tienda Online' },
+        { value: 'mantenimiento', label: 'Mantenimiento' },
+        { value: 'otro', label: 'Otro' },
+    ];
+
+    get selectedServiceLabel(): string {
+        const val = this.contactForm.get('service')?.value;
+        if (!val) return 'Seleccionar servicio...';
+        return this.serviceOptions.find(o => o.value === val)?.label || 'Seleccionar servicio...';
+    }
 
     sectionRefs = viewChildren<ElementRef>('animateSection');
     particleContainer = viewChild<ElementRef>('particleContainer');
@@ -272,26 +323,82 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
             title: 'Diseño y Desarrollo Web en Murcia | EmberCode Web Studio',
             description: 'Diseño web profesional, desarrollo a medida y automatización en Murcia. Webs rápidas, optimizadas para Google y pensadas para convertir. Presupuesto sin compromiso.',
             canonicalPath: '/',
+            geo: {
+                region: 'ES-MU',
+                placename: 'Murcia',
+                position: '37.9922;-1.1307'
+            },
             jsonLd: [
                 {
                     '@context': 'https://schema.org',
-                    '@type': 'ProfessionalService',
+                    '@type': 'LocalBusiness',
+                    '@id': 'https://www.embercode.es/#business',
                     'name': 'EmberCode Web Studio',
                     'url': 'https://www.embercode.es',
+                    'logo': 'https://www.embercode.es/og-image.png',
+                    'image': 'https://www.embercode.es/og-image.png',
                     'email': 'contacto@embercode.es',
-                    'telephone': '+34601102877',
+                    'telephone': '+34601423840',
                     'description': 'Diseño y desarrollo web profesional en Murcia. Webs a medida, tiendas online, automatización y mantenimiento para pymes y negocios locales.',
-                    'areaServed': {
-                        '@type': 'City',
-                        'name': 'Murcia',
-                        'containedInPlace': {
-                            '@type': 'AdministrativeArea',
-                            'name': 'Región de Murcia'
-                        }
+                    'address': {
+                        '@type': 'PostalAddress',
+                        'addressLocality': 'Murcia',
+                        'addressRegion': 'Región de Murcia',
+                        'addressCountry': 'ES'
+                    },
+                    'geo': {
+                        '@type': 'GeoCoordinates',
+                        'latitude': 37.9922,
+                        'longitude': -1.1307
+                    },
+                    'areaServed': [
+                        { '@type': 'City', 'name': 'Murcia' },
+                        { '@type': 'City', 'name': 'Cartagena' },
+                        { '@type': 'City', 'name': 'Lorca' },
+                        { '@type': 'City', 'name': 'Molina de Segura' }
+                    ],
+                    'openingHoursSpecification': {
+                        '@type': 'OpeningHoursSpecification',
+                        'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                        'opens': '09:00',
+                        'closes': '19:00'
                     },
                     'serviceType': ['Diseño web', 'Desarrollo web', 'Tienda online', 'Mantenimiento web', 'SEO local', 'Automatización'],
                     'priceRange': '€€',
-                    'knowsLanguage': ['es', 'en']
+                    'knowsLanguage': ['es', 'en'],
+                    'sameAs': []
+                },
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'WebSite',
+                    '@id': 'https://www.embercode.es/#website',
+                    'url': 'https://www.embercode.es/',
+                    'name': 'EmberCode Web Studio',
+                    'description': 'Estudio de diseño y desarrollo web en Murcia.',
+                    'publisher': {
+                        '@id': 'https://www.embercode.es/#organization'
+                    },
+                    'inLanguage': 'es-ES'
+                },
+                {
+                    '@context': 'https://schema.org',
+                    '@type': 'Organization',
+                    '@id': 'https://www.embercode.es/#organization',
+                    'name': 'EmberCode Web Studio',
+                    'url': 'https://www.embercode.es/',
+                    'logo': {
+                        '@type': 'ImageObject',
+                        'url': 'https://www.embercode.es/og-image.png',
+                        'width': 1200,
+                        'height': 630
+                    },
+                    'contactPoint': {
+                        '@type': 'ContactPoint',
+                        'telephone': '+34601423840',
+                        'contactType': 'customer service',
+                        'areaServed': 'ES',
+                        'availableLanguage': ['Spanish', 'English']
+                    }
                 },
                 {
                     '@context': 'https://schema.org',
@@ -299,50 +406,34 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
                     'mainEntity': [
                         {
                             '@type': 'Question',
-                            'name': '¿Cómo es el proceso de trabajo con vosotros?',
+                            'name': '¿Cómo es el proceso de trabajo desde el primer contacto?',
                             'acceptedAnswer': {
                                 '@type': 'Answer',
-                                'text': 'Primero hablamos para entender tu proyecto. Luego te enviamos presupuesto cerrado y, si aceptas, empezamos. Durante el desarrollo hay contacto constante por WhatsApp o email, y siempre ves avances antes de la entrega final.'
+                                'text': 'Primero analizamos las necesidades de tu negocio. Te enviamos una propuesta técnica con presupuesto cerrado en 24h. Si decides avanzar, arrancamos el desarrollo con comunicación continua y revisiones antes del despliegue final.'
                             }
                         },
                         {
                             '@type': 'Question',
-                            'name': '¿En cuánto tiempo tengo mi web lista?',
+                            'name': '¿Cómo se definen los plazos de entrega?',
                             'acceptedAnswer': {
                                 '@type': 'Answer',
-                                'text': 'Normalmente entre 1 y 2 semanas, dependiendo de la complejidad. Proyectos urgentes se pueden acelerar con un ajuste de alcance y coste.'
+                                'text': 'Fijamos un cronograma cerrado desde el inicio en base a los requerimientos y alcance acordados, garantizando entregas ágiles y sin retrasos imprevistos.'
                             }
                         },
                         {
                             '@type': 'Question',
-                            'name': '¿Qué incluye el mantenimiento mensual?',
+                            'name': '¿La web y el código serán de mi propiedad?',
                             'acceptedAnswer': {
                                 '@type': 'Answer',
-                                'text': 'Ofrecemos dos planes: Básico (30€/mes) con hosting, dominio, SSL, backups y 1 modificación mensual. Estándar (50€/mes) añade 3 modificaciones, SEO continuo y monitorización 24/7. Ambos con soporte en menos de 24h.'
+                                'text': 'Sí, al 100%. Una vez entregado el proyecto, todo el código fuente, diseño y accesos son completamente tuyos. Sin ataduras ni plataformas cautivas.'
                             }
                         },
                         {
                             '@type': 'Question',
-                            'name': '¿Puedo tener mi propio dominio (miempresa.com)?',
+                            'name': '¿Qué ocurre si necesito cambios o mantenimiento más adelante?',
                             'acceptedAnswer': {
                                 '@type': 'Answer',
-                                'text': 'Sí, el dominio está incluido en los planes de mantenimiento. Puedes elegir .com, .es u otras extensiones. Si ya tienes uno, lo configuramos sin problema.'
-                            }
-                        },
-                        {
-                            '@type': 'Question',
-                            'name': '¿Qué pasa si quiero hacer cambios después de la entrega?',
-                            'acceptedAnswer': {
-                                '@type': 'Answer',
-                                'text': 'Con el plan de mantenimiento puedes pedir cambios cada mes (1 o 3 según el plan). Si no tienes mantenimiento, cobramos por hora de trabajo. Siempre te avisamos antes de cualquier coste.'
-                            }
-                        },
-                        {
-                            '@type': 'Question',
-                            'name': '¿Optimización SEO y hosting de alto rendimiento: vale la pena?',
-                            'acceptedAnswer': {
-                                '@type': 'Answer',
-                                'text': 'Sí, si quieres competir por visibilidad y velocidad: base SEO técnica + rendimiento real. También podemos alojar en servidores de alta capacidad para carga óptima.'
+                                'text': 'Dispones de nuestros planes de mantenimiento mensual con hosting, copias de seguridad, SSL y modificaciones incluidas, o bien soporte puntual bajo demanda según tus necesidades.'
                             }
                         }
                     ]
@@ -383,6 +474,21 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
         this.rotationInterval = setInterval(() => {
             this.currentWordIndex.update(index => (index + 1) % this.rotatingWords.length);
         }, 2000);
+    }
+
+    toggleDropdown(event: Event) {
+        event.stopPropagation();
+        this.dropdownOpen = !this.dropdownOpen;
+    }
+
+    selectService(value: string) {
+        this.contactForm.patchValue({ service: value });
+        this.dropdownOpen = false;
+    }
+
+    @HostListener('document:click')
+    onDocumentClick() {
+        this.dropdownOpen = false;
     }
 
     spawnCode(event: MouseEvent) {
@@ -427,6 +533,8 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
 
         const formData = {
             email: this.contactForm.get('email')?.value || '',
+            phone: this.contactForm.get('phone')?.value || '',
+            service: this.contactForm.get('service')?.value || '',
             message: this.contactForm.get('message')?.value || '',
             recaptchaToken
         };

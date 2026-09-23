@@ -11,10 +11,10 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
   template: `
     <section class="min-h-screen pt-28 pb-20 bg-black relative z-30">
       <div class="container mx-auto px-6 max-w-5xl">
-        <nav class="mb-8 text-xs font-mono text-white/40">
+        <nav class="mb-8 text-xs font-mono text-neutral-500">
           <a routerLink="/" class="hover:text-white transition-colors">Inicio</a>
           <span class="mx-2">/</span>
-          <span class="text-white/70">Mantenimiento Web</span>
+          <span class="text-neutral-400">Mantenimiento Web</span>
         </nav>
         <div class="relative py-20 md:py-32">
           <app-scroll-reveal preset="fade-up-blur" [delay]="0">
@@ -30,27 +30,51 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
 
         <!-- Pricing Cards -->
         <app-scroll-reveal preset="lift" [delay]="0.15">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 mb-32 max-w-3xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-32 max-w-3xl mx-auto items-stretch">
             @for (plan of plans; track plan.name) {
-              <div class="bg-black p-10 group hover:bg-white/[0.02] transition-colors duration-500" [class.border-t-2]="plan.highlighted" [class.border-t-white]="plan.highlighted">
-                @if (plan.highlighted) {
-                  <span class="text-[10px] font-mono tracking-widest uppercase text-white/50 mb-4 block">Recomendado</span>
-                }
-                <h3 class="text-2xl font-black text-white mb-1">{{ plan.name }}</h3>
-                <p class="text-white/40 text-sm mb-6">{{ plan.desc }}</p>
-                <div class="flex items-baseline gap-1 mb-8">
-                  <span class="text-4xl font-black text-white">{{ plan.price }}</span>
-                  <span class="text-white/40 text-sm">/mes</span>
+              <div 
+                class="bg-neutral-950 p-8 md:p-10 rounded-lg border flex flex-col justify-between h-full transition-all duration-300"
+                [class.border-white/30]="plan.highlighted"
+                [class.border-white/10]="!plan.highlighted"
+                [class.shadow-[0_0_30px_rgba(255,255,255,0.04)]]="plan.highlighted"
+                [class.hover:border-white/40]="true"
+              >
+                <div>
+                  <div class="h-6 mb-4 flex items-center">
+                    @if (plan.highlighted) {
+                      <span class="text-[10px] font-mono tracking-widest uppercase text-white/70 bg-white/10 px-2 py-0.5 rounded border border-white/10">Recomendado</span>
+                    }
+                  </div>
+                  <h3 class="text-2xl font-black text-white mb-1">{{ plan.name }}</h3>
+                  <p class="text-white/40 text-sm mb-6 min-h-[40px]">{{ plan.desc }}</p>
+                  <div class="flex items-baseline gap-1 mb-8 pb-6 border-b border-white/10">
+                    <span class="text-4xl font-black text-white">{{ plan.price }}</span>
+                    <span class="text-white/40 text-sm">/mes</span>
+                  </div>
+                  <ul class="space-y-3 mb-8">
+                    @for (feat of plan.features; track feat) {
+                      <li class="flex items-start gap-3 text-sm text-white/70">
+                        <svg class="w-4 h-4 text-white/40 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        {{ feat }}
+                      </li>
+                    }
+                  </ul>
                 </div>
-                <ul class="space-y-3 mb-8">
-                  @for (feat of plan.features; track feat) {
-                    <li class="flex items-start gap-3 text-sm text-white/70">
-                      <svg class="w-4 h-4 text-white/40 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                      {{ feat }}
-                    </li>
-                  }
-                </ul>
-                <a href="/#contacto" class="block text-center border border-white/20 py-3 text-sm font-bold text-white hover:bg-white hover:text-black transition-all duration-300">Contratar</a>
+
+                <div class="mt-auto pt-4">
+                  <a 
+                    href="/#contacto" 
+                    class="block text-center py-3 text-sm font-bold uppercase tracking-wider transition-all duration-300"
+                    [class.bg-white]="plan.highlighted"
+                    [class.text-black]="plan.highlighted"
+                    [class.hover:bg-neutral-200]="plan.highlighted"
+                    [class.border]="!plan.highlighted"
+                    [class.border-white/20]="!plan.highlighted"
+                    [class.text-white]="!plan.highlighted"
+                    [class.hover:bg-white]="!plan.highlighted"
+                    [class.hover:text-black]="!plan.highlighted"
+                  >Contratar</a>
+                </div>
               </div>
             }
           </div>
@@ -85,7 +109,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Tu web necesita mantenimiento profesional?</h2>
             <p class="text-white/50 mb-8 max-w-lg mx-auto">Hosting, seguridad, backups y soporte. Desde 30€/mes.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">CONTRATAR MANTENIMIENTO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601102877" class="text-white hover:underline">601 102 877</a></p>
+            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
@@ -109,17 +133,39 @@ export class MantenimientoWebMurciaComponent implements OnInit {
     { name: 'Estándar', price: '50€', desc: 'Para negocios que necesitan cambios frecuentes.', highlighted: true, features: ['Todo lo del plan Básico', '3 modificaciones mensuales', 'Optimización SEO continua', 'Monitorización 24/7', 'Soporte en menos de 24h', 'Reportes de rendimiento'] }
   ];
   faqs = [
-    { q: '¿Qué pasa si no contrato mantenimiento?', a: 'Tu web seguirá funcionando, pero no tendrás hosting gestionado, backups automáticos ni soporte.' },
-    { q: '¿Puedo cambiar de plan?', a: 'Sí, puedes subir o bajar de plan en cualquier momento. Sin permanencia y sin penalizaciones.' },
-    { q: '¿Incluye dominio y hosting?', a: 'Sí. Ambos planes incluyen hosting de alto rendimiento, dominio (.com o .es) y certificado SSL gratuito.' },
+    { q: '¿Puedo cambiar de plan o cancelar en cualquier momento?', a: 'Sí. No aplicamos ningún tipo de permanencia ni penalización. Puedes subir, bajar o cancelar tu plan cuando lo necesites.' },
+    { q: '¿Cómo funciona el soporte técnico ante incidencias?', a: 'Monitorizamos la disponibilidad continuamente y atendemos cualquier aviso técnico en menos de 24 horas por canal directo.' }
   ];
   ngOnInit() {
     this.seo.update({
       title: 'Mantenimiento Web en Murcia | Hosting, SSL y Soporte | EmberCode',
       description: 'Planes de mantenimiento web en Murcia desde 30€/mes. Hosting, dominio, SSL, backups, soporte en 24h y modificaciones incluidas.',
       canonicalPath: '/mantenimiento-web-murcia',
+      geo: {
+        region: 'ES-MU',
+        placename: 'Murcia',
+        position: '37.9922;-1.1307'
+      },
       jsonLd: [
-        { '@context': 'https://schema.org', '@type': 'Service', 'name': 'Mantenimiento Web en Murcia', 'description': 'Planes de mantenimiento web profesional con hosting, dominio, SSL y soporte técnico.', 'provider': { '@type': 'ProfessionalService', 'name': 'EmberCode Web Studio', 'url': 'https://www.embercode.es' }, 'areaServed': { '@type': 'City', 'name': 'Murcia' }, 'serviceType': 'Mantenimiento web' },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          'name': 'Mantenimiento Web en Murcia',
+          'description': 'Planes de mantenimiento web profesional con hosting, dominio, SSL y soporte técnico.',
+          'provider': {
+            '@type': 'LocalBusiness',
+            '@id': 'https://www.embercode.es/#business',
+            'name': 'EmberCode Web Studio',
+            'url': 'https://www.embercode.es',
+            'telephone': '+34601423840'
+          },
+          'areaServed': {
+            '@type': 'City',
+            'name': 'Murcia',
+            'sameAs': 'https://es.wikipedia.org/wiki/Murcia'
+          },
+          'serviceType': 'Mantenimiento web'
+        },
         { '@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': [{ '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.embercode.es/' }, { '@type': 'ListItem', 'position': 2, 'name': 'Mantenimiento Web Murcia', 'item': 'https://www.embercode.es/mantenimiento-web-murcia' }] }
       ]
     });

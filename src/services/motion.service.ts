@@ -7,13 +7,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 })
 export class MotionService {
   isReducedMotion = signal(false);
-  private animationsReady = false;
+  animationsReady = false;
 
   constructor() {
     this.checkReducedMotion();
     try {
-      gsap.registerPlugin(ScrollTrigger);
-      this.animationsReady = true;
+      if (typeof window !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        this.animationsReady = true;
+      }
     } catch {
       this.animationsReady = false;
     }

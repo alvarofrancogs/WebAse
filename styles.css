@@ -65,8 +65,7 @@ app-terminal {
 
 app-scroll-reveal {
   display: block;
-  opacity: 0;
-  will-change: transform, opacity, filter;
+  /* opacity and transforms are managed by GSAP in the component to avoid FOUC */
 }
 
 .bg-grid {

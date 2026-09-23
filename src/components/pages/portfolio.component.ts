@@ -100,7 +100,7 @@ interface CaseStudy {
           <div class="text-center py-12 border border-white/10 rounded-lg bg-white/[0.02]">
             <h2 class="text-2xl font-bold text-white mb-3">¿Tu proyecto es el siguiente?</h2>
             <p class="text-neutral-400 text-sm mb-6">Cuéntanos tu idea. Te enviamos presupuesto cerrado en 24h.</p>
-            <a href="https://wa.me/34601102877?text=Hola%2C%20he%20visto%20vuestro%20portfolio%20y%20me%20interesa%20un%20proyecto%20web" target="_blank" rel="noopener"
+            <a href="https://wa.me/34601423840?text=Hola%2C%20he%20visto%20vuestro%20portfolio%20y%20me%20interesa%20un%20proyecto%20web" target="_blank" rel="noopener"
               class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-neutral-200 transition-colors">
               HABLAR DE MI PROYECTO
             </a>
@@ -181,6 +181,11 @@ export class PortfolioComponent implements OnInit {
             title: 'Portfolio Web en Murcia | Proyectos y Casos de Éxito | EmberCode',
             description: 'Descubre nuestros proyectos web en Murcia: webs corporativas, tiendas online, sistemas de gestión y SEO local. Resultados reales para negocios reales.',
             canonicalPath: '/portfolio',
+            geo: {
+                region: 'ES-MU',
+                placename: 'Murcia',
+                position: '37.9922;-1.1307'
+            },
             jsonLd: [
                 {
                     '@context': 'https://schema.org',
@@ -188,9 +193,11 @@ export class PortfolioComponent implements OnInit {
                     'name': 'Portfolio de Proyectos Web en Murcia',
                     'description': 'Casos de éxito de diseño y desarrollo web para negocios en Murcia.',
                     'provider': {
-                        '@type': 'ProfessionalService',
+                        '@type': 'LocalBusiness',
+                        '@id': 'https://www.embercode.es/#business',
                         'name': 'EmberCode Web Studio',
-                        'url': 'https://www.embercode.es'
+                        'url': 'https://www.embercode.es',
+                        'telephone': '+34601423840'
                     }
                 },
                 {
