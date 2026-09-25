@@ -24,7 +24,7 @@ import { BRAND } from '../app/content';
     >
       <div class="container mx-auto px-6 flex justify-between items-center">
         <!-- Logo -->
-        <a (click)="goHome($event)" href="/" class="text-2xl font-bold tracking-tighter text-white hover:opacity-80 transition cursor-pointer">
+        <a (click)="goHome($event)" href="/" class="text-2xl font-bold tracking-tighter text-white hover:opacity-80 transition-opacity duration-200 cursor-pointer">
           {{ brand.name }}
         </a>
 
@@ -204,6 +204,7 @@ export class NavbarComponent {
 
   toggleMobile() {
     if (!this.mobileOpen()) {
+      this.preloadPrimaryRoutes();
       this.isOpening.set(true);
       this.mobileOpen.set(true);
       this.lockScroll();
@@ -211,6 +212,21 @@ export class NavbarComponent {
     } else {
       this.closeMobile();
     }
+  }
+
+  private primaryRoutesPreloaded = false;
+
+  private preloadPrimaryRoutes() {
+    if (this.primaryRoutesPreloaded || !document.querySelector('router-outlet + * h1')) return;
+    this.primaryRoutesPreloaded = true;
+    void Promise.allSettled([
+      import('./pages/diseno-web-murcia.component'),
+      import('./pages/desarrollo-web-murcia.component')
+    ]).then((results) => {
+      if (results.some((result) => result.status === 'rejected')) {
+        this.primaryRoutesPreloaded = false;
+      }
+    });
   }
 
   closeMobile() {

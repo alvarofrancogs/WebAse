@@ -297,6 +297,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     recaptchaResolved = false;
     recaptchaReady = false;
     recaptchaLoadError = false;
+    private recaptchaObserver?: IntersectionObserver;
     dropdownOpen = false;
 
     serviceOptions = [
@@ -449,7 +450,18 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
             this.motion.animateReveal(ref.nativeElement);
         });
 
-        void this.initRecaptcha();
+        const container = document.getElementById('recaptcha-container');
+        if (container && 'IntersectionObserver' in window) {
+            this.recaptchaObserver = new IntersectionObserver((entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    this.recaptchaObserver?.disconnect();
+                    void this.initRecaptcha();
+                }
+            }, { rootMargin: '800px 0px' });
+            this.recaptchaObserver.observe(container);
+        } else {
+            void this.initRecaptcha();
+        }
     }
 
     async initRecaptcha() {
@@ -469,6 +481,7 @@ export class HomeComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.recaptchaObserver?.disconnect();
         if (this.rotationInterval) clearInterval(this.rotationInterval);
     }
 

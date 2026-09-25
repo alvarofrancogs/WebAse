@@ -19,6 +19,7 @@ export class RecaptchaService {
     readonly SITE_KEY = '6Lf_XVosAAAAAM4_80520jXf4d_Ql8LsBnJu9uP2';
 
     private widgetId: number | null = null;
+    private scriptPromise: Promise<boolean> | null = null;
 
     async render(
         containerId: string,
@@ -27,16 +28,27 @@ export class RecaptchaService {
         errorCallback?: () => void,
         options: RecaptchaRenderOptions = {}
     ): Promise<boolean> {
-        if (this.widgetId !== null) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            return false;
+        }
+        if (this.widgetId !== null && container.querySelector('iframe')) {
             return true;
         }
+        this.widgetId = null;
 
         const timeoutMs = options.timeoutMs ?? 12_000;
         const retryIntervalMs = options.retryIntervalMs ?? 250;
         const maxRetries = options.maxRetries ?? 2;
 
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
-            const api = await this.waitForApi(timeoutMs, retryIntervalMs);
+            if (!await this.loadScript(timeoutMs, retryIntervalMs)) {
+                continue;
+            }
+            if (!document.getElementById(containerId)) {
+                return false;
+            }
+            const api = this.getApi();
             if (!api) {
                 continue;
             }
@@ -89,6 +101,29 @@ export class RecaptchaService {
         }
 
         return api;
+    }
+
+    private async loadScript(timeoutMs: number, retryIntervalMs: number): Promise<boolean> {
+        if (this.getApi()) {
+            return true;
+        }
+        if (!this.scriptPromise) {
+            this.scriptPromise = new Promise<boolean>((resolve) => {
+                const script = document.createElement('script');
+                script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+                script.async = true;
+                script.defer = true;
+                script.onload = async () => resolve(!!await this.waitForApi(timeoutMs, retryIntervalMs));
+                script.onerror = () => resolve(false);
+                document.head.appendChild(script);
+            });
+        }
+        const loaded = await this.scriptPromise;
+        if (!loaded) {
+            document.querySelector('script[src*="/recaptcha/api.js"]')?.remove();
+            this.scriptPromise = null;
+        }
+        return loaded;
     }
 
     private async waitForApi(timeoutMs: number, retryIntervalMs: number): Promise<GrecaptchaApi | null> {

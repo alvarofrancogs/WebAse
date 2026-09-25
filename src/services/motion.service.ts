@@ -43,10 +43,8 @@ export class MotionService {
     const inInitialView = rect ? (rect.top < window.innerHeight && rect.bottom > 0) : false;
 
     if (inInitialView) {
-      gsap.fromTo(element,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.6, delay: delay, ease: 'power2.out' }
-      );
+      element.style.removeProperty('opacity');
+      element.style.removeProperty('transform');
       return;
     }
 

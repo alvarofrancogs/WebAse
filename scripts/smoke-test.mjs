@@ -34,8 +34,16 @@ if (mainBundleStats.size < 1024) {
   fail('main bundle size is unexpectedly small');
 }
 
-if (!indexHtml.includes('https://www.google.com/recaptcha/api.js')) {
-  fail('reCAPTCHA script tag is missing from dist/index.html');
+const recaptchaUrl = 'https://www.google.com/recaptcha/api.js';
+if (indexHtml.includes(recaptchaUrl)) {
+  fail('reCAPTCHA must not load from dist/index.html');
+}
+
+const hasLazyRecaptchaLoader = fs.readdirSync(distDir)
+  .filter((file) => /^chunk-[A-Za-z0-9]+\.js$/.test(file))
+  .some((file) => fs.readFileSync(path.join(distDir, file), 'utf8').includes(recaptchaUrl));
+if (!hasLazyRecaptchaLoader) {
+  fail('reCAPTCHA loader was not found in a lazy chunk');
 }
 
 console.log('SMOKE PASS: dist assets and runtime entrypoints are valid.');

@@ -37,21 +37,11 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
   private scrollTriggerInstance: ScrollTrigger | null = null;
   private tween: gsap.core.Tween | null = null;
 
-  constructor() {
-    // Only hide if animations are ready and not reduced motion
-    const el = this.element.nativeElement as HTMLElement;
-    if (!this.motion.isReducedMotion() && this.motion.animationsReady) {
-      el.style.opacity = '0';
-    }
-  }
-
   ngAfterViewInit() {
     const el = this.element.nativeElement as HTMLElement;
 
     if (this.motion.isReducedMotion() || !this.motion.animationsReady) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-      el.style.filter = 'none';
+      this.showImmediately(el);
       return;
     }
 
@@ -60,13 +50,8 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
     const inInitialView = rect ? (rect.top < window.innerHeight && rect.bottom > 0) : false;
 
     if (inInitialView) {
-      // Element is already in viewport on page load: reveal smoothly without waiting for ScrollTrigger
-      this.tween = gsap.fromTo(el, settings.from, {
-        ...settings.to,
-        duration: this.duration,
-        delay: this.delay,
-        ease: 'power2.out'
-      });
+      // Above-the-fold content must be visible on its first paint.
+      this.showImmediately(el);
       return;
     }
 
@@ -102,6 +87,12 @@ export class ScrollRevealComponent implements AfterViewInit, OnDestroy {
       this.tween.kill();
       this.tween = null;
     }
+  }
+
+  private showImmediately(el: HTMLElement) {
+    el.style.removeProperty('opacity');
+    el.style.removeProperty('transform');
+    el.style.removeProperty('filter');
   }
 
   private getPresetSettings() {

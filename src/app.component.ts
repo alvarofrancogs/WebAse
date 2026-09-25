@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { NavbarComponent } from './components/navbar.component';
 import { FloatingCtaComponent } from './components/floating-cta.component';
 import { BRAND } from './app/content';
@@ -94,11 +93,6 @@ export class AppComponent implements OnInit {
         if (!url.includes('#')) {
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
         }
-        requestAnimationFrame(() => {
-          try {
-            ScrollTrigger.refresh();
-          } catch {}
-        });
       }
     });
   }
