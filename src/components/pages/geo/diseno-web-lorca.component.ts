@@ -24,27 +24,27 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
             Diseño Web en Lorca
           </h1>
           <p class="text-lg text-neutral-400 max-w-2xl leading-relaxed mb-12">
-            Tu negocio en Lorca merece una web profesional que atraiga clientes. Diseñamos páginas web a medida con SEO local para que te encuentren en Lorca, Águilas, Totana y Puerto Lumbreras.
+            Diseñamos webs para negocios de Lorca que necesitan presentar sus servicios con claridad y facilitar el contacto desde el móvil. La estructura y el contenido se adaptan a las búsquedas de su público local.
           </p>
         </app-scroll-reveal>
 
         <app-scroll-reveal preset="fade-up" [delay]="0.1">
           <div class="grid md:grid-cols-2 gap-6 mb-16">
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">SEO local para Lorca</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Posicionamos tu negocio en búsquedas locales: "fontanero lorca", "restaurante lorca", "clínica lorca"… Tu web aparece cuando tus clientes te buscan.</p>
+              <h2 class="text-white font-semibold mb-3">SEO local para Lorca</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Analizamos cómo buscan tus servicios en Lorca y organizamos las páginas para responder a esas consultas. Si atiendes otras localidades, reflejamos las zonas reales de tu actividad.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Diseño profesional</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Web moderna, rápida y adaptada a móvil. El 70% del tráfico en Lorca viene de smartphone: tu web se ve perfecta en cualquier pantalla.</p>
+              <h2 class="text-white font-semibold mb-3">Diseño profesional</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Diseñamos primero la experiencia de consulta y contacto en móvil, y adaptamos el contenido a pantallas más grandes.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Precios accesibles</h3>
+              <h2 class="text-white font-semibold mb-3">Precios accesibles</h2>
               <p class="text-neutral-400 text-sm leading-relaxed">Presupuesto cerrado sin sorpresas. Web profesional desde ~500€ y mantenimiento desde 30€/mes con hosting y SSL incluidos.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Comunicación directa</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Nos reunimos contigo en Lorca o por videollamada. Avances por WhatsApp cada 2-3 días y correcciones ilimitadas antes de la entrega.</p>
+              <h2 class="text-white font-semibold mb-3">Comunicación directa</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Revisamos contigo el contenido y las funciones por videollamada o por el canal de contacto acordado durante el proyecto.</p>
             </div>
           </div>
         </app-scroll-reveal>
@@ -52,7 +52,7 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
         <app-scroll-reveal preset="fade-up" [delay]="0.2">
           <div class="text-center py-12 border border-white/10 rounded-lg bg-white/[0.02] mb-12">
             <h2 class="text-2xl font-bold text-white mb-3">¿Necesitas una web en Lorca?</h2>
-            <p class="text-neutral-400 text-sm mb-6">Te enviamos presupuesto personalizado en 24h.</p>
+            <p class="text-neutral-400 text-sm mb-6">Cuéntanos qué necesita tu negocio y te prepararemos una propuesta personalizada.</p>
             <a href="https://wa.me/34601423840?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Lorca" target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-neutral-200 transition-colors">
               PEDIR PRESUPUESTO
@@ -82,31 +82,15 @@ export class DisenoWebLorcaComponent implements OnInit {
             geo: {
                 region: 'ES-MU',
                 placename: 'Lorca',
-                position: '37.6712;-1.7002'
             },
             jsonLd: [
                 {
                     '@context': 'https://schema.org',
                     '@type': 'Service',
+                    '@id': 'https://www.embercode.es/diseno-web-lorca#service',
                     'name': 'Diseño Web en Lorca',
                     'description': 'Diseño y desarrollo web profesional para empresas y autónomos en Lorca.',
-                    'provider': {
-                        '@type': 'LocalBusiness',
-                        '@id': 'https://www.embercode.es/#business',
-                        'name': 'EmberCode Web Studio',
-                        'url': 'https://www.embercode.es',
-                        'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-                    },
+                    'provider': { '@id': 'https://www.embercode.es/#organization' },
                     'areaServed': {
                         '@type': 'City',
                         'name': 'Lorca',

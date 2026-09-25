@@ -18,6 +18,21 @@ body {
   touch-action: manipulation;
 }
 
+:focus-visible {
+  outline: 2px solid #4ade80 !important;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -65,6 +80,13 @@ app-terminal {
 
 app-scroll-reveal {
   display: block;
+}
+
+@media (max-width: 359px) {
+  #recaptcha-container {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
+  }
 }
 
 .bg-grid {

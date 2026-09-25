@@ -12,8 +12,9 @@ import { BRAND } from './app/content';
   imports: [CommonModule, RouterOutlet, RouterLink, NavbarComponent, FloatingCtaComponent],
   encapsulation: ViewEncapsulation.None,
   template: `
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-white focus:text-black focus:px-4 focus:py-3">Saltar al contenido</a>
     <app-navbar></app-navbar>
-    <main class="min-h-screen">
+    <main id="main-content" tabindex="-1" class="min-h-screen">
       <router-outlet></router-outlet>
     </main>
     <app-floating-cta></app-floating-cta>
@@ -29,20 +30,15 @@ import { BRAND } from './app/content';
           </div>
 
           <!-- Contact / NAP -->
-          <div itemscope itemtype="https://schema.org/LocalBusiness">
-            <meta itemprop="name" content="EmberCode Web Studio">
-            <meta itemprop="image" content="https://www.embercode.es/og-image.png">
-            <meta itemprop="priceRange" content="€€">
+          <div>
             <p class="text-neutral-400 text-sm mb-1">
-              <a [attr.href]="'mailto:' + brand.email" class="hover:text-white transition-colors" itemprop="email">{{brand.email}}</a>
+              <a [attr.href]="'mailto:' + brand.email" class="hover:text-white transition-colors">{{brand.email}}</a>
             </p>
             <p class="text-neutral-400 text-sm mb-1">
-              <a [attr.href]="'tel:' + brand.phone" class="hover:text-white transition-colors" itemprop="telephone">+34 {{brand.phoneDisplay}}</a>
+              <a [attr.href]="'tel:' + brand.phone" class="hover:text-white transition-colors">+34 {{brand.phoneDisplay}}</a>
             </p>
-            <p class="text-neutral-500 text-xs mt-2" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-              <meta itemprop="streetAddress" content="Centro">
-              <meta itemprop="postalCode" content="30001">
-              <span itemprop="addressLocality">Murcia</span>, <span itemprop="addressRegion">Región de Murcia</span>, <span itemprop="addressCountry">España</span>
+            <p class="text-neutral-500 text-xs mt-2">
+              {{ brand.location }}
             </p>
           </div>
 
@@ -50,12 +46,12 @@ import { BRAND } from './app/content';
           <div>
             <p class="text-neutral-500 text-xs font-mono tracking-widest uppercase mb-3">Servicios</p>
             <nav class="flex flex-col gap-1">
-              <a routerLink="/diseno-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Diseño Web</a>
-              <a routerLink="/desarrollo-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Desarrollo Web</a>
-              <a routerLink="/tienda-online-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Tienda Online</a>
-              <a routerLink="/mantenimiento-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Mantenimiento</a>
-              <a routerLink="/pagina-web-para-empresas-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Web para Empresas</a>
-              <a routerLink="/seo-local-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">SEO Local</a>
+              <a routerLink="/diseno-web-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Diseño Web</a>
+              <a routerLink="/desarrollo-web-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Desarrollo Web</a>
+              <a routerLink="/tienda-online-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Tienda Online</a>
+              <a routerLink="/mantenimiento-web-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Mantenimiento</a>
+              <a routerLink="/pagina-web-para-empresas-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Web para Empresas</a>
+              <a routerLink="/seo-local-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">SEO Local</a>
             </nav>
           </div>
 
@@ -63,10 +59,10 @@ import { BRAND } from './app/content';
           <div>
             <p class="text-neutral-500 text-xs font-mono tracking-widest uppercase mb-3">Zonas</p>
             <nav class="flex flex-col gap-1">
-              <a routerLink="/diseno-web-murcia" class="text-neutral-400 text-sm hover:text-white transition-colors">Murcia Capital</a>
-              <a routerLink="/diseno-web-cartagena" class="text-neutral-400 text-sm hover:text-white transition-colors">Cartagena</a>
-              <a routerLink="/diseno-web-lorca" class="text-neutral-400 text-sm hover:text-white transition-colors">Lorca</a>
-              <a routerLink="/diseno-web-molina-de-segura" class="text-neutral-400 text-sm hover:text-white transition-colors">Molina de Segura</a>
+              <a routerLink="/diseno-web-murcia" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Murcia Capital</a>
+              <a routerLink="/diseno-web-cartagena" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Cartagena</a>
+              <a routerLink="/diseno-web-lorca" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Lorca</a>
+              <a routerLink="/diseno-web-molina-de-segura" class="min-h-11 flex items-center justify-center sm:min-h-0 sm:block text-neutral-400 text-sm hover:text-white transition-colors">Molina de Segura</a>
             </nav>
           </div>
         </div>

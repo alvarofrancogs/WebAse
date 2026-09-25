@@ -56,9 +56,9 @@ export const EDITOR_VARIANTS = [
       '// Esto es lo que conseguimos juntos',
       '',
       'optimizar({',
-      '  visitas: "+300%",',
-      '  conversiones: "x5",',
-      '  posicionamiento: "Top 3 Google"',
+      '  visitas: "datos medibles",',
+      '  conversiones: "objetivos definidos",',
+      '  posicionamiento: "seguimiento SEO"',
       '});',
       '',
       '// Tu competencia no sabrá qué pasó'
@@ -117,7 +117,7 @@ export const EDITOR_VARIANTS = [
       'WHERE service = "EmberCode"',
       'ORDER BY profit DESC;',
       '',
-      '-- 100% Satisfacción'
+      '-- Análisis según objetivos del proyecto'
     ]
   },
   {

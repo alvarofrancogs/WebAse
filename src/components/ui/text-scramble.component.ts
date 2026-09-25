@@ -1,5 +1,5 @@
-import { Component, Input, signal, OnDestroy, computed, ElementRef, AfterViewInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, signal, OnDestroy, computed, ElementRef, AfterViewInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
 
@@ -14,7 +14,8 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
       (mouseenter)="handleMouseEnter()"
       (mouseleave)="handleMouseLeave()"
     >
-      <span class="relative font-mono tracking-widest uppercase">
+      <span class="sr-only">{{ originalText }}</span>
+      <span aria-hidden="true" class="relative font-mono tracking-widest uppercase">
         @for (char of displayChars(); track $index) {
           <span
             class="inline-block transition-all duration-150"
@@ -23,7 +24,7 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
             [class.scale-110]="isScrambling() && char !== originalText[$index]"
             [style.transitionDelay]="$index * 10 + 'ms'"
           >
-            {{ char }}
+            @if (char === ' ') { &nbsp; } @else { {{ char }} }
           </span>
         }
       </span>
@@ -50,6 +51,7 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
 export class TextScrambleComponent implements AfterViewInit, OnDestroy {
   @Input() autoScramble = false;
   private elementRef = inject(ElementRef);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   @Input() set text(value: string) {
     this.originalText = value;
     this.displayText.set(value);
@@ -76,6 +78,10 @@ export class TextScrambleComponent implements AfterViewInit, OnDestroy {
   }
 
   scramble() {
+    if (this.isBrowser && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.displayText.set(this.originalText);
+      return;
+    }
     this.isScrambling.set(true);
     this.frame = 0;
     const duration = this.originalText.length * 3;
@@ -108,7 +114,7 @@ export class TextScrambleComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (this.autoScramble) {
+    if (this.isBrowser && this.autoScramble && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {

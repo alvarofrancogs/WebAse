@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BRAND } from '../app/content';
 
@@ -10,8 +10,10 @@ import { BRAND } from '../app/content';
     'style': 'display: contents'
   },
   template: `
+    <header>
     <nav 
       class="fixed top-0 left-0 w-full z-50 border-b transition-transform duration-300 ease-out"
+      aria-label="Navegación principal"
       [class.bg-black]="mobileOpen()"
       [class.bg-black/90]="isScrolled() && !mobileOpen()"
       [class.backdrop-blur-md]="isScrolled() || mobileOpen()"
@@ -24,7 +26,7 @@ import { BRAND } from '../app/content';
     >
       <div class="container mx-auto px-6 flex justify-between items-center">
         <!-- Logo -->
-        <a (click)="goHome($event)" href="/" class="text-2xl font-bold tracking-tighter text-white hover:opacity-80 transition-opacity duration-200 cursor-pointer">
+        <a (click)="goHome($event)" href="/" class="min-h-11 flex items-center text-base sm:text-xl md:text-2xl whitespace-nowrap font-bold tracking-tighter text-white hover:opacity-80 transition-opacity duration-200 cursor-pointer">
           {{ brand.name }}
         </a>
 
@@ -34,11 +36,11 @@ import { BRAND } from '../app/content';
           <div class="relative group">
             <button (click)="goToSection($event, 'servicios')" class="hover:text-white transition flex items-center gap-1 cursor-pointer">
               Servicios
-              <svg class="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg aria-hidden="true" class="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 absolute top-full left-0 pt-2 transition-all duration-200">
+            <div class="invisible group-hover:visible group-focus-within:visible opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 absolute top-full left-0 pt-2 transition-all duration-200">
               <div class="bg-black/95 backdrop-blur-xl border border-white/10 rounded-lg p-2 min-w-[220px] shadow-2xl">
                 <a href="/diseno-web-murcia" (click)="navigateToPage($event, '/diseno-web-murcia')" class="block px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 rounded transition-colors">Diseño Web</a>
                 <a href="/desarrollo-web-murcia" (click)="navigateToPage($event, '/desarrollo-web-murcia')" class="block px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 rounded transition-colors">Desarrollo Web</a>
@@ -60,13 +62,13 @@ import { BRAND } from '../app/content';
         </div>
 
         <!-- Mobile Menu Button -->
-        <button class="md:hidden text-white" (click)="toggleMobile()" aria-label="Alternar menú de navegación">
+        <button #menuToggle type="button" class="md:hidden min-w-11 min-h-11 flex items-center justify-center text-white" (click)="toggleMobile()" aria-label="Alternar menú de navegación" [attr.aria-expanded]="mobileOpen()" [attr.aria-controls]="mobileOpen() ? 'mobile-menu' : null">
            @if (!mobileOpen()) {
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
            } @else {
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
            }
@@ -77,31 +79,31 @@ import { BRAND } from '../app/content';
 
     <!-- Mobile Menu Dropdown -->
     @if (mobileOpen()) {
-      <div 
-        class="mobile-menu-overlay md:hidden fixed top-0 left-0 w-full bg-black/[0.97] backdrop-blur-xl z-[60] flex flex-col px-8 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-500"
+      <nav #mobileMenu id="mobile-menu" aria-label="Menú móvil" tabindex="-1"
+        class="mobile-menu-overlay md:hidden fixed top-0 left-0 w-full bg-black/[0.97] backdrop-blur-xl z-[60] flex flex-col px-8 pt-[calc(5rem+env(safe-area-inset-top))] pb-[calc(2rem+env(safe-area-inset-bottom))] overflow-y-auto transition-opacity duration-300"
         style="overscroll-behavior: contain; touch-action: pan-y;"
         [class.opacity-0]="isOpening() || isClosing()"
         [class.opacity-100]="!isOpening() && !isClosing()"
       >
         
         <!-- Botón Atrás -->
-        <button (click)="closeMobile()" class="group self-start flex items-center gap-2 text-neutral-400 hover:text-white transition-all duration-300 mb-8">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1">
+        <button type="button" (click)="closeMobile()" class="group self-start min-h-11 flex items-center gap-2 text-neutral-400 hover:text-white transition-all duration-300 mb-6">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
           </svg>
           <span class="text-sm font-mono">Atrás</span>
         </button>
 
         <div class="flex flex-col space-y-8">
-          <a href="/#servicios" (click)="navigateToMobile($event, 'servicios')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
+          <a href="/#servicios" (click)="navigateToMobile($event, 'servicios')" class="min-h-11 text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 100ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">01</span>
             Servicios
           </a>
-          <a href="/#tarifas" (click)="navigateToMobile($event, 'tarifas')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
+          <a href="/#tarifas" (click)="navigateToMobile($event, 'tarifas')" class="min-h-11 text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 200ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">02</span>
             Tarifas
           </a>
-          <a href="/#proceso" (click)="navigateToMobile($event, 'proceso')" class="text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
+          <a href="/#proceso" (click)="navigateToMobile($event, 'proceso')" class="min-h-11 text-3xl font-light text-neutral-300 hover:text-white transition-colors flex items-center group animate-slide-up" style="animation-delay: 300ms">
             <span class="text-xs font-mono text-neutral-600 mr-4 group-hover:text-neutral-400">03</span>
             Proceso
           </a>
@@ -109,14 +111,14 @@ import { BRAND } from '../app/content';
           <!-- Service pages -->
           <div class="border-t border-white/10 pt-6 animate-slide-up" style="animation-delay: 350ms">
             <p class="text-xs font-mono text-neutral-600 tracking-widest uppercase mb-4">Páginas de servicio</p>
-            <div class="flex flex-col space-y-4">
-              <a href="/diseno-web-murcia" (click)="navigateToPage($event, '/diseno-web-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Diseño Web Murcia</a>
-              <a href="/desarrollo-web-murcia" (click)="navigateToPage($event, '/desarrollo-web-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Desarrollo Web Murcia</a>
-              <a href="/tienda-online-murcia" (click)="navigateToPage($event, '/tienda-online-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Tienda Online Murcia</a>
-              <a href="/mantenimiento-web-murcia" (click)="navigateToPage($event, '/mantenimiento-web-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Mantenimiento Web</a>
-              <a href="/pagina-web-para-empresas-murcia" (click)="navigateToPage($event, '/pagina-web-para-empresas-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Web para Empresas</a>
-              <a href="/seo-local-murcia" (click)="navigateToPage($event, '/seo-local-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">SEO Local</a>
-              <a href="/precios-diseno-web-murcia" (click)="navigateToPage($event, '/precios-diseno-web-murcia')" class="text-lg text-neutral-400 hover:text-white transition-colors">Precios</a>
+            <div class="flex flex-col space-y-1">
+              <a href="/diseno-web-murcia" (click)="navigateToPage($event, '/diseno-web-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Diseño Web Murcia</a>
+              <a href="/desarrollo-web-murcia" (click)="navigateToPage($event, '/desarrollo-web-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Desarrollo Web Murcia</a>
+              <a href="/tienda-online-murcia" (click)="navigateToPage($event, '/tienda-online-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Tienda Online Murcia</a>
+              <a href="/mantenimiento-web-murcia" (click)="navigateToPage($event, '/mantenimiento-web-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Mantenimiento Web</a>
+              <a href="/pagina-web-para-empresas-murcia" (click)="navigateToPage($event, '/pagina-web-para-empresas-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Web para Empresas</a>
+              <a href="/seo-local-murcia" (click)="navigateToPage($event, '/seo-local-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">SEO Local</a>
+              <a href="/precios-diseno-web-murcia" (click)="navigateToPage($event, '/precios-diseno-web-murcia')" class="min-h-11 flex items-center text-lg text-neutral-400 hover:text-white transition-colors">Precios</a>
             </div>
           </div>
         </div>
@@ -127,13 +129,14 @@ import { BRAND } from '../app/content';
             Iniciar Proyecto
           </a>
           
-          <div class="mt-6 flex justify-between text-xs font-mono text-neutral-600">
+          <div class="mt-6 flex justify-between text-xs font-mono text-neutral-400">
              <span>Murcia, ES</span>
              <span>{{ brand.email }}</span>
           </div>
         </div>
-      </div>
+      </nav>
     }
+    </header>
   `,
   styles: [`
     @keyframes slideUpFade {
@@ -147,14 +150,17 @@ import { BRAND } from '../app/content';
     .mobile-menu-overlay {
       height: 100vh;
       height: 100dvh;
-      min-height: 100vh;
-      min-height: 100dvh;
-      min-height: -webkit-fill-available;
+      max-height: 100dvh;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-slide-up { animation: none; opacity: 1; transform: none; }
     }
   `]
 })
 export class NavbarComponent {
   private router = inject(Router);
+  @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
+  @ViewChild('mobileMenu') private mobileMenu?: ElementRef<HTMLElement>;
 
   brand = BRAND;
   isScrolled = signal(false);
@@ -208,7 +214,10 @@ export class NavbarComponent {
       this.isOpening.set(true);
       this.mobileOpen.set(true);
       this.lockScroll();
-      setTimeout(() => this.isOpening.set(false), 50);
+      setTimeout(() => {
+        this.isOpening.set(false);
+        this.mobileMenu?.nativeElement.querySelector<HTMLButtonElement>('button')?.focus();
+      }, 50);
     } else {
       this.closeMobile();
     }
@@ -241,7 +250,30 @@ export class NavbarComponent {
       this.isClosing.set(false);
       this.unlockScroll(false);
       this.closeTimer = undefined;
-    }, 400);
+      this.menuToggle?.nativeElement.focus();
+    }, 300);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeydown(event: KeyboardEvent) {
+    if (!this.mobileOpen()) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeMobile();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusables = Array.from(this.mobileMenu?.nativeElement.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   /** Navigate to home page and scroll to a section */
@@ -262,8 +294,10 @@ export class NavbarComponent {
   /** Navigate to home */
   goHome(event: Event) {
     event.preventDefault();
-    this.router.navigateByUrl('/');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.router.navigateByUrl('/').then(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.focusMainHeading();
+    });
   }
 
   /** Navigate to a service page via Router */
@@ -272,6 +306,7 @@ export class NavbarComponent {
     this.closeMobileInstant(false);
     this.router.navigateByUrl(path).then(() => {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      this.focusMainHeading();
     });
   }
 
@@ -316,5 +351,15 @@ export class NavbarComponent {
 
     history.replaceState(null, '', `/#${fragment}`);
     window.scrollTo({ top, behavior: 'smooth' });
+    const heading = el.querySelector<HTMLElement>('h2') ?? el;
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }
+
+  private focusMainHeading() {
+    const heading = document.querySelector<HTMLElement>('main h1');
+    if (!heading) return;
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
   }
 }

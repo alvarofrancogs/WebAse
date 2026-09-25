@@ -45,7 +45,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
                       <span class="text-[10px] font-mono tracking-widest uppercase text-white/70 bg-white/10 px-2 py-0.5 rounded border border-white/10">Recomendado</span>
                     }
                   </div>
-                  <h3 class="text-2xl font-black text-white mb-1">{{ plan.name }}</h3>
+                  <h2 class="text-2xl font-black text-white mb-1">{{ plan.name }}</h2>
                   <p class="text-white/40 text-sm mb-6 min-h-[40px]">{{ plan.desc }}</p>
                   <div class="flex items-baseline gap-1 mb-8 pb-6 border-b border-white/10">
                     <span class="text-4xl font-black text-white">{{ plan.price }}</span>
@@ -89,10 +89,10 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
               @for (faq of faqs; track faq.q; let i = $index) {
                 <div class="relative pl-6 group">
                   <div class="absolute left-0 top-3 w-1.5 h-1.5 rounded-full transition-all duration-500" [class.bg-white]="openFaq === i" [class.bg-white/20]="openFaq !== i" [class.scale-150]="openFaq === i"></div>
-                  <button (click)="openFaq = openFaq === i ? -1 : i" class="w-full text-left font-bold text-lg text-white mb-2 hover:text-white/70 transition-colors">
+                  <button type="button" (click)="openFaq = openFaq === i ? -1 : i" [attr.aria-expanded]="openFaq === i" [attr.aria-controls]="'faq-answer-' + i" class="w-full min-h-11 flex items-center text-left font-bold text-lg text-white mb-2 hover:text-white/70 transition-colors">
                     {{ faq.q }}
                   </button>
-                  <div class="grid transition-all duration-500 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
+                  <div [attr.id]="'faq-answer-' + i" [attr.aria-hidden]="openFaq !== i" class="grid transition-all duration-500 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
                     <div class="overflow-hidden">
                       <p class="text-white/70 text-sm leading-relaxed pb-2">{{ faq.a }}</p>
                     </div>
@@ -109,12 +109,12 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Tu web necesita mantenimiento profesional?</h2>
             <p class="text-white/50 mb-8 max-w-lg mx-auto">Hosting, seguridad, backups y soporte. Desde 30€/mes.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">CONTRATAR MANTENIMIENTO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
+            <p class="text-white/60 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
         <div class="text-center">
-          <p class="text-white/40 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
+          <p class="text-white/60 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
           <div class="flex flex-wrap justify-center gap-3">
             <a routerLink="/diseno-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Diseño Web</a>
             <a routerLink="/desarrollo-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Desarrollo Web</a>
@@ -144,31 +144,15 @@ export class MantenimientoWebMurciaComponent implements OnInit {
       geo: {
         region: 'ES-MU',
         placename: 'Murcia',
-        position: '37.9922;-1.1307'
       },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
+          '@id': 'https://www.embercode.es/mantenimiento-web-murcia#service',
           'name': 'Mantenimiento Web en Murcia',
           'description': 'Planes de mantenimiento web profesional con hosting, dominio, SSL y soporte técnico.',
-          'provider': {
-            '@type': 'LocalBusiness',
-            '@id': 'https://www.embercode.es/#business',
-            'name': 'EmberCode Web Studio',
-            'url': 'https://www.embercode.es',
-            'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-          },
+          'provider': { '@id': 'https://www.embercode.es/#organization' },
           'areaServed': {
             '@type': 'City',
             'name': 'Murcia',

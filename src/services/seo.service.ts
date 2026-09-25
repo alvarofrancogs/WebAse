@@ -10,7 +10,6 @@ export interface SeoData {
     geo?: {
         region?: string;
         placename?: string;
-        position?: string;
     };
 }
 
@@ -43,10 +42,6 @@ export class SeoService {
             this.setMeta('geo.region', data.geo.region ?? 'ES-MU');
             if (data.geo.placename) {
                 this.setMeta('geo.placename', data.geo.placename);
-            }
-            if (data.geo.position) {
-                this.setMeta('geo.position', data.geo.position);
-                this.setMeta('ICBM', data.geo.position.replace(';', ', '));
             }
         }
 

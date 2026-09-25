@@ -129,12 +129,12 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <div class="space-y-2">
               @for (faq of faqs; track faq.q; let i = $index) {
                 <div class="bg-white/[0.02] border border-white/[0.06] rounded-lg">
-                  <button (click)="openFaq = openFaq === i ? -1 : i" class="w-full flex items-center gap-3 p-5 text-left font-mono text-sm hover:bg-white/[0.03] transition-colors rounded-lg">
+                  <button type="button" (click)="openFaq = openFaq === i ? -1 : i" [attr.aria-expanded]="openFaq === i" [attr.aria-controls]="'faq-answer-' + i" class="w-full flex items-center gap-3 p-5 text-left font-mono text-sm hover:bg-white/[0.03] transition-colors rounded-lg">
                     <span class="text-white/50">&#10095;</span>
                     <span class="text-white flex-1">{{ faq.q }}</span>
                     <span class="text-white/30 text-xs transition-opacity" [class.opacity-0]="openFaq === i">[enter]</span>
                   </button>
-                  <div class="grid transition-all duration-300 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'">
+                  <div [attr.id]="'faq-answer-' + i" [attr.aria-hidden]="openFaq !== i" class="grid transition-all duration-300 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'">
                     <div class="overflow-hidden">
                       <div class="font-mono text-sm text-white/70 pl-11 pr-5 pb-5">
                         <div class="border-l border-white/20 pl-4 py-1">{{ faq.a }}</div>
@@ -151,15 +151,15 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
         <app-scroll-reveal preset="lift" [delay]="0.2">
           <div class="relative border border-white/10 p-12 md:p-20 text-center mb-16 rounded-lg">
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Tienes un proyecto técnico?</h2>
-            <p class="text-white/50 mb-8 max-w-lg mx-auto">Te enviamos propuesta técnica y presupuesto en 24h.</p>
+            <p class="text-white/50 mb-8 max-w-lg mx-auto">Preparamos una propuesta técnica y un presupuesto según tu proyecto.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">PEDIR PRESUPUESTO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
+            <p class="text-white/60 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
         <!-- Related -->
         <div class="text-center">
-          <p class="text-white/40 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
+          <p class="text-white/60 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
           <div class="flex flex-wrap justify-center gap-3">
             <a routerLink="/diseno-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors rounded-full">Diseño Web</a>
             <a routerLink="/tienda-online-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors rounded-full">Tienda Online</a>
@@ -221,7 +221,7 @@ export class DesarrolloWebMurciaComponent implements OnInit {
   ];
 
   faqs = [
-    { q: '¿Qué ventaja tiene un desarrollo a medida frente a CMS como WordPress?', a: 'El desarrollo a medida ofrece tiempos de carga ultrarrápidos (<1s), seguridad sin plugins vulnerables y una arquitectura escalable adaptada exactamente a la operativa de tu empresa. Sin dependencias de terceros.' },
+    { q: '¿Qué ventaja tiene un desarrollo a medida frente a CMS como WordPress?', a: 'El desarrollo a medida permite adaptar funciones e integraciones a tu operativa. El rendimiento y la seguridad dependen de los requisitos y de cómo se implemente y mantenga cada proyecto.' },
     { q: '¿El código fuente y la infraestructura son de mi propiedad?', a: 'Sí, totalmente. Al finalizar el proyecto te entregamos el repositorio completo y accesos de despliegue. No hay ataduras ni dependencias cautivas.' },
   ];
 
@@ -233,31 +233,15 @@ export class DesarrolloWebMurciaComponent implements OnInit {
       geo: {
         region: 'ES-MU',
         placename: 'Murcia',
-        position: '37.9922;-1.1307'
       },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
+          '@id': 'https://www.embercode.es/desarrollo-web-murcia#service',
           'name': 'Desarrollo Web a Medida en Murcia',
           'description': 'Desarrollo web profesional con tecnologías modernas para empresas en Murcia.',
-          'provider': {
-            '@type': 'LocalBusiness',
-            '@id': 'https://www.embercode.es/#business',
-            'name': 'EmberCode Web Studio',
-            'url': 'https://www.embercode.es',
-            'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-          },
+          'provider': { '@id': 'https://www.embercode.es/#organization' },
           'areaServed': {
             '@type': 'City',
             'name': 'Murcia',
@@ -270,7 +254,7 @@ export class DesarrolloWebMurciaComponent implements OnInit {
           '@context': 'https://schema.org',
           '@type': 'FAQPage',
           'mainEntity': [
-            { '@type': 'Question', 'name': '¿Qué ventaja tiene un desarrollo a medida frente a CMS como WordPress?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'El desarrollo a medida ofrece tiempos de carga ultrarrápidos (<1s), seguridad sin plugins vulnerables y una arquitectura escalable adaptada exactamente a la operativa de tu empresa. Sin dependencias de terceros.' } },
+            { '@type': 'Question', 'name': '¿Qué ventaja tiene un desarrollo a medida frente a CMS como WordPress?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'El desarrollo a medida permite adaptar funciones e integraciones a tu operativa. El rendimiento y la seguridad dependen de los requisitos y de cómo se implemente y mantenga cada proyecto.' } },
             { '@type': 'Question', 'name': '¿El código fuente y la infraestructura son de mi propiedad?', 'acceptedAnswer': { '@type': 'Answer', 'text': 'Sí, totalmente. Al finalizar el proyecto te entregamos el repositorio completo y accesos de despliegue. No hay ataduras ni dependencias cautivas.' } }
           ]
         }

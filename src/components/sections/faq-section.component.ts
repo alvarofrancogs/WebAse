@@ -36,14 +36,14 @@ import { StaggeredTextComponent } from '../ui/staggered-text.component';
               <app-accordion-item value="faq-1">
                 <app-accordion-trigger>¿Cómo es el proceso de trabajo desde el primer contacto?</app-accordion-trigger>
                 <app-accordion-content>
-                  Primero analizamos las necesidades de tu negocio. Te enviamos una propuesta técnica con presupuesto cerrado en 24h. Si decides avanzar, arrancamos el desarrollo con comunicación continua y revisiones antes del despliegue final.
+                  Primero analizamos las necesidades de tu negocio. Preparamos una propuesta técnica y un presupuesto según el alcance acordado. Si decides avanzar, arrancamos el desarrollo con comunicación continua y revisiones antes del despliegue final.
                 </app-accordion-content>
               </app-accordion-item>
 
               <app-accordion-item value="faq-2">
                 <app-accordion-trigger>¿Cómo se definen los plazos de entrega?</app-accordion-trigger>
                 <app-accordion-content>
-                  Fijamos un cronograma cerrado desde el inicio en base a los requerimientos y alcance acordados, garantizando entregas ágiles y sin retrasos imprevistos.
+                  Fijamos un cronograma cerrado desde el inicio en base a los requerimientos y alcance acordados, y revisamos contigo los cambios que afecten al calendario.
                 </app-accordion-content>
               </app-accordion-item>
 

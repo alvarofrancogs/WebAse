@@ -17,27 +17,27 @@ import { MotionService } from '../../services/motion.service';
       <!-- Visible animated text -->
       <p *ngSwitchCase="'p'" [class]="className + ' relative perspective-900'" #container>
         @for (word of words(); track $index) {
-          <span class="word-span inline-block will-change-transform opacity-0">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
+          <span class="word-span inline-block will-change-transform">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
         }
       </p>
       <h1 *ngSwitchCase="'h1'" [class]="className + ' relative perspective-900'" #container>
         @for (word of words(); track $index) {
-          <span class="word-span inline-block will-change-transform opacity-0">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
+          <span class="word-span inline-block will-change-transform">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
         }
       </h1>
       <h2 *ngSwitchCase="'h2'" [class]="className + ' relative perspective-900'" #container>
         @for (word of words(); track $index) {
-          <span class="word-span inline-block will-change-transform opacity-0">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
+          <span class="word-span inline-block will-change-transform">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
         }
       </h2>
       <h3 *ngSwitchCase="'h3'" [class]="className + ' relative perspective-900'" #container>
         @for (word of words(); track $index) {
-          <span class="word-span inline-block will-change-transform opacity-0">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
+          <span class="word-span inline-block will-change-transform">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
         }
       </h3>
       <span *ngSwitchDefault [class]="className + ' relative perspective-900'" #container>
         @for (word of words(); track $index) {
-          <span class="word-span inline-block will-change-transform opacity-0">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
+          <span class="word-span inline-block will-change-transform">{{ word }}</span>{{ $index < words().length - 1 ? ' ' : '' }}
         }
       </span>
     </ng-container>
@@ -60,17 +60,6 @@ export class StaggeredTextComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (!this.motion.animationsReady) {
-      setTimeout(() => {
-        const container = this.element.nativeElement.querySelector('.relative');
-        if (!container) return;
-
-        const spans = container.querySelectorAll('.word-span') as NodeListOf<HTMLElement>;
-        spans.forEach((span) => {
-          span.style.opacity = '1';
-          span.style.transform = 'none';
-          span.style.filter = 'none';
-        });
-      }, 0);
       return;
     }
 
@@ -83,7 +72,6 @@ export class StaggeredTextComponent implements AfterViewInit {
       if (spans.length === 0) return;
 
       if (this.motion.isReducedMotion()) {
-        gsap.to(spans, { opacity: 1, duration: 0.5 });
         return;
       }
 

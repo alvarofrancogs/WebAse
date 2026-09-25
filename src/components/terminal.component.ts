@@ -1,5 +1,5 @@
-import { Component, signal, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, OnDestroy, ChangeDetectionStrategy, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { EDITOR_VARIANTS } from '../app/content';
 
 interface EditorLine {
@@ -48,7 +48,8 @@ interface EditorLine {
 export class TerminalComponent implements OnInit, OnDestroy {
   displayedLines = signal<EditorLine[]>([]);
   currentTypingLine = signal('');
-  currentFile = signal('');
+  currentFile = signal(EDITOR_VARIANTS[0].filename);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   private variants = EDITOR_VARIANTS;
   private currentVariantIndex = 0;
@@ -57,8 +58,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
   private timeoutId: any;
 
   ngOnInit() {
-    this.currentFile.set(this.variants[this.currentVariantIndex].filename);
-    this.typeNextChar();
+    if (this.isBrowser) this.typeNextChar();
   }
 
   ngOnDestroy() {

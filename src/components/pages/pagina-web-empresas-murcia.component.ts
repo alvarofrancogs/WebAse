@@ -79,13 +79,13 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
             <div class="flex flex-col gap-4">
               @for (faq of faqs; track faq.q; let i = $index) {
                 <div class="group border border-white/10 hover:border-white/30 transition-colors duration-300">
-                  <button (click)="openFaq = openFaq === i ? -1 : i" class="w-full flex gap-4 items-center p-6 text-left">
+                  <button type="button" (click)="openFaq = openFaq === i ? -1 : i" [attr.aria-expanded]="openFaq === i" [attr.aria-controls]="'faq-answer-' + i" class="w-full flex gap-4 items-center p-6 text-left">
                     <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center shrink-0 transition-colors group-hover:bg-white/10" [class.bg-white]="openFaq === i" [class.text-black]="openFaq === i" [class.text-white]="openFaq !== i">
                       <span class="text-xs font-mono">{{ i + 1 }}</span>
                     </div>
                     <span class="text-white font-bold flex-1">{{ faq.q }}</span>
                   </button>
-                  <div class="grid transition-all duration-300 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
+                  <div [attr.id]="'faq-answer-' + i" [attr.aria-hidden]="openFaq !== i" class="grid transition-all duration-300 ease-in-out" [ngClass]="openFaq === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
                     <div class="overflow-hidden">
                       <div class="pl-[4.5rem] pr-6 pb-6 text-white/70 text-sm leading-relaxed">
                         {{ faq.a }}
@@ -102,15 +102,15 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
         <app-scroll-reveal preset="lift" [delay]="0.2">
           <div class="relative border border-white/10 p-12 md:p-20 text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4">¿Tu empresa necesita una web profesional?</h2>
-            <p class="text-white/50 mb-8 max-w-lg mx-auto">Te enviamos presupuesto cerrado en 24h. Sin compromiso.</p>
+            <p class="text-white/50 mb-8 max-w-lg mx-auto">Te preparamos un presupuesto según las necesidades de tu empresa, sin compromiso.</p>
             <a href="/#contacto" class="inline-block bg-white text-black font-bold px-10 py-4 text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">SOLICITAR PRESUPUESTO</a>
-            <p class="text-white/40 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
+            <p class="text-white/60 text-xs mt-6">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
         </app-scroll-reveal>
 
         <!-- Related -->
         <div class="text-center">
-          <p class="text-white/40 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
+          <p class="text-white/60 text-xs font-mono tracking-widest uppercase mb-4">Servicios relacionados</p>
           <div class="flex flex-wrap justify-center gap-3">
             <a routerLink="/diseno-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Diseño Web</a>
             <a routerLink="/desarrollo-web-murcia" class="text-white/50 text-sm border border-white/10 px-5 py-2.5 hover:text-white hover:border-white/30 transition-colors">Desarrollo Web</a>
@@ -126,10 +126,10 @@ export class PaginaWebEmpresasMurciaComponent implements OnInit {
   openFaq: number = -1;
 
   stats = [
-    { value: '100+', label: 'Webs entregadas' },
-    { value: '<2s', label: 'Carga media' },
-    { value: '24h', label: 'Soporte' },
-    { value: '0€', label: 'Permanencia' },
+    { value: 'A medida', label: 'Diseño' },
+    { value: 'Móvil', label: 'Adaptación' },
+    { value: 'SEO', label: 'Base técnica' },
+    { value: 'Directo', label: 'Contacto' },
   ];
 
   benefits = [
@@ -153,30 +153,14 @@ export class PaginaWebEmpresasMurciaComponent implements OnInit {
       geo: {
         region: 'ES-MU',
         placename: 'Murcia',
-        position: '37.9922;-1.1307'
       },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
+          '@id': 'https://www.embercode.es/pagina-web-para-empresas-murcia#service',
           'name': 'Página Web para Empresas en Murcia',
-          'provider': {
-            '@type': 'LocalBusiness',
-            '@id': 'https://www.embercode.es/#business',
-            'name': 'EmberCode Web Studio',
-            'url': 'https://www.embercode.es',
-            'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-          },
+          'provider': { '@id': 'https://www.embercode.es/#organization' },
           'areaServed': {
             '@type': 'City',
             'name': 'Murcia',

@@ -1,5 +1,5 @@
-import { Component, signal, computed, effect, input, ElementRef, viewChild, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, computed, effect, input, ElementRef, viewChild, OnDestroy, OnInit, ViewEncapsulation, inject, PLATFORM_ID, afterNextRender } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { gsap } from 'gsap';
 
 export interface SolutionItem {
@@ -70,15 +70,13 @@ export interface SolutionItem {
                 </p>
 
                 <!-- Title (GSAP Word Reveal) -->
-                <h3 #textReveal class="text-2xl md:text-5xl font-light text-foreground leading-[1.2] md:leading-[1.12] tracking-tight">
-                  <!-- GSAP injects here -->
-                </h3>
+                <h3 #textReveal class="text-2xl md:text-5xl font-light text-foreground leading-[1.2] md:leading-[1.12] tracking-tight">{{ current().title }}</h3>
               </div>
             </div>
 
             <!-- Description -->
             <div class="min-h-[60px] md:min-h-[80px] mb-4 md:mb-6 relative">
-              <p #descElement class="text-base md:text-lg leading-relaxed text-muted-foreground max-w-2xl opacity-0 translate-y-4 transition-all duration-500 ease-out">
+              <p #descElement class="text-base md:text-lg leading-relaxed text-muted-foreground max-w-2xl transition-all duration-500 ease-out">
                  {{ current().description }}
               </p>
             </div>
@@ -87,7 +85,7 @@ export interface SolutionItem {
             @if (current().bullets?.length) {
               <ul class="mt-4 md:mt-6 grid gap-2 text-sm text-foreground/80 min-h-[80px] md:min-h-[100px]">
                 @for (bullet of current().bullets; track $index) {
-                  <li class="flex items-center gap-2 bullet-item opacity-0 translate-y-2">
+                  <li class="flex items-center gap-2 bullet-item">
                     <span class="h-1 w-1 rounded-full bg-foreground/60"></span>
                     {{ bullet }}
                   </li>
@@ -170,18 +168,30 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
   descElement = viewChild<ElementRef>('descElement');
 
   private hostEl = inject(ElementRef);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private intervalId: any;
+  private initialTitle = true;
+  private initialContent = true;
   private readonly resizeHandler = () => this.checkMobile();
 
   constructor() {
-    this.checkMobile();
-    window.addEventListener('resize', this.resizeHandler);
+    if (this.isBrowser) {
+      afterNextRender(() => {
+        this.checkMobile();
+        window.addEventListener('resize', this.resizeHandler);
+      });
+    }
 
     // Effect for Title Animation
     effect(() => {
       const index = this.activeIndex();
       const container = this.textReveal()?.nativeElement;
-      if (!container) return;
+      if (!this.isBrowser || !container) return;
+
+      if (this.initialTitle) {
+        this.initialTitle = false;
+        return;
+      }
 
       const text = this.solutions()[index].title;
       this.animateTextChange(container, text);
@@ -191,7 +201,14 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
     effect(() => {
       const index = this.activeIndex();
       const desc = this.descElement()?.nativeElement;
-      if (desc) this.animateContent(desc);
+      if (!this.isBrowser || !desc) return;
+
+      if (this.initialContent) {
+        this.initialContent = false;
+        return;
+      }
+
+      this.animateContent(desc);
     });
   }
 
@@ -200,12 +217,12 @@ export class SolutionsUIComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startAutoPlay();
+    if (this.isBrowser) this.startAutoPlay();
   }
 
   ngOnDestroy() {
     this.stopAutoPlay();
-    window.removeEventListener('resize', this.resizeHandler);
+    if (this.isBrowser) window.removeEventListener('resize', this.resizeHandler);
   }
 
   onMouseMove(e: MouseEvent) {

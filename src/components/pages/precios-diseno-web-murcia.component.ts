@@ -98,7 +98,7 @@ import { ScrollRevealComponent } from '../ui/scroll-reveal.component';
         <app-scroll-reveal preset="fade-up" [delay]="0.4">
           <div class="text-center bg-neutral-900/50 border border-white/10 rounded-lg p-8 md:p-12">
             <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">¿Quieres un presupuesto personalizado?</h2>
-            <p class="text-neutral-400 mb-6">Cuéntanos tu proyecto y te enviamos una propuesta detallada en 24h. Sin compromiso.</p>
+            <p class="text-neutral-400 mb-6">Cuéntanos tu proyecto y te preparamos una propuesta detallada, sin compromiso.</p>
             <a href="/#contacto" class="inline-flex items-center justify-center bg-white text-black font-mono text-xs tracking-widest uppercase font-bold px-8 py-4 hover:bg-neutral-200 transition-colors">PEDIR PRESUPUESTO</a>
             <p class="text-neutral-500 text-xs mt-4">O llámanos: <a href="tel:+34601423840" class="text-white hover:underline">601 423 840</a></p>
           </div>
@@ -142,42 +142,26 @@ export class PreciosDisenoWebMurciaComponent implements OnInit {
     { q: '¿Los precios incluyen IVA?', a: 'Los precios de mantenimiento mostrados no incluyen IVA. El presupuesto final del proyecto siempre detalla IVA de forma separada.' },
     { q: '¿Hay costes ocultos?', a: 'No. El presupuesto es cerrado y aprobado antes de empezar. Si durante el proyecto surge algo adicional, lo hablamos antes de cualquier coste extra.' },
     { q: '¿Cómo se paga?', a: 'Normalmente 50% al comenzar y 50% a la entrega. Para mantenimiento, facturación mensual o trimestral. Transferencia bancaria o Bizum.' },
-    { q: '¿Puedo pedir presupuesto sin compromiso?', a: 'Sí, siempre. Nos cuentas tu idea, te enviamos propuesta técnica y presupuesto en 24h, y tú decides sin presión.' },
+    { q: '¿Puedo pedir presupuesto sin compromiso?', a: 'Sí, siempre. Nos cuentas tu idea, preparamos una propuesta técnica y un presupuesto, y tú decides sin presión.' },
   ];
 
   ngOnInit() {
     this.seo.update({
       title: 'Precios Diseño Web en Murcia | Presupuesto sin Compromiso | EmberCode',
-      description: 'Precios orientativos de diseño web en Murcia. Mantenimiento desde 30€/mes. Presupuesto personalizado sin compromiso en 24h.',
+      description: 'Precios orientativos de diseño web en Murcia. Mantenimiento desde 30€/mes. Presupuesto personalizado sin compromiso.',
       canonicalPath: '/precios-diseno-web-murcia',
       geo: {
         region: 'ES-MU',
         placename: 'Murcia',
-        position: '37.9922;-1.1307'
       },
       jsonLd: [
         {
           '@context': 'https://schema.org',
           '@type': 'Service',
+          '@id': 'https://www.embercode.es/precios-diseno-web-murcia#service',
           'name': 'Precios Diseño Web en Murcia',
           'description': 'Precios orientativos y planes de mantenimiento web para empresas en Murcia.',
-          'provider': {
-            '@type': 'LocalBusiness',
-            '@id': 'https://www.embercode.es/#business',
-            'name': 'EmberCode Web Studio',
-            'url': 'https://www.embercode.es',
-            'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-          },
+          'provider': { '@id': 'https://www.embercode.es/#organization' },
           'areaServed': {
             '@type': 'City',
             'name': 'Murcia',

@@ -1,5 +1,5 @@
-import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, AfterViewInit, OnDestroy, OnInit, ViewChild, NgZone, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -32,7 +32,10 @@ import { RouterLink } from '@angular/router';
   `,
   styles: []
 })
-export class NotFoundComponent implements AfterViewInit, OnDestroy {
+export class NotFoundComponent implements OnInit, AfterViewInit, OnDestroy {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private doc = inject(DOCUMENT);
+  private robotsMeta?: HTMLMetaElement;
   @ViewChild('matrixCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
@@ -47,7 +50,18 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
 
   constructor(private ngZone: NgZone) { }
 
+  ngOnInit() {
+    if (!this.isBrowser) return;
+    this.doc.title = '404 | EmberCode Web Studio';
+    this.doc.querySelector('link[rel="canonical"]')?.remove();
+    this.robotsMeta = this.doc.createElement('meta');
+    this.robotsMeta.name = 'robots';
+    this.robotsMeta.content = 'noindex, nofollow';
+    this.doc.head.appendChild(this.robotsMeta);
+  }
+
   ngAfterViewInit() {
+    if (!this.isBrowser) return;
     this.initCanvas();
 
     // Handle resize
@@ -60,6 +74,8 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (!this.isBrowser) return;
+    this.robotsMeta?.remove();
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }

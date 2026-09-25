@@ -50,6 +50,9 @@ export class AccordionItemComponent {
     <button 
       type="button"
       (click)="toggle()"
+      [attr.id]="'faq-trigger-' + item.value"
+      [attr.aria-controls]="'faq-content-' + item.value"
+      [attr.aria-expanded]="isOpen()"
       [attr.data-state]="isOpen() ? 'open' : 'closed'"
       class="flex flex-1 items-center justify-between py-4 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left"
     >
@@ -86,6 +89,10 @@ export class AccordionTriggerComponent {
   imports: [CommonModule],
   template: `
     <div 
+      [attr.id]="'faq-content-' + item.value"
+      [attr.aria-labelledby]="'faq-trigger-' + item.value"
+      [attr.aria-hidden]="!isOpen()"
+      role="region"
       class="overflow-hidden text-sm transition-all duration-300 ease-in-out"
       [style.height.px]="contentHeight()"
       [style.opacity]="isOpen() ? 1 : 0"

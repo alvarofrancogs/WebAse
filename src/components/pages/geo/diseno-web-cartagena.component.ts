@@ -31,19 +31,19 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
         <app-scroll-reveal preset="fade-up" [delay]="0.1">
           <div class="grid md:grid-cols-2 gap-6 mb-16">
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Presencia local en Cartagena</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Optimizamos tu web para que aparezcas cuando buscan tus servicios en Cartagena y alrededores: La Manga, Los Alcázares, La Unión, Mazarrón.</p>
+              <h2 class="text-white font-semibold mb-3">Presencia local en Cartagena</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Definimos páginas y contenido a partir de tus servicios y de las búsquedas relevantes para tu actividad en Cartagena y su entorno.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Equipo cercano</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Somos de la Región de Murcia. Nos reunimos contigo presencialmente en Cartagena o por videollamada, como prefieras.</p>
+              <h2 class="text-white font-semibold mb-3">Equipo cercano</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Podemos revisar contigo la estructura, los textos y los objetivos de la web por videollamada antes de desarrollar el proyecto.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Web rápida y profesional</h3>
-              <p class="text-neutral-400 text-sm leading-relaxed">Diseño moderno adaptado a móvil, velocidad de carga inferior a 2 segundos y optimización SEO incluida.</p>
+              <h2 class="text-white font-semibold mb-3">Web rápida y profesional</h2>
+              <p class="text-neutral-400 text-sm leading-relaxed">Diseño adaptado a móvil, estructura clara y una base técnica preparada para trabajar el posicionamiento orgánico.</p>
             </div>
             <div class="glass-panel p-6 rounded-lg border border-white/10">
-              <h3 class="text-white font-semibold mb-3">Soporte continuo</h3>
+              <h2 class="text-white font-semibold mb-3">Soporte continuo</h2>
               <p class="text-neutral-400 text-sm leading-relaxed">Planes de mantenimiento desde 30€/mes con hosting, SSL, backups y modificaciones incluidas.</p>
             </div>
           </div>
@@ -52,7 +52,7 @@ import { ScrollRevealComponent } from '../../ui/scroll-reveal.component';
         <app-scroll-reveal preset="fade-up" [delay]="0.2">
           <div class="text-center py-12 border border-white/10 rounded-lg bg-white/[0.02] mb-12">
             <h2 class="text-2xl font-bold text-white mb-3">¿Necesitas una web en Cartagena?</h2>
-            <p class="text-neutral-400 text-sm mb-6">Te enviamos presupuesto personalizado en 24h.</p>
+            <p class="text-neutral-400 text-sm mb-6">Cuéntanos qué necesita tu negocio y te prepararemos una propuesta personalizada.</p>
             <a href="https://wa.me/34601423840?text=Hola%2C%20necesito%20una%20web%20para%20mi%20negocio%20en%20Cartagena" target="_blank" rel="noopener noreferrer"
               class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-3 text-xs font-mono tracking-widest uppercase hover:bg-neutral-200 transition-colors">
               PEDIR PRESUPUESTO
@@ -82,31 +82,15 @@ export class DisenoWebCartagenaComponent implements OnInit {
             geo: {
                 region: 'ES-MU',
                 placename: 'Cartagena',
-                position: '37.6051;-0.9862'
             },
             jsonLd: [
                 {
                     '@context': 'https://schema.org',
                     '@type': 'Service',
+                    '@id': 'https://www.embercode.es/diseno-web-cartagena#service',
                     'name': 'Diseño Web en Cartagena',
                     'description': 'Diseño y desarrollo web profesional para empresas y autónomos en Cartagena.',
-                    'provider': {
-                        '@type': 'LocalBusiness',
-                        '@id': 'https://www.embercode.es/#business',
-                        'name': 'EmberCode Web Studio',
-                        'url': 'https://www.embercode.es',
-                        'telephone': '+34601423840',
-            'image': 'https://www.embercode.es/og-image.png',
-            'priceRange': '€€',
-            'address': {
-              '@type': 'PostalAddress',
-              'streetAddress': 'Centro',
-              'addressLocality': 'Murcia',
-              'postalCode': '30001',
-              'addressRegion': 'Región de Murcia',
-              'addressCountry': 'ES'
-            }
-                    },
+                    'provider': { '@id': 'https://www.embercode.es/#organization' },
                     'areaServed': {
                         '@type': 'City',
                         'name': 'Cartagena',
